@@ -10,9 +10,7 @@
     <main> <h1>GitHub Pages test for "portfolio"</h1> 
       <p>This is a minimal page to verify GitHub Pages is serving your repository.</p> 
       <p class="ok">Status: ready</p>
-<script> // display current time to prove dynamic load 
-      document.getElementById('now').textContent = new Date().toString(); 
-    </script> 
+
 
 <section>
   <h2>Info</h2>
@@ -29,7 +27,10 @@
   <small>Remove this file or replace it with your site files when you're done testing.</small>
 </footer>
 
+    
 </main> 
-
+<script> // display current time to prove dynamic load 
+      document.getElementById('now').textContent = new Date().toString(); 
+</script> 
 </body> 
 </html>
