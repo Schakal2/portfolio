@@ -4,7 +4,7 @@ import styles from "./posts.module.css"
 
 const posts = [
   {
-    image: "/images/behance-banner.png",
+    image: "/images/images/Cover image eBehoerde.png",
     title: "eBehorde",
     description:
       "E-Behorde ist eine digitale Plattform, die entwickelt wurde, um die Interaktion der Burgerinnen und Burger mit den Behorden in Deutschland zu erleichtern.",
