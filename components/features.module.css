@@ -1,0 +1,151 @@
+.section {
+  padding: 6em 0 4em 0;
+  border-top: solid 2px var(--color-border);
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-heading);
+  border-bottom: solid 3px var(--color-accent);
+  display: inline-block;
+  margin: 0 0 2em 0;
+  padding: 0 0.75em 0.5em 0;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 2em -3em;
+  width: calc(100% + 3em);
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  margin: 0 0 3em 3em;
+  position: relative;
+  width: calc(50% - 3em);
+}
+
+.feature:nth-child(2n - 1) {
+  margin-right: 1.5em;
+}
+
+.feature:nth-child(2n) {
+  margin-left: 1.5em;
+}
+
+.feature:nth-last-child(1),
+.feature:nth-last-child(2) {
+  margin-bottom: 0;
+}
+
+.iconWrapper {
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10em;
+  margin: 0 2em 0 0;
+  text-align: center;
+  width: 10em;
+  position: relative;
+}
+
+.iconWrapper::after {
+  content: "";
+  display: block;
+  transform: rotate(45deg);
+  border-radius: 0.25rem;
+  border: solid 2px var(--color-border);
+  height: 7em;
+  left: 50%;
+  margin: -3.5em 0 0 -3.5em;
+  position: absolute;
+  top: 50%;
+  width: 7em;
+}
+
+.icon {
+  color: var(--color-accent);
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  flex-grow: 1;
+  flex-shrink: 1;
+  width: 100%;
+}
+
+.content > :last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 980px) {
+  .features {
+    margin: 0 0 2em 0;
+    width: 100%;
+  }
+
+  .feature {
+    margin: 0 0 3em 0;
+    width: 100%;
+  }
+
+  .feature:nth-child(2n - 1) {
+    margin-right: 0;
+  }
+
+  .feature:nth-child(2n) {
+    margin-left: 0;
+  }
+
+  .feature:nth-last-child(1),
+  .feature:nth-last-child(2) {
+    margin-bottom: 3em;
+  }
+
+  .feature:last-child {
+    margin-bottom: 0;
+  }
+
+  .iconWrapper {
+    height: 8em;
+    line-height: 8em;
+    width: 8em;
+  }
+
+  .iconWrapper::after {
+    height: 6em;
+    margin: -3em 0 0 -3em;
+    width: 6em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .feature {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .iconWrapper {
+    height: 6em;
+    line-height: 6em;
+    margin: 0 0 1.5em 0;
+    width: 6em;
+  }
+
+  .iconWrapper::after {
+    height: 4em;
+    margin: -2em 0 0 -2em;
+    width: 4em;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
