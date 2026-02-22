@@ -1,0 +1,238 @@
+.section {
+  padding: 6em 0 4em 0;
+  border-top: solid 2px var(--color-border);
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-heading);
+  border-bottom: solid 3px var(--color-accent);
+  display: inline-block;
+  margin: 0 0 2em 0;
+  padding: 0 0.75em 0.5em 0;
+}
+
+.posts {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 2em -6em;
+  width: calc(100% + 6em);
+}
+
+.post {
+  flex-grow: 0;
+  flex-shrink: 1;
+  margin: 0 0 6em 6em;
+  position: relative;
+  width: calc(33.33333% - 6em);
+}
+
+.post::before {
+  background: var(--color-border);
+  content: "";
+  display: block;
+  height: calc(100% + 6em);
+  left: -3em;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+
+.post::after {
+  background: var(--color-border);
+  bottom: -3em;
+  content: "";
+  display: block;
+  height: 1px;
+  position: absolute;
+  right: 0;
+  width: calc(100% + 6em);
+}
+
+.post > :last-child {
+  margin-bottom: 0;
+}
+
+.postImageLink {
+  display: block;
+  margin: 0 0 2em 0;
+  border-radius: 0.375em;
+  overflow: hidden;
+  border-bottom: 0;
+}
+
+.postImageLink:hover {
+  border-bottom: 0;
+}
+
+.postImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.375em;
+  transition: transform 0.2s ease;
+}
+
+.postImageLink:hover .postImg {
+  transform: scale(1.075);
+}
+
+.actions {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.button {
+  appearance: none;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  background-color: transparent;
+  border-radius: 0.375em;
+  border: 0;
+  box-shadow: inset 0 0 0 2px var(--color-accent);
+  color: var(--color-accent);
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.8em;
+  font-weight: 700;
+  height: 3.5em;
+  letter-spacing: 0.075em;
+  line-height: 3.5em;
+  padding: 0 2.25em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-bottom: 0;
+}
+
+.button:hover {
+  background-color: rgba(245, 106, 106, 0.05);
+  border-bottom: 0;
+  color: var(--color-accent);
+}
+
+.button:active {
+  background-color: rgba(245, 106, 106, 0.15);
+}
+
+/* Responsive: 3 columns on large, 2 on medium, 1 on small */
+@media screen and (min-width: 1681px) {
+  .post:nth-child(3n + 1)::before {
+    display: none;
+  }
+
+  .post:nth-child(3n + 1)::after {
+    width: 100%;
+  }
+
+  .post:nth-last-child(1),
+  .post:nth-last-child(2),
+  .post:nth-last-child(3) {
+    margin-bottom: 0;
+  }
+
+  .post:nth-last-child(1)::before,
+  .post:nth-last-child(2)::before,
+  .post:nth-last-child(3)::before {
+    height: 100%;
+  }
+
+  .post:nth-last-child(1)::after,
+  .post:nth-last-child(2)::after,
+  .post:nth-last-child(3)::after {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1680px) {
+  .post {
+    width: calc(50% - 6em);
+  }
+
+  .post:nth-last-child(3) {
+    margin-bottom: 6em;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 1680px) {
+  .post:nth-child(2n + 1)::before {
+    display: none;
+  }
+
+  .post:nth-child(2n + 1)::after {
+    width: 100%;
+  }
+
+  .post:nth-last-child(1),
+  .post:nth-last-child(2) {
+    margin-bottom: 0;
+  }
+
+  .post:nth-last-child(1)::before,
+  .post:nth-last-child(2)::before {
+    height: 100%;
+  }
+
+  .post:nth-last-child(1)::after,
+  .post:nth-last-child(2)::after {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  .posts {
+    margin: 0 0 2em -4.5em;
+    width: calc(100% + 4.5em);
+  }
+
+  .post {
+    margin: 0 0 4.5em 4.5em;
+    width: calc(50% - 4.5em);
+  }
+
+  .post::before {
+    height: calc(100% + 4.5em);
+    left: -2.25em;
+  }
+
+  .post::after {
+    bottom: -2.25em;
+    width: calc(100% + 4.5em);
+  }
+
+  .post:nth-last-child(3) {
+    margin-bottom: 4.5em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .posts {
+    margin: 0 0 2em 0;
+    width: 100%;
+  }
+
+  .post {
+    margin: 0 0 4.5em 0;
+    width: 100%;
+  }
+
+  .post::before {
+    display: none;
+  }
+
+  .post::after {
+    width: 100%;
+  }
+
+  .post:last-child {
+    margin-bottom: 0;
+  }
+
+  .post:last-child::after {
+    display: none;
+  }
+}
