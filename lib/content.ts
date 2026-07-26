@@ -74,6 +74,17 @@ export const content: Record<Locale, Content> = {
       banner: "Ausgewählte Arbeiten",
       items: [
         {
+          slug: "wt-186",
+          title: "WT-186",
+          role: "Wave-Terrain-Synthesizer-Plugin",
+          headline:
+            "Verwandelt hochgeladene Bild- und Audiodateien per Drag-and-Drop in dynamischen Klang.",
+          meta: "UX/UI Design · Interaction Design",
+          tag: "Bald verfügbar",
+          href: null,
+          ctaLabel: "Case Study lesen",
+        },
+      {
           slug: "ebehoerde",
           title: "eBehörde",
           role: "Digitale Behördenplattform",
@@ -84,17 +95,6 @@ export const content: Record<Locale, Content> = {
           href: "/ebehoerde",
           ctaLabel: "Case Study lesen",
           cover: "/images/ebehoerde-cover.png",
-        },
-        {
-          slug: "wt-186",
-          title: "WT-186",
-          role: "Wave-Terrain-Synthesizer-Plugin",
-          headline:
-            "Verwandelt hochgeladene Bild- und Audiodateien per Drag-and-Drop in dynamischen Klang.",
-          meta: "UX/UI Design · Interaction Design",
-          tag: "Bald verfügbar",
-          href: null,
-          ctaLabel: "Case Study lesen",
         },
         {
           slug: "planora",
@@ -109,6 +109,16 @@ export const content: Record<Locale, Content> = {
           cover: "/images/planora/cover.png",
         },
         {
+          slug: "experimental-audio-encoder",
+          title: "Experimental Audio Encoder",
+          role: "Projekt in Arbeit",
+          headline: "Case Study folgt.",
+          meta: "Interaction Design",
+          tag: "Bald verfügbar",
+          href: null,
+          ctaLabel: "Case Study lesen",
+        },
+        {
           slug: "flavor-fusion",
           title: "Flavor Fusion",
           role: "Rezept-App Landingpage",
@@ -119,16 +129,7 @@ export const content: Record<Locale, Content> = {
           ctaLabel: "Case Study lesen",
           cover: "/images/flavor-fusion/cover.png",
         },
-        {
-          slug: "experimental-audio-encoder",
-          title: "Experimental Audio Encoder",
-          role: "Projekt in Arbeit",
-          headline: "Case Study folgt.",
-          meta: "Interaction Design",
-          tag: "Bald verfügbar",
-          href: null,
-          ctaLabel: "Case Study lesen",
-        },
+        
       ],
     },
     footer: {
