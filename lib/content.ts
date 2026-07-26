@@ -31,6 +31,13 @@ interface Content {
     contactTitle: string
     rights: string
   }
+  ebehoerde: {
+    back: string
+    role: string
+    intro: string
+    tags: string[]
+    note: string
+  }
 }
 
 export const content: Record<Locale, Content> = {
@@ -120,6 +127,14 @@ export const content: Record<Locale, Content> = {
       contactTitle: "Kontakt",
       rights: "Alle Rechte vorbehalten.",
     },
+    ebehoerde: {
+      back: "Zurück zur Übersicht",
+      role: "Digitale Behördenplattform",
+      intro:
+        "eBehörde ist eine digitale Plattform, die entwickelt wurde, um die Interaktion der Bürgerinnen und Bürger mit den Behörden in Deutschland zu erleichtern.",
+      tags: ["UX/UI Design", "Service Design"],
+      note: "Die ausführliche Case Study mit Prozess, Wireframes und Ergebnissen folgt in Kürze.",
+    },
   },
   en: {
     meta: {
@@ -206,6 +221,14 @@ export const content: Record<Locale, Content> = {
       navTitle: "Navigation",
       contactTitle: "Contact",
       rights: "All rights reserved.",
+    },
+    ebehoerde: {
+      back: "Back to overview",
+      role: "Digital government platform",
+      intro:
+        "eBehörde is a digital platform designed to make it easier for citizens to interact with government agencies in Germany.",
+      tags: ["UX/UI Design", "Service Design"],
+      note: "The full case study with process, wireframes, and results is coming soon.",
     },
   },
 }

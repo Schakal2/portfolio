@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/components/portfolio-layout.module.css"],"sourcesContent":[".wrapper {\n  display: flex;\n  flex-direction: row-reverse;\n  min-height: 100vh;\n}\n\n.main {\n  flex-grow: 1;\n  flex-shrink: 1;\n  width: 100%;\n}\n\n.inner {\n  padding: 0 6em 0.1em 6em;\n  margin: 0 auto;\n  max-width: 110em;\n}\n\n.inner > section {\n  padding: 6em 0 4em 0;\n  border-top: solid 2px var(--color-border);\n}\n\n.inner > section:first-of-type {\n  border-top: 0;\n}\n\n@media screen and (max-width: 1680px) {\n  .inner {\n    padding: 0 5em 0.1em 5em;\n  }\n\n  .inner > section {\n    padding: 5em 0 3em 0;\n  }\n}\n\n@media screen and (max-width: 1280px) {\n  .inner {\n    padding: 0 4em 0.1em 4em;\n  }\n\n  .inner > section {\n    padding: 4em 0 2em 0;\n  }\n}\n\n@media screen and (max-width: 736px) {\n  .inner {\n    padding: 0 2em 0.1em 2em;\n  }\n\n  .inner > section {\n    padding: 3em 0 1em 0;\n  }\n}\n"],"names":[],"mappings":"AAAA;;;;;;AAMA;;;;;;AAMA;;;;;;AAMA;;;;;AAKA;;;;AAIA;EACE;;;;EAIA;;;;;AAKF;EACE;;;;EAIA;;;;;AAKF;EACE;;;;EAIA"}}]
-}

@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
+import { LocaleProvider } from "@/lib/locale-context"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "UXUI Portfolio - Julian Wegner",
+  title: "Julian Wegner — UX/UI Designer",
   description:
-    "Julian Wegner - UX Writing Executive and UXUI Designer specializing in content design and digital transformations.",
+    "Julian Wegner ist UX/UI Designer mit Hintergrund in Filmproduktion und Web-Development. Portfolio mit Case Studies und Projekten.",
 }
 
 export default function RootLayout({
@@ -13,8 +14,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="de">
+      <body>
+        <LocaleProvider>{children}</LocaleProvider>
+      </body>
     </html>
   )
 }

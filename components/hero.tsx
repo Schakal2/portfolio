@@ -19,7 +19,7 @@ export function Hero() {
           <h1 className={styles.heading}>{t.hero.heading}</h1>
           <p className={styles.bio}>{t.hero.bio}</p>
           <a className={styles.cta} href="#work">
-            {t.hero.cta} &gt;
+            {t.hero.cta} <span aria-hidden="true">&gt;</span>
           </a>
           <ul className={styles.skills}>
             {t.skills.map((skill) => (

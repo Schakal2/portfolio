@@ -1,14 +1,15 @@
-import PortfolioLayout from "@/components/portfolio-layout"
-import Banner from "@/components/banner"
-import Features from "@/components/features"
-import Posts from "@/components/posts"
+import { SiteHeader } from "@/components/site-header"
+import { Hero } from "@/components/hero"
+import { FeaturedWork } from "@/components/featured-work"
+import { SiteFooter } from "@/components/site-footer"
 
 export default function HomePage() {
   return (
-    <PortfolioLayout>
-      <Banner />
-      <Features />
-      <Posts />
-    </PortfolioLayout>
+    <>
+      <SiteHeader />
+      <Hero />
+      <FeaturedWork />
+      <SiteFooter />
+    </>
   )
 }
