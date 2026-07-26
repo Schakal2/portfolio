@@ -1,0 +1,32 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.divider {
+  opacity: 0.4;
+}
+
+.option {
+  background: none;
+  border: none;
+  color: var(--color-ink);
+  opacity: 0.45;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.option[aria-pressed="true"] {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.option:hover {
+  opacity: 1;
+}

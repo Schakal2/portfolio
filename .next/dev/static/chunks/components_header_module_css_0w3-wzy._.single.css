@@ -1,0 +1,74 @@
+/* [project]/components/header.module.css [app-client] (css) */
+.header-module__bY5_QG__header {
+  border-bottom: solid 5px var(--color-accent);
+  justify-content: space-between;
+  align-items: center;
+  padding: 6em 0 1em;
+  display: flex;
+  position: relative;
+}
+
+@media screen and (max-width: 1680px) {
+  .header-module__bY5_QG__header {
+    padding-top: 5em;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  .header-module__bY5_QG__header {
+    padding-top: 6.5em;
+  }
+}
+
+.header-module__bY5_QG__logo {
+  color: inherit;
+  font-family: var(--font-heading);
+  border-bottom: 0;
+  font-size: 1.125em;
+  text-decoration: none;
+}
+
+.header-module__bY5_QG__logo strong {
+  color: var(--color-heading);
+}
+
+.header-module__bY5_QG__logo:hover {
+  border-bottom: 0;
+}
+
+@media screen and (max-width: 736px) {
+  .header-module__bY5_QG__logo {
+    font-size: 1.25em;
+  }
+}
+
+.header-module__bY5_QG__icons {
+  gap: 1em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.header-module__bY5_QG__iconLink {
+  color: inherit;
+  border-bottom: 0;
+  transition: color .2s;
+}
+
+.header-module__bY5_QG__iconLink:hover {
+  color: var(--color-accent);
+  border-bottom: 0;
+}
+
+@media screen and (max-width: 736px) {
+  .header-module__bY5_QG__icons {
+    align-items: center;
+    height: 3em;
+    position: absolute;
+    top: 1em;
+    right: 0;
+  }
+}
+
+/*# sourceMappingURL=components_header_module_css_0w3-wzy._.single.css.map*/
