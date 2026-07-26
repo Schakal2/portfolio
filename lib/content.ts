@@ -9,6 +9,14 @@ export interface WorkItem {
   tag: string
   href: string | null
   ctaLabel: string
+  cover?: string
+}
+
+export interface CaseStudyCopy {
+  back: string
+  role: string
+  intro: string
+  tags: string[]
 }
 
 interface Content {
@@ -31,12 +39,10 @@ interface Content {
     contactTitle: string
     rights: string
   }
-  ebehoerde: {
-    back: string
-    role: string
-    intro: string
-    tags: string[]
-    note: string
+  caseStudies: {
+    ebehoerde: CaseStudyCopy
+    planora: CaseStudyCopy
+    flavorFusion: CaseStudyCopy
   }
 }
 
@@ -77,6 +83,7 @@ export const content: Record<Locale, Content> = {
           tag: "Case Study",
           href: "/ebehoerde",
           ctaLabel: "Case Study lesen",
+          cover: "/images/ebehoerde-cover.png",
         },
         {
           slug: "wt-186",
@@ -96,19 +103,21 @@ export const content: Record<Locale, Content> = {
           headline:
             "Vereint jedes Detail einer Reise an einem Ort — vom Notizenmachen über gespeicherte Orte bis zur Organisation von Tagesausflügen.",
           meta: "UX/UI Design · Mobile",
-          tag: "Bald verfügbar",
-          href: null,
+          tag: "Case Study",
+          href: "/planora",
           ctaLabel: "Case Study lesen",
+          cover: "/images/planora/cover.png",
         },
         {
           slug: "flavor-fusion",
           title: "Flavor Fusion",
-          role: "Projekt in Arbeit",
-          headline: "Case Study folgt.",
-          meta: "UX/UI Design",
-          tag: "Bald verfügbar",
-          href: null,
+          role: "Rezept-App Landingpage",
+          headline: "Landingpage, die zeigt, wie Rezepte entdecken und entspanntes Kochen zusammenkommen.",
+          meta: "UX/UI Design · Landing Page",
+          tag: "Case Study",
+          href: "/flavor-fusion",
           ctaLabel: "Case Study lesen",
+          cover: "/images/flavor-fusion/cover.png",
         },
         {
           slug: "experimental-audio-encoder",
@@ -127,13 +136,28 @@ export const content: Record<Locale, Content> = {
       contactTitle: "Kontakt",
       rights: "Alle Rechte vorbehalten.",
     },
-    ebehoerde: {
-      back: "Zurück zur Übersicht",
-      role: "Digitale Behördenplattform",
-      intro:
-        "eBehörde ist eine digitale Plattform, die entwickelt wurde, um die Interaktion der Bürgerinnen und Bürger mit den Behörden in Deutschland zu erleichtern.",
-      tags: ["UX/UI Design", "Service Design"],
-      note: "Die ausführliche Case Study mit Prozess, Wireframes und Ergebnissen folgt in Kürze.",
+    caseStudies: {
+      ebehoerde: {
+        back: "Zurück zur Übersicht",
+        role: "Digitale Behördenplattform",
+        intro:
+          "eBehörde ist eine digitale Plattform, die entwickelt wurde, um die Interaktion der Bürgerinnen und Bürger mit den Behörden in Deutschland zu erleichtern. Entstanden als Capstone-Projekt der UX/UI-Weiterbildung bei neue fische — von der Nutzer:innen-Befragung bis zum fertigen Interface.",
+        tags: ["UX/UI Design", "Service Design"],
+      },
+      planora: {
+        back: "Zurück zur Übersicht",
+        role: "Reise-App",
+        intro:
+          "Planora vereint jedes Detail einer Reise an einem Ort — vom Notizenmachen über gespeicherte Orte bis zur Organisation von Tagesausflügen und Reisezeiten. Entstanden während der UX/UI-Weiterbildung bei neue fische.",
+        tags: ["UX/UI Design", "Mobile"],
+      },
+      flavorFusion: {
+        back: "Zurück zur Übersicht",
+        role: "Rezept-App Landingpage",
+        intro:
+          "FlavorFusion ist die Landingpage für eine Rezept-App: Rezepte entdecken, Einkaufslisten verwalten und mit dem Hands-free-Modus entspannt kochen, ohne das Handy anzufassen.",
+        tags: ["UX/UI Design", "Landing Page"],
+      },
     },
   },
   en: {
@@ -172,6 +196,7 @@ export const content: Record<Locale, Content> = {
           tag: "Case Study",
           href: "/ebehoerde",
           ctaLabel: "Read case study",
+          cover: "/images/ebehoerde-cover.png",
         },
         {
           slug: "wt-186",
@@ -191,19 +216,21 @@ export const content: Record<Locale, Content> = {
           headline:
             "Brings every detail of a trip into one place — from notes and saved spots to organizing day trips and timing.",
           meta: "UX/UI Design · Mobile",
-          tag: "Coming soon",
-          href: null,
+          tag: "Case Study",
+          href: "/planora",
           ctaLabel: "Read case study",
+          cover: "/images/planora/cover.png",
         },
         {
           slug: "flavor-fusion",
           title: "Flavor Fusion",
-          role: "Work in progress",
-          headline: "Case study coming soon.",
-          meta: "UX/UI Design",
-          tag: "Coming soon",
-          href: null,
+          role: "Recipe app landing page",
+          headline: "A landing page bringing recipe discovery and relaxed cooking together.",
+          meta: "UX/UI Design · Landing Page",
+          tag: "Case Study",
+          href: "/flavor-fusion",
           ctaLabel: "Read case study",
+          cover: "/images/flavor-fusion/cover.png",
         },
         {
           slug: "experimental-audio-encoder",
@@ -222,13 +249,28 @@ export const content: Record<Locale, Content> = {
       contactTitle: "Contact",
       rights: "All rights reserved.",
     },
-    ebehoerde: {
-      back: "Back to overview",
-      role: "Digital government platform",
-      intro:
-        "eBehörde is a digital platform designed to make it easier for citizens to interact with government agencies in Germany.",
-      tags: ["UX/UI Design", "Service Design"],
-      note: "The full case study with process, wireframes, and results is coming soon.",
+    caseStudies: {
+      ebehoerde: {
+        back: "Back to overview",
+        role: "Digital government platform",
+        intro:
+          "eBehörde is a digital platform designed to make it easier for citizens to interact with government agencies in Germany. Built as the capstone project of a UX/UI training at neue fische — from user research to the final interface.",
+        tags: ["UX/UI Design", "Service Design"],
+      },
+      planora: {
+        back: "Back to overview",
+        role: "Travel app",
+        intro:
+          "Planora brings every detail of a trip into one place — from notes and saved spots to organizing day trips and timing. Built during a UX/UI training at neue fische.",
+        tags: ["UX/UI Design", "Mobile"],
+      },
+      flavorFusion: {
+        back: "Back to overview",
+        role: "Recipe app landing page",
+        intro:
+          "FlavorFusion is the landing page for a recipe app: discover recipes, manage shopping lists, and cook hands-free without touching your phone.",
+        tags: ["UX/UI Design", "Landing Page"],
+      },
     },
   },
 }

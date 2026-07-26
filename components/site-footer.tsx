@@ -19,10 +19,10 @@ export function SiteFooter() {
       <div className={styles.col}>
         <h5>{t.footer.contactTitle}</h5>
         <a href="mailto:julian2wegner@gmail.com">Email</a>
-        <a href="#" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.linkedin.com/in/julianwegner2/" target="_blank" rel="noopener noreferrer">
           LinkedIn
         </a>
-        <a href="#" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.behance.net/julianwegner1" target="_blank" rel="noopener noreferrer">
           Behance
         </a>
       </div>

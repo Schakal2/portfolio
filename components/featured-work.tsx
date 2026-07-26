@@ -29,12 +29,12 @@ function CaseRow({ item }: { item: WorkItem }) {
   const body = (
     <>
       <div className={styles.shot}>
-        {item.slug === "ebehoerde" ? (
+        {item.cover ? (
           <Image
-            src="/images/ebehoerde-cover.png"
-            alt="eBehörde app preview"
-            width={1535}
-            height={1219}
+            src={item.cover}
+            alt={`${item.title} preview`}
+            width={800}
+            height={600}
             className={styles.shotImg}
           />
         ) : (
