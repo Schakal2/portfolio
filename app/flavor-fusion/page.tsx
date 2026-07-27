@@ -2,7 +2,7 @@
 
 import { useLocale } from "@/lib/locale-context"
 import { CaseStudyPage } from "@/components/case-study-page"
-import { flavorFusionCover, flavorFusionGallery } from "@/lib/case-study-images"
+import { flavorFusionCover, flavorFusionClosingMedia } from "@/lib/case-study-images"
 
 export default function FlavorFusionPage() {
   const { t } = useLocale()
@@ -12,7 +12,7 @@ export default function FlavorFusionPage() {
       title="Flavor Fusion"
       copy={t.caseStudies.flavorFusion}
       cover={flavorFusionCover}
-      gallery={flavorFusionGallery}
+      closingMedia={flavorFusionClosingMedia}
     />
   )
 }

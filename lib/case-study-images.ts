@@ -60,7 +60,7 @@ export const planoraCover: CaseStudyImage = {
   height: 1188,
 }
 
-export const planoraGallery: CaseStudyImage[] = [
+export const planoraClosingMedia: CaseStudyImage[] = [
   { src: "/images/planora/slice-2.png", width: 1186, height: 1600 },
   { src: "/images/planora/slice-3.png", width: 1600, height: 1557 },
   { src: "/images/planora/slice-4.png", width: 1600, height: 911 },
@@ -74,7 +74,7 @@ export const flavorFusionCover: CaseStudyImage = {
   height: 921,
 }
 
-export const flavorFusionGallery: CaseStudyImage[] = [
+export const flavorFusionClosingMedia: CaseStudyImage[] = [
   { src: "/images/flavor-fusion/landing.png", width: 1440, height: 4695 },
   { src: "/images/flavor-fusion/app-screen.png", width: 390, height: 844 },
 ]
