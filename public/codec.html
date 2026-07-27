@@ -26,6 +26,16 @@
             font-size: 15px;
             line-height: 1.35;
             overflow-x: hidden;
+            /* This is a tool, not a document — without this, iOS treats
+               every ASCII-art button as selectable text and shows the
+               selection magnifier on tap instead of clicking it. */
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        textarea, input {
+            -webkit-user-select: text;
+            user-select: text;
         }
         #scanlines {
             position: fixed; inset: 0; z-index: 99; pointer-events: none;
@@ -96,6 +106,7 @@
             background: none; border: none; padding: 0; margin: 0;
             font: inherit; color: var(--fg); cursor: pointer;
             display: inline-block; text-align: left;
+            touch-action: manipulation;
         }
         .abtn .down { display: none; }
         .abtn:active .up   { display: none; }
