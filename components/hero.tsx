@@ -27,7 +27,7 @@ export function Hero() {
             ))}
           </ul>
         </div>
-        <RingBadge words={t.hero.ringWords} />
+        <RingBadge name="Julian Wegner" />
       </div>
     </section>
   )

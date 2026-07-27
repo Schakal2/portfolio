@@ -52,6 +52,14 @@ function CaseRow({ item }: { item: WorkItem }) {
     </>
   )
 
+  if (item.href && item.external) {
+    return (
+      <a href={item.href} className={styles.case} target="_blank" rel="noopener noreferrer">
+        {body}
+      </a>
+    )
+  }
+
   if (item.href) {
     return (
       <Link href={item.href} className={styles.case}>

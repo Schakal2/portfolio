@@ -10,10 +10,22 @@ interface CaseStudyPageProps {
   title: string
   copy: CaseStudyCopy
   cover: CaseStudyImage
-  gallery: CaseStudyImage[]
+  /** Media shown right after the intro paragraph, before the first section. */
+  introMedia?: CaseStudyImage[]
+  /** Media shown after each section, indexed the same as copy.sections. */
+  sectionMedia?: CaseStudyImage[][]
+  /** Media shown at the very end, after all sections. */
+  closingMedia?: CaseStudyImage[]
 }
 
-export function CaseStudyPage({ title, copy, cover, gallery }: CaseStudyPageProps) {
+export function CaseStudyPage({
+  title,
+  copy,
+  cover,
+  introMedia,
+  sectionMedia,
+  closingMedia,
+}: CaseStudyPageProps) {
   return (
     <>
       <SiteHeader />
@@ -37,21 +49,51 @@ export function CaseStudyPage({ title, copy, cover, gallery }: CaseStudyPageProp
           priority
         />
         <p className={styles.intro}>{copy.intro}</p>
-        <div className={styles.gallery}>
-          {gallery.map((image) => (
-            <Image
-              key={image.src}
-              src={image.src}
-              alt={`${title} case study detail`}
-              width={image.width}
-              height={image.height}
-              className={styles.galleryImage}
-              sizes="(max-width: 760px) 100vw, 760px"
-            />
-          ))}
-        </div>
+        <MediaGroup title={title} media={introMedia} />
+        {copy.sections?.map((section, i) => (
+          <div key={section.heading}>
+            <section className={styles.section}>
+              <h2 className={styles.sectionHeading}>{section.heading}</h2>
+              <p className={styles.sectionBody}>{section.body}</p>
+            </section>
+            <MediaGroup title={title} media={sectionMedia?.[i]} />
+          </div>
+        ))}
+        <MediaGroup title={title} media={closingMedia} />
       </article>
       <SiteFooter />
     </>
+  )
+}
+
+function MediaGroup({ title, media }: { title: string; media?: CaseStudyImage[] }) {
+  if (!media || media.length === 0) return null
+
+  return (
+    <div className={styles.gallery}>
+      {media.map((item) =>
+        item.video ? (
+          <video
+            key={item.src}
+            src={item.src}
+            className={styles.galleryVideo}
+            controls
+            playsInline
+            muted
+            loop
+          />
+        ) : (
+          <Image
+            key={item.src}
+            src={item.src}
+            alt={`${title} case study detail`}
+            width={item.width}
+            height={item.height}
+            className={styles.galleryImage}
+            sizes="(max-width: 760px) 100vw, 760px"
+          />
+        )
+      )}
+    </div>
   )
 }

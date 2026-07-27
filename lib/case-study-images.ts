@@ -2,17 +2,41 @@ export interface CaseStudyImage {
   src: string
   width: number
   height: number
+  video?: boolean
 }
 
 export const wtCover: CaseStudyImage = {
   src: "/images/wt186/1.png",
-  width: 1440,
-  height: 1080,
+  width: 1296,
+  height: 870,
 }
 
-export const wtGallery: CaseStudyImage[] = [
-  { src: "/images/wt186/2.png", width: 1440, height: 1080 },
+// Media placed right after the intro, before the first section.
+export const wtIntroMedia: CaseStudyImage[] = [
+  { src: "/images/wt186/mvp-demo.mov", width: 0, height: 0, video: true },
+]
 
+// One media group per section, in the same order as the Wt186 sections
+// in lib/content.ts: Vision & Konzept, Interface & Navigation,
+// Herausforderungen & Lösungen, User-Testing & Validierung.
+export const wtSectionMedia: CaseStudyImage[][] = [
+  [{ src: "/images/wt186/2.png", width: 1217, height: 824 }],
+  [
+    { src: "/images/wt186/3.png", width: 1163, height: 715 },
+    { src: "/images/wt186/4.png", width: 367, height: 586 },
+    { src: "/images/wt186/5.png", width: 724, height: 401 },
+  ],
+  [
+    { src: "/images/wt186/6.png", width: 2940, height: 1912 },
+    { src: "/images/wt186/7.png", width: 1304, height: 895 },
+  ],
+  [{ src: "/images/wt186/8.png", width: 2940, height: 1912 }],
+]
+
+// Media shown at the very end, after all sections.
+export const wtClosingMedia: CaseStudyImage[] = [
+  { src: "/images/wt186/9.png", width: 2940, height: 1912 },
+  { src: "/images/wt186/final-demo.mov", width: 0, height: 0, video: true },
 ]
 
 export const ebehoerdeCover: CaseStudyImage = {
@@ -21,7 +45,7 @@ export const ebehoerdeCover: CaseStudyImage = {
   height: 1219,
 }
 
-export const ebehoerdeGallery: CaseStudyImage[] = [
+export const ebehoerdeClosingMedia: CaseStudyImage[] = [
   { src: "/images/ebehoerde/slice-1.png", width: 1440, height: 1496 },
   { src: "/images/ebehoerde/slice-2.png", width: 1440, height: 2273 },
   { src: "/images/ebehoerde/slice-3.png", width: 1440, height: 2304 },
@@ -53,16 +77,4 @@ export const flavorFusionCover: CaseStudyImage = {
 export const flavorFusionGallery: CaseStudyImage[] = [
   { src: "/images/flavor-fusion/landing.png", width: 1440, height: 4695 },
   { src: "/images/flavor-fusion/app-screen.png", width: 390, height: 844 },
-]
-
-export const codecCover: CaseStudyImage = {
-  src: "/images/NOISE-CODEC v6.0/2.png",
-  width: 1440,
-  height: 1080,
-}
-
-export const codecGallery: CaseStudyImage[] = [
-  { src: "/images/NOISE-CODEC v6.0/1.png", width: 1440, height: 1080 },
-  { src: "/images/NOISE-CODEC v6.0/vid.mov", width: 1440, height: 1080 },
-
 ]

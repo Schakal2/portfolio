@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NOISE-CODEC v6.0</title>
+    <style>
+        /* ============================================================
+           1. COLOR PALETTE
+           ============================================================ */
+        :root {
+            --fg:#33ff33; --dim:#179217; --dark:#0a3d0a;
+            --bg:#020602; --amber:#ffcc00; --red:#ff3b3b;
+        }
+
+        /* ============================================================
+           2. PAGE BASICS — a CRT pretending to be a DOS editor
+           ============================================================ */
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-variant-ligatures: none;
+            background: var(--bg);
+            color: var(--fg);
+            font-size: 15px;
+            line-height: 1.35;
+            overflow-x: hidden;
+        }
+        #scanlines {
+            position: fixed; inset: 0; z-index: 99; pointer-events: none;
+            background: repeating-linear-gradient(0deg,
+                rgba(0,0,0,0.35) 0px, rgba(0,0,0,0.35) 1px,
+                transparent 1px, transparent 3px);
+            animation: flicker 4s steps(60) infinite;
+        }
+        @keyframes flicker { 0%,100% {opacity:.55} 47% {opacity:.62} 48% {opacity:.42} 49% {opacity:.6} }
+        #vignette {
+            position: fixed; inset: 0; z-index: 98; pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.75) 100%);
+        }
+        pre { margin: 0; font: inherit; line-height: 1.05; }
+
+        /* ============================================================
+           3. MENU BAR + STATUS BAR
+           Both deliberately sit BELOW #scanlines (z-index 99) so the
+           overlay dims them equally — lifting the menu bar above it made
+           it glow brighter than the footer.
+           ============================================================ */
+        .menubar, .statusbar {
+            background: var(--fg); color: #000; font-weight: bold;
+            padding: 2px 10px; letter-spacing: 1px;
+        }
+        .menubar { font-size: 0.85em; position: relative; z-index: 90; }
+        .statusbar {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
+            font-size: 0.8em; display: flex; gap: 18px; flex-wrap: wrap;
+        }
+        .statusbar .rec-on { color: #7a0000; }
+
+        .menu { position: relative; display: inline-block; margin-right: 22px; cursor: pointer; }
+        .menu b { text-decoration: underline; }
+        .menu .drop {
+            display: none; position: absolute; top: 100%; left: -8px;
+            background: #000; border: 1px solid var(--fg); color: var(--fg);
+            padding: 2px 0; white-space: nowrap; font-weight: normal;
+            letter-spacing: 0; z-index: 5; box-shadow: 3px 3px 0 rgba(0,0,0,.6);
+        }
+        .menu:hover .drop, .menu.open .drop { display: block; }
+        .menu .drop a, .menu .drop button {
+            display: block; width: 100%; text-align: left;
+            color: var(--fg); background: none; border: none;
+            font: inherit; padding: 2px 14px; cursor: pointer; text-decoration: none;
+        }
+        .menu .drop a:hover, .menu .drop button:hover { background: var(--fg); color: #000; }
+
+        /* ============================================================
+           4. WINDOWS
+           ============================================================ */
+        .app { padding: 10px 12px 46px; max-width: 900px; margin: 0 auto; }
+        .win { border: 1px solid var(--dim); margin-bottom: 14px; background: #030903; }
+        .win-title {
+            background: var(--dark); color: var(--fg);
+            padding: 1px 8px; font-size: 0.8em; letter-spacing: 1px;
+            border-bottom: 1px solid var(--dim);
+            display: flex; justify-content: space-between; gap: 10px;
+        }
+        .win-title .meta { color: var(--dim); }
+        .win-body { padding: 10px; }
+        .win.pending { display: none; }
+
+        /* ============================================================
+           5. ASCII BUTTON COMPONENT
+           ============================================================ */
+        .abtn {
+            background: none; border: none; padding: 0; margin: 0;
+            font: inherit; color: var(--fg); cursor: pointer;
+            display: inline-block; text-align: left;
+        }
+        .abtn .down { display: none; }
+        .abtn:active .up   { display: none; }
+        .abtn:active .down { display: block; }
+        .abtn:hover:not(:disabled) { color: #b6ffb6; text-shadow: 0 0 6px var(--fg); }
+        .abtn:disabled { color: #1c4a1c; cursor: not-allowed; text-shadow: none; }
+        .abtn-lg { font-size: 1.05em; }
+        .abtn-sm { font-size: 0.85em; }
+        .abtn-xs { font-size: 0.72em; color: var(--dim); }
+        .abtn.armed { color: var(--amber); animation: pulse .6s steps(2) infinite; }
+        .abtn.rec   { color: var(--red);   animation: pulse .5s steps(2) infinite; }
+        @keyframes pulse { 0%,100% {opacity:1} 50% {opacity:.45} }
+
+        /* ============================================================
+           6. SLIDERS, DROP ZONE, CODEC PICKER
+           ============================================================ */
+        .slider { margin-bottom: 12px; font-size: 0.92em; white-space: nowrap; }
+        .slider .name { color: var(--dim); display: inline-block; width: 11ch; }
+        .slider .val  { color: var(--amber); }
+        .track-wrap { position: relative; display: inline-block; vertical-align: middle; }
+        .track-wrap input {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            margin: 0; opacity: 0; cursor: ew-resize;
+        }
+        .slider .hint { color: #146b14; font-size: 0.78em; margin-left: 12ch; display: block; margin-top: 2px; }
+
+        .dropzone {
+            border: 1px dashed var(--dim); padding: 9px 8px; text-align: center;
+            font-size: 0.76em; color: var(--dim); cursor: pointer; margin-top: 2px;
+            letter-spacing: 1px;
+        }
+        .dropzone:hover { color: #b6ffb6; border-color: #b6ffb6; }
+        .dropzone.over { border-color: var(--amber); color: var(--amber); background: #0a1a0a; }
+        .dropzone.busy { color: var(--amber); border-color: var(--amber); }
+
+        .algo-banner {
+            font-size: 6.5px; line-height: 1.02; color: var(--dim);
+            overflow-x: auto; margin: 2px 0 6px;
+        }
+        .algo-banner.loud { color: var(--amber); }
+        .codec-bar { border-top: 1px dashed var(--dark); margin-top: 10px; padding-top: 8px; }
+        .codec-row { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.9em; }
+        .codec-opt { background: none; border: none; font: inherit; color: var(--dim); cursor: pointer; padding: 0; }
+        .codec-opt:hover { color: #b6ffb6; }
+        .codec-opt.sel { color: var(--amber); }
+        .codec-desc { color: #146b14; font-size: 0.78em; margin-top: 4px; }
+
+        /* ============================================================
+           7. SCOPES
+           ============================================================ */
+        .scope { position: relative; overflow: hidden; background: #010401;
+                 border: 1px solid var(--dark); padding: 4px 6px; }
+        .scope pre { font-size: 11px; letter-spacing: 0; }
+        .scope .layer { position: absolute; top: 4px; left: 6px; }
+        .scope .guides { color: var(--dark); }
+        .scope .thr    { color: var(--amber); opacity: .75; }
+        .scope .wave   { position: relative; color: var(--fg); }
+        .scope .wave.hot { color: var(--amber); }
+        .scope-label { font-size: 0.72em; color: var(--dim); margin-bottom: 2px; letter-spacing: 1px; }
+        .level-line { font-size: 0.78em; margin-top: 4px; color: var(--dim); white-space: nowrap; }
+        .level-line.over { color: var(--amber); }
+
+        /* ============================================================
+           8. LAYOUT ROWS
+           ============================================================ */
+        .rec-row { display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; }
+        .rec-left, .rec-right { flex: 1 1 320px; min-width: 0; }
+        .out-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; }
+        .out-main { flex: 1 1 380px; min-width: 0; }
+        .out-side { flex: 0 0 auto; }
+        .play-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+        .board-row { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+        .board-col { flex: 1 1 420px; min-width: 0; }
+
+        /* ============================================================
+           9. TEXT BUFFER
+           ============================================================ */
+        textarea {
+            width: 100%; height: 190px; background: #000; color: var(--fg);
+            border: 1px solid var(--dark); font: inherit; font-size: 0.9em;
+            word-break: break-all; padding: 8px; resize: vertical;
+        }
+        textarea:focus { outline: 1px solid var(--fg); }
+
+        /* ============================================================
+           10. ASCII ART — sprites and reactive woven panels
+           ============================================================ */
+        .sprite {
+            display: inline-block; color: var(--dim); cursor: crosshair;
+            will-change: transform; user-select: none;
+        }
+        .sprite pre { font-size: 11px; line-height: 1.05; }
+        .sprite:hover { color: var(--amber); }
+        .sprite.loud { color: var(--fg); }
+        #bootSprites { display: flex; gap: 22px; flex-wrap: wrap; padding: 6px 12px 0; max-width: 900px; margin: 0 auto; }
+
+        /* Each row of a pattern is its own line so it can slide sideways
+           independently — that is what makes it ripple with the sound. */
+        .pattern { font-size: 10px; line-height: 1.05; color: var(--dim); user-select: none; cursor: crosshair; }
+        .pattern div { white-space: pre; will-change: transform; }
+        .pattern:hover { color: var(--amber); }
+        .pattern.loud { color: var(--fg); }
+        .pattern-cap { font-size: 0.68em; color: var(--dark); letter-spacing: 1px; text-align: right; }
+
+        /* ============================================================
+           11. SOUND BOARD + MANUAL
+           ============================================================ */
+        .board { display: flex; flex-wrap: wrap; gap: 2px 6px; margin-top: 8px; }
+        .row-end { display: flex; gap: 10px; margin-top: 8px; align-items: center; }
+        #boot { padding: 10px 12px 0; max-width: 900px; margin: 0 auto; color: var(--fg); }
+        .manual { font-size: 0.85em; line-height: 1.5; }
+        .manual dt { color: var(--amber); margin-top: 9px; letter-spacing: 1px; }
+        .manual dt:first-child { margin-top: 0; }
+        .manual dd { margin: 1px 0 0 2ch; color: #9dff9d; }
+        .manual .k { color: var(--fg); }
+    </style>
+</head>
+<body>
+
+<div id="scanlines"></div>
+<div id="vignette"></div>
+
+<!-- ===== MENU BAR ===== -->
+<div class="menubar">
+    <span class="menu"><b>F</b>ile<span class="drop"><a href="https://www.julianwegner.com" target="_blank" rel="noopener">julianwegner.com</a></span></span>
+    <span class="menu"><b>E</b>dit<span class="drop"><a href="https://www.julianwegner.com" target="_blank" rel="noopener">julianwegner.com</a></span></span>
+    <span class="menu"><b>V</b>iew<span class="drop"><a href="https://www.julianwegner.com" target="_blank" rel="noopener">julianwegner.com</a></span></span>
+    <span class="menu"><b>R</b>un<span class="drop"><a href="https://www.julianwegner.com" target="_blank" rel="noopener">julianwegner.com</a></span></span>
+    <span class="menu"><b>H</b>elp<span class="drop"><button id="menuHelp">open readme.doc</button></span></span>
+</div>
+
+<div id="boot"><pre id="bootText"></pre></div>
+<div id="bootSprites"></div>
+
+<div class="app" id="app">
+
+    <!-- ===== WINDOW 1: RECORDER ===== -->
+    <div class="win pending" id="winRec">
+        <div class="win-title"><span>RECORD.SYS</span><span class="meta" id="recMeta">mic: idle</span></div>
+        <div class="win-body">
+            <div class="rec-row">
+                <div class="rec-left">
+                    <button class="abtn abtn-lg" id="recordBtn" data-label="ARM RECORDER" data-w="26"></button>
+                    <div class="scope-label" style="margin-top:8px">INPUT / MIC &mdash; amber line = trigger level</div>
+                    <div class="scope" id="inScopeBox">
+                        <pre class="layer guides" id="inGuides"></pre>
+                        <pre class="layer thr" id="inThr"></pre>
+                        <pre class="wave" id="inWave"></pre>
+                    </div>
+                    <div class="level-line" id="levelLine"></div>
+                </div>
+                <div class="rec-right">
+                    <div class="slider">
+                        <span class="name">RESOLUTION</span
+                        ><span class="track-wrap"><span id="resTrack"></span
+                        ><input type="range" id="resSlider" min="0" max="1000" value="480"></span>
+                        <span class="val" id="resVal"></span>
+                        <span class="hint">slice length. low = clean, high = crushed</span>
+                    </div>
+                    <div class="slider">
+                        <span class="name">THRESHOLD</span
+                        ><span class="track-wrap"><span id="thrTrack"></span
+                        ><input type="range" id="thrSlider" min="1" max="60" value="8"></span>
+                        <span class="val" id="thrVal"></span>
+                        <span class="hint">how loud a sound must be to start recording</span>
+                    </div>
+                    <div class="slider">
+                        <span class="name">GATE</span
+                        ><span class="track-wrap"><span id="gateTrack"></span
+                        ><input type="range" id="gateSlider" min="0" max="8" value="1"></span>
+                        <span class="val" id="gateVal"></span>
+                        <span class="hint">anything quieter becomes silence "_"</span>
+                    </div>
+                    <div class="dropzone" id="dropZone">DROP AN AUDIO FILE HERE &mdash; OR CLICK TO PICK ONE</div>
+                    <input type="file" id="fileInput" accept="audio/*" hidden>
+                </div>
+            </div>
+
+            <!-- codec algorithm picker -->
+            <div class="codec-bar">
+                <pre class="algo-banner" id="algoBanner">   _____  .____     ________ ________ __________._________________ ___    _____    _________
+  /  _  \ |    |   /  _____/ \_____  \\______   \   \__    ___/   |   \  /     \  /   _____/
+ /  /_\  \|    |  /   \  ___  /   |   \|       _/   | |    | /    ~    \/  \ /  \ \_____  \
+/    |    \    |__\    \_\  \/    |    \    |   \   | |    | \    Y    /    Y    \/        \
+\____|__  /_______ \______  /\_______  /____|_  /___| |____|  \___|_  /\____|__  /_______  /
+        \/        \/      \/         \/       \/                    \/         \/        \/ </pre>
+                <div class="codec-row" id="codecRow"></div>
+                <div class="codec-desc" id="codecDesc"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== WINDOW 2: THE CODEC TEXT + OUTPUT DISPLAYS ===== -->
+    <div class="win pending" id="winBuf">
+        <div class="win-title"><span>BUFFER.COD</span><span class="meta" id="bufMeta">0 slices</span></div>
+        <div class="win-body">
+            <textarea id="outputField" spellcheck="false" placeholder="codec text appears here — or paste your own..."></textarea>
+            <div class="row-end">
+                <button class="abtn abtn-xs" id="clearBtn"  data-label="CLEAR"  data-w="7" data-style="bracket"></button>
+                <button class="abtn abtn-xs" id="mutateBtn" data-label="MUTATE" data-w="8" data-style="bracket"></button>
+                <button class="abtn abtn-xs" id="copyBtn"   data-label="COPY"   data-w="6" data-style="bracket"></button>
+            </div>
+
+            <div class="out-row" style="margin-top:10px">
+                <div class="out-main">
+                    <div class="scope-label">OUTPUT / DECODED SEQUENCE</div>
+                    <div class="scope" id="outScopeBox">
+                        <pre class="layer guides" id="outGuides"></pre>
+                        <pre class="wave" id="outWave"></pre>
+                    </div>
+                </div>
+                <div class="out-side">
+                    <div class="scope-label">SCOPE</div>
+                    <div class="scope">
+                        <pre class="layer guides" id="miniGuides"></pre>
+                        <pre class="wave" id="miniWave"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== WINDOW 3: PLAY + SAVES + SOUND BOARD + WOVEN PANEL ===== -->
+    <div class="win pending" id="winPlay">
+        <div class="win-title"><span>PLAY.EXE</span><span class="meta" id="playMeta">idle</span></div>
+        <div class="win-body">
+            <div class="play-row">
+                <button class="abtn abtn-lg" id="playBtn" data-label="&#9654; PLAY" data-w="20"></button>
+                <button class="abtn abtn-sm" id="saveTxt" data-label="SAVE .TXT" data-w="11" data-style="bracket"></button>
+                <button class="abtn abtn-sm" id="saveWav" data-label="SAVE .WAV" data-w="11" data-style="bracket"></button>
+                <span class="sprite" data-art="speaker" style="margin-left:auto"></span>
+            </div>
+            <div class="board-row" style="margin-top:10px">
+                <div class="board-col">
+                    <div class="scope-label">SOUND BOARD — appends patterns to the buffer</div>
+                    <div class="board" id="board">
+                        <button class="abtn abtn-sm" data-label="THUMP"  data-w="10" data-style="bracket" data-seq="C9C7C5C3C1"></button>
+                        <button class="abtn abtn-sm" data-label="SLIDE"  data-w="10" data-style="bracket" data-seq="A1E3I5M7Q9"></button>
+                        <button class="abtn abtn-sm" data-label="FADE"   data-w="10" data-style="bracket" data-seq="v9v7v5v3v1"></button>
+                        <button class="abtn abtn-sm" data-label="BLIP"   data-w="10" data-style="bracket" data-seq="S9_0S9_0S9"></button>
+                        <button class="abtn abtn-sm" data-label="ZAP"    data-w="10" data-style="bracket" data-seq="Z9W7T5Q3N1"></button>
+                        <button class="abtn abtn-sm" data-label="SIREN"  data-w="10" data-style="bracket" data-seq="K5O7S9O7K5G3"></button>
+                        <button class="abtn abtn-sm" data-label="STATIC" data-w="10" data-style="bracket" data-seq="r5s5t5u5v5"></button>
+                        <button class="abtn abtn-sm" data-label="PULSE"  data-w="10" data-style="bracket" data-seq="M9_0M9_0M9_0"></button>
+                        <button class="abtn abtn-sm" data-label="DRONE"  data-w="10" data-style="bracket" data-seq="H9H9H9H9H9H9"></button>
+                        <button class="abtn abtn-sm" data-label="GLITCH" data-w="10" data-style="bracket" data-seq="M9r9P9t9S9v9"></button>
+                        <button class="abtn abtn-sm" data-label="ALARM"  data-w="10" data-style="bracket" data-seq="P9T9P9T9P9T9"></button>
+                    </div>
+                </div>
+                <div>
+                    <div class="pattern" id="stitchPanel" data-pattern="stitch"></div>
+                    <div class="pattern-cap">Simple<br>Cross-Stitch Pattern<br>gfj/98</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== WINDOW 4: THE MANUAL ===== -->
+    <div class="win pending" id="winHelp">
+        <div class="win-title"><span>README.DOC</span><button class="abtn abtn-xs" id="helpToggle" data-label="-" data-w="3" data-style="bracket"></button></div>
+        <div class="win-body">
+            <dl class="manual" id="helpBody">
+                <dt>WHAT IS THIS</dt>
+                <dd>A codec that turns sound into a line of text, and that text back into sound. Everything runs in this tab; nothing is uploaded. The text is the point &mdash; copy it, paste it, mail it, edit it by hand.</dd>
+
+                <dt>CODEC ALGO</dt>
+                <dd>Four ways of turning sound into characters. They all read and write the same text box, so the same text played through a different algorithm sounds completely different.<br>
+                    <span class="k">VOICE-26</span> &mdash; the default. 26 log-spaced pitches, <span class="k">A-Z</span> clear and <span class="k">a-z</span> breathy, decibel volume, played back as one continuous gliding voice.<br>
+                    <span class="k">ZCR-13</span> &mdash; 13 evenly-spaced pitches, <span class="k">A-M</span> tone and <span class="k">N-Z</span> noise, each run plucked like a note.<br>
+                    <span class="k">FFT-13</span> &mdash; the original: a real 256-point FFT per slice, picking the loudest bin.<br>
+                    <span class="k">PCM-64</span> &mdash; no pitch at all. Every character IS one raw waveform sample, 6-bit, 64 levels.</dd>
+
+                <dt>SOUND SOURCES</dt>
+                <dd><span class="k">ARM RECORDER</span> listens to the mic; the input scope goes live immediately so you can watch your level against the amber trigger line. Recording starts when you cross it and runs until you press <span class="k">STOP</span>.<br>
+                    Or drop an audio file on the <span class="k">DROP</span> box to encode a file instead &mdash; same algorithms, no microphone needed.</dd>
+
+                <dt>RESOLUTION</dt>
+                <dd>How long one slice lasts, from <span class="k">0.25ms</span> to <span class="k">300ms</span>. Fine values track the original closely and just crunch it a little; coarse values are chunky and abstract. It also sets playback speed.</dd>
+
+                <dt>LEVELS</dt>
+                <dd>Playback is normalised: whatever the buffer's loudest slice is, it is lifted to full scale. Quiet recordings no longer play back as a whisper.</dd>
+
+                <dt>THE DISPLAYS</dt>
+                <dd>Top scope is the live microphone. The wide scope is the buffer text drawn as sound &mdash; bar height is volume, solid bars are tones, shaded bars are noise, with a playhead during playback. The small scope beside it is a true oscilloscope of the actual output.</dd>
+
+                <dt>SAVING</dt>
+                <dd><span class="k">SAVE .TXT</span> writes the codec text, <span class="k">SAVE .WAV</span> renders a real 16-bit WAV, <span class="k">COPY</span> puts the text on your clipboard. <span class="k">F5</span> plays, and stops whatever was already playing.</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+<div class="statusbar">
+    <span id="stMode">READY</span>
+    <span id="stTime">00:00.0</span>
+    <span id="stSlices">0 SLICES</span>
+    <span id="stRes">10ms</span>
+    <span id="stCodec">VOICE-26</span>
+    <span>F5 = PLAY</span>
+</div>
+
+<script>
+/* ================================================================
+   THE CODEC FORMATS
+
+   Pitch codecs store sound as pairs of characters, one pair per slice:
+          A7   ->  pitch "A", volume 7      ("_" = silence)
+   PCM-64 breaks that rule on purpose: one character IS one raw sample.
+
+   Every algorithm lives in the CODECS table in section 6.
+   ================================================================ */
+
+/* ---------------- 1. CONSTANTS & STATE ---------------- */
+const F_MIN = 70, F_MAX = 4200, PITCH_STEPS = 26;
+const DB_MIN = -48, DB_MAX = -3;
+const PITCH_WINDOW = 512;
+const PITCH_EVERY_MS = 2;
+const LP_HZ = 1200;
+const FFT_N = 256;
+const MAX_REC_SECONDS = 120;
+const MAX_FILE_SLICES = 80000;
+const NORM_TARGET = 0.72;              // playback is normalised to this peak
+const B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+const B64MAP = (() => { const m = new Int8Array(128).fill(-1); for (let i = 0; i < 64; i++) m[B64.charCodeAt(i)] = i; return m; })();
+
+const $ = id => document.getElementById(id);
+const outputField = $('outputField');
+
+let audioCtx = null, masterOut = null, scopeAnalyser = null;
+let micStream = null, procNode = null, monitorGain = null;
+let mode = 'idle';
+let codecText = '';
+let recStart = 0;
+let playhead = null;
+let audioLevel = 0;
+let current = null;                    // the playback in progress, so it can be killed
+
+function getCtx() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        masterOut = audioCtx.createGain();
+        scopeAnalyser = audioCtx.createAnalyser();
+        scopeAnalyser.fftSize = 256;
+        masterOut.connect(scopeAnalyser);
+        masterOut.connect(audioCtx.destination);
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+}
+
+/* ---------------- 2. ASCII BUTTON COMPONENT ---------------- */
+function boxArt(label, w, style) {
+    const pad   = Math.max(0, w - label.length);
+    const left  = Math.floor(pad / 2);
+    const inner = ' '.repeat(left) + label + ' '.repeat(pad - left);
+    if (style === 'bracket') return { up: `[ ${inner} ]`, down: `< ${inner} >` };
+    return {
+        up:   `╔${'═'.repeat(w)}╗\n║${inner}║\n╚${'═'.repeat(w)}╝`,
+        down: `┌${'─'.repeat(w)}┐\n│${inner}│\n└${'─'.repeat(w)}┘`
+    };
+}
+function drawButton(btn, label) {
+    if (label !== undefined) btn.dataset.label = label;
+    const art = boxArt(btn.dataset.label, +btn.dataset.w, btn.dataset.style);
+    btn.innerHTML = '';
+    const up = document.createElement('pre'), down = document.createElement('pre');
+    up.className = 'up';     up.textContent = art.up;
+    down.className = 'down'; down.textContent = art.down;
+    btn.append(up, down);
+}
+document.querySelectorAll('.abtn').forEach(b => drawButton(b));
+
+/* ---------------- 3. ASCII SLIDER COMPONENT ---------------- */
+const CELLS = 18;
+function drawTrack(el, pct) {
+    const pos = Math.round(pct * (CELLS - 1));
+    let s = '';
+    for (let i = 0; i < CELLS; i++) s += i < pos ? '=' : (i === pos ? '#' : '·');
+    el.textContent = '[' + s + ']';
+}
+const resSlider = $('resSlider'), thrSlider = $('thrSlider'), gateSlider = $('gateSlider');
+function resolutionMs() { return 0.25 * Math.pow(1200, resSlider.value / 1000); }
+function fmtMs(ms) { return ms < 1 ? ms.toFixed(2) + 'ms' : Math.round(ms) + 'ms'; }
+
+function refreshSliders() {
+    drawTrack($('resTrack'),  resSlider.value / 1000);
+    drawTrack($('thrTrack'),  (thrSlider.value - 1) / 59);
+    drawTrack($('gateTrack'), gateSlider.value / 8);
+    const ms = resolutionMs();
+    $('resVal').textContent  = fmtMs(ms).padStart(7);
+    $('thrVal').textContent  = String(thrSlider.value).padStart(3) + '%';
+    $('gateVal').textContent = gateSlider.value + '/9';
+    $('stRes').textContent   = fmtMs(ms);
+    outDirty = true;
+}
+[resSlider, thrSlider, gateSlider].forEach(s => s.addEventListener('input', refreshSliders));
+
+/* ---------------- 4. DSP HELPERS ---------------- */
+const hist = new Float32Array(PITCH_WINDOW);
+const lpHist = new Float32Array(PITCH_WINDOW);
+let histPos = 0, lpState = 0, sincePitch = 1e9;
+let curPitchIdx = 0, curNoisy = false, smoothFreq = 0;
+
+function rmsOf(buf) { let s = 0; for (let i = 0; i < buf.length; i++) s += buf[i] * buf[i]; return Math.sqrt(s / buf.length); }
+function zeroCross(buf) { let z = 0; for (let i = 1; i < buf.length; i++) if ((buf[i] >= 0) !== (buf[i - 1] >= 0)) z++; return z; }
+
+/* Raw rolling history, shared by any algorithm that needs a window
+   longer than one slice. */
+function feedRaw(buf) {
+    for (let i = 0; i < buf.length; i++) { hist[histPos] = buf[i]; histPos = (histPos + 1) % PITCH_WINDOW; }
+}
+
+/* Detecting pitch from a 0.25ms slice is impossible — 11 samples cannot
+   contain a 120Hz cycle — so the analysis window is deliberately longer
+   than the slice. Fast envelope, stable pitch. */
+function feedPitchWindow(buf, sr) {
+    const lpCoef = 1 - Math.exp(-2 * Math.PI * LP_HZ / sr);
+    for (let i = 0; i < buf.length; i++) {
+        const s = buf[i];
+        lpState += (s - lpState) * lpCoef;
+        hist[histPos] = s; lpHist[histPos] = lpState;
+        histPos = (histPos + 1) % PITCH_WINDOW;
+    }
+    sincePitch += buf.length;
+    if (sincePitch >= sr * PITCH_EVERY_MS / 1000) { measurePitch(sr); sincePitch = 0; }
+}
+
+function measurePitch(sr) {
+    let zRaw = 0, zLp = 0, prevR = hist[histPos], prevL = lpHist[histPos];
+    for (let k = 1; k < PITCH_WINDOW; k++) {
+        const i = (histPos + k) % PITCH_WINDOW;
+        const r = hist[i], l = lpHist[i];
+        if ((r >= 0) !== (prevR >= 0)) zRaw++;
+        if ((l >= 0) !== (prevL >= 0)) zLp++;
+        prevR = r; prevL = l;
+    }
+    const fLp  = (zLp  / PITCH_WINDOW) * sr / 2;
+    const fRaw = (zRaw / PITCH_WINDOW) * sr / 2;
+    curNoisy = fRaw > fLp * 2.5 + 400;
+    const raw = Math.max(F_MIN, Math.min(F_MAX, fLp || F_MIN));
+
+    // Zero-crossing counts jitter even on a steady tone, which would make
+    // held notes warble. Smooth small wobbles, jump on real pitch changes.
+    if (!smoothFreq || raw > smoothFreq * 1.5 || raw < smoothFreq / 1.5) smoothFreq = raw;
+    else smoothFreq += (raw - smoothFreq) * 0.35;
+
+    const p = Math.log(smoothFreq / F_MIN) / Math.log(F_MAX / F_MIN);
+    curPitchIdx = Math.max(0, Math.min(PITCH_STEPS - 1, Math.round(p * (PITCH_STEPS - 1))));
+}
+
+/* A real 256-point FFT, so FFT-13 works on dropped files too and lines up
+   exactly with the slice instead of sampling "whatever the mic is doing
+   right now" like the original did. */
+const fftRe = new Float32Array(FFT_N), fftIm = new Float32Array(FFT_N);
+const fftMag = new Float32Array(FFT_N / 2);
+const hann = new Float32Array(FFT_N);
+for (let i = 0; i < FFT_N; i++) hann[i] = 0.5 * (1 - Math.cos(2 * Math.PI * i / (FFT_N - 1)));
+
+function spectrumFromHistory() {
+    for (let i = 0; i < FFT_N; i++) {
+        fftRe[i] = hist[(histPos + PITCH_WINDOW - FFT_N + i) % PITCH_WINDOW] * hann[i];
+        fftIm[i] = 0;
+    }
+    for (let i = 1, j = 0; i < FFT_N; i++) {          // bit-reversal permutation
+        let bit = FFT_N >> 1;
+        for (; j & bit; bit >>= 1) j ^= bit;
+        j ^= bit;
+        if (i < j) { let t = fftRe[i]; fftRe[i] = fftRe[j]; fftRe[j] = t;
+                     t = fftIm[i]; fftIm[i] = fftIm[j]; fftIm[j] = t; }
+    }
+    for (let len = 2; len <= FFT_N; len <<= 1) {
+        const ang = -2 * Math.PI / len, wr = Math.cos(ang), wi = Math.sin(ang);
+        for (let i = 0; i < FFT_N; i += len) {
+            let cr = 1, ci = 0;
+            for (let k = 0; k < len / 2; k++) {
+                const ur = fftRe[i + k], ui = fftIm[i + k];
+                const vr = fftRe[i + k + len / 2] * cr - fftIm[i + k + len / 2] * ci;
+                const vi = fftRe[i + k + len / 2] * ci + fftIm[i + k + len / 2] * cr;
+                fftRe[i + k] = ur + vr; fftIm[i + k] = ui + vi;
+                fftRe[i + k + len / 2] = ur - vr; fftIm[i + k + len / 2] = ui - vi;
+                const nr = cr * wr - ci * wi; ci = cr * wi + ci * wr; cr = nr;
+            }
+        }
+    }
+    for (let i = 0; i < FFT_N / 2; i++) {
+        const m = Math.sqrt(fftRe[i] * fftRe[i] + fftIm[i] * fftIm[i]) / (FFT_N / 4);
+        fftMag[i] = Math.max(0, Math.min(255, Math.round(m * 255 * 3)));
+    }
+    return fftMag;
+}
+
+/* Scope columns for any 2-chars-per-slice format. Slices are spread
+   across columns by ratio: integer buckets waste space badly, since
+   120 slices in 97 columns would round to 2 per column and fill 60. */
+function pairColumns(text, cols, noisyTest) {
+    const n = Math.floor(text.length / 2);
+    const used = Math.min(cols, n);
+    const heights = new Array(used).fill(0), noisy = new Array(used).fill(false);
+    for (let x = 0; x < used; x++) {
+        const from = Math.floor(x * n / used), to = Math.max(from + 1, Math.floor((x + 1) * n / used));
+        for (let i = from; i < to && i < n; i++) {
+            const v = text.charCodeAt(i * 2 + 1) - 48;
+            if (v < 0 || v > 9) continue;
+            if (v > heights[x]) { heights[x] = v; noisy[x] = noisyTest(text.charCodeAt(i * 2)); }
+        }
+    }
+    return { heights, noisy, used };
+}
+function pairPeak(text, div) {
+    let mx = 0;
+    for (let i = 0; i + 1 < text.length; i += 2) {
+        const v = text.charCodeAt(i + 1) - 48;
+        if (v > mx && v <= 9) mx = v;
+    }
+    return mx / div;
+}
+
+/* The legacy 13-tone decoder: consecutive same-pitch slices merge into
+   one plucked note. Shared by ZCR-13 and FFT-13. */
+function schedule13(ctx, dest, text, stepTime, t0, sources) {
+    const n = Math.floor(text.length / 2);
+    if (!n) return 0;
+    const segs = [];
+    let cur = null;
+    for (let i = 0; i < n; i++) {
+        const p = text[i * 2], pc = text.charCodeAt(i * 2);
+        const v = text.charCodeAt(i * 2 + 1) - 48;
+        const silent = !(pc >= 65 && pc <= 90) || !(v >= 0 && v <= 9) || v === 0;
+        const key = silent ? '_' : p;
+        if (cur && cur.key === key) { cur.n++; cur.vSum += silent ? 0 : v; }
+        else { cur = { key, start: i, n: 1, vSum: silent ? 0 : v }; segs.push(cur); }
+    }
+    for (const seg of segs) {
+        if (seg.key === '_') continue;
+        const dur = seg.n * stepTime, when = t0 + seg.start * stepTime;
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime((seg.vSum / seg.n) / 9, when);
+        gain.gain.exponentialRampToValueAtTime(0.001, when + dur * 0.98);
+        gain.connect(dest);
+        if (seg.key >= 'N') {
+            const node = ctx.createBufferSource();
+            const b = ctx.createBuffer(1, Math.max(1, Math.ceil(ctx.sampleRate * dur)), ctx.sampleRate);
+            const d = b.getChannelData(0);
+            for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+            node.buffer = b; node.connect(gain); node.start(when); node.stop(when + dur);
+            sources && sources.push(node);
+        } else {
+            const osc = ctx.createOscillator();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime((seg.key.charCodeAt(0) - 65) * 60 + 120, when);
+            osc.connect(gain); osc.start(when); osc.stop(when + dur);
+            sources && sources.push(osc);
+        }
+    }
+    return n * stepTime;
+}
+
+/* ================================================================
+   5. VOICE-26 DECODER
+   One continuous oscillator and one noise voice for the whole sequence,
+   with pitch and gain automated per slice — a continuous voice that
+   changes pitch, rather than one plucked note per slice.
+   ================================================================ */
+function pitchToFreq(idx) { return F_MIN * Math.pow(F_MAX / F_MIN, idx / (PITCH_STEPS - 1)); }
+function volToAmp(v) { return v <= 0 ? 0 : Math.pow(10, (((v / 9) * (DB_MAX - DB_MIN)) + DB_MIN) / 20); }
+
+function scheduleVoice26(ctx, dest, text, stepTime, t0, sources) {
+    const n = Math.floor(text.length / 2);
+    if (!n) return 0;
+    const total = n * stepTime;
+    const tau = Math.max(0.0008, stepTime * 0.35);
+
+    const osc = ctx.createOscillator();
+    osc.type = 'square';
+    const oscGain = ctx.createGain();
+    oscGain.gain.setValueAtTime(0, t0);
+
+    const noise = ctx.createBufferSource();
+    const nb = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    const nd = nb.getChannelData(0);
+    for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    noise.buffer = nb; noise.loop = true;
+    const band = ctx.createBiquadFilter();
+    band.type = 'bandpass'; band.Q.value = 1.2;
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.setValueAtTime(0, t0);
+
+    osc.connect(oscGain).connect(dest);
+    noise.connect(band).connect(noiseGain).connect(dest);
+
+    let lastFreq = -1, lastOsc = 0, lastNoise = 0;
+    for (let i = 0; i < n; i++) {
+        const pc = text.charCodeAt(i * 2);
+        const vc = text.charCodeAt(i * 2 + 1) - 48;
+        const t = t0 + i * stepTime;
+
+        // Anything malformed counts as silence rather than throwing, so one
+        // stray character can never kill the rest of the sequence.
+        let idx = -1, noisy = false;
+        if (pc >= 65 && pc <= 90) idx = pc - 65;
+        else if (pc >= 97 && pc <= 122) { idx = pc - 97; noisy = true; }
+        const silent = idx < 0 || !(vc >= 0 && vc <= 9) || vc === 0;
+
+        const amp = silent ? 0 : volToAmp(vc);
+        const oscTarget   = (silent || noisy) ? 0 : amp;
+        const noiseTarget = (silent || !noisy) ? 0 : amp;
+
+        if (!silent) {
+            const f = pitchToFreq(idx);
+            if (Math.abs(f - lastFreq) > 0.5) {
+                osc.frequency.setValueAtTime(f, t);
+                band.frequency.setValueAtTime(f, t);
+                lastFreq = f;
+            }
+        }
+        if (Math.abs(oscTarget - lastOsc) > 0.0005) { oscGain.gain.setTargetAtTime(oscTarget, t, tau); lastOsc = oscTarget; }
+        if (Math.abs(noiseTarget - lastNoise) > 0.0005) { noiseGain.gain.setTargetAtTime(noiseTarget, t, tau); lastNoise = noiseTarget; }
+    }
+
+    const end = t0 + total;
+    oscGain.gain.setTargetAtTime(0, end, 0.005);
+    noiseGain.gain.setTargetAtTime(0, end, 0.005);
+    osc.start(t0);   osc.stop(end + 0.05);
+    noise.start(t0); noise.stop(end + 0.05);
+    sources && sources.push(osc, noise);
+    return total;
+}
+
+/* ================================================================
+   6. THE CODEC TABLE — every paradigm this project has tried
+   Each entry is a complete algorithm: how it listens, how it speaks,
+   how loud its text is, and how that text should be drawn.
+   ================================================================ */
+const CODECS = {
+'VOICE-26': {
+    desc: '26 log-spaced pitches · A-Z clear, a-z breathy · decibel volume · continuous gliding voice. The most faithful of the pitch codecs.',
+    unit: 'SLICES',
+    count: t => Math.floor(t.length / 2),
+    reset() { hist.fill(0); lpHist.fill(0); lpState = 0; sincePitch = 1e9; smoothFreq = 0; },
+    encode(buf, sr) {
+        feedPitchWindow(buf, sr);
+        const db = 20 * Math.log10(rmsOf(buf) + 1e-9);
+        let vol = Math.max(0, Math.min(9, Math.round(((db - DB_MIN) / (DB_MAX - DB_MIN)) * 9)));
+        let char;
+        if (vol <= +gateSlider.value) { char = '_'; vol = 0; }
+        else char = String.fromCharCode((curNoisy ? 97 : 65) + curPitchIdx);
+        codecText += char + vol;
+    },
+    columns: (t, c) => pairColumns(t, c, code => code >= 97),
+    // decibel volumes are genuinely tiny (a 5 is about -23dB), which is why
+    // this codec used to play back so much quieter than the others
+    peak(text) {
+        let mx = 0;
+        for (let i = 0; i + 1 < text.length; i += 2) {
+            const v = text.charCodeAt(i + 1) - 48;
+            if (v >= 0 && v <= 9) mx = Math.max(mx, volToAmp(v));
+        }
+        return mx;
+    },
+    schedule: scheduleVoice26
+},
+
+'ZCR-13': {
+    desc: '13 evenly-spaced pitches · A-M tone, N-Z noise · each run plucked like a note. Zero-crossing measured on the slice itself.',
+    unit: 'SLICES',
+    count: t => Math.floor(t.length / 2),
+    reset() {},
+    encode(buf, sr) {
+        const rms = rmsOf(buf);
+        let vol = Math.min(9, Math.round(rms * 36));
+        let char;
+        if (vol <= +gateSlider.value) { char = '_'; vol = 0; }
+        else {
+            const freq = (zeroCross(buf) / buf.length) * sr / 2;
+            if (freq > 2200) char = String.fromCharCode(78 + Math.floor(Math.random() * 12));
+            else char = String.fromCharCode(65 + Math.max(0, Math.min(12, Math.floor(freq / 2000 * 13))));
+        }
+        codecText += char + vol;
+    },
+    columns: (t, c) => pairColumns(t, c, code => code >= 78 && code <= 90),
+    peak: t => pairPeak(t, 9),
+    schedule: schedule13
+},
+
+'FFT-13': {
+    desc: 'The original. A 256-point FFT per slice, taking the loudest bin as the pitch and flipping to noise when the spectrum is busy.',
+    unit: 'SLICES',
+    count: t => Math.floor(t.length / 2),
+    reset() { hist.fill(0); },
+    encode(buf) {
+        feedRaw(buf);
+        const data = spectrumFromHistory();
+        let maxVal = 0, maxIdx = 0, sum = 0;
+        for (let i = 0; i < data.length; i++) { sum += data[i]; if (data[i] > maxVal) { maxVal = data[i]; maxIdx = i; } }
+        const mean = sum / data.length;
+        let variance = 0;
+        for (let i = 0; i < data.length; i++) variance += Math.abs(data[i] - mean);
+
+        let vol = Math.floor((maxVal / 255) * 9);
+        let char;
+        if (vol < 2 || vol <= +gateSlider.value) { char = '_'; vol = 0; }
+        else if (variance > 1800) char = String.fromCharCode(78 + Math.floor(Math.random() * 12));
+        else char = String.fromCharCode(65 + (Math.floor((maxIdx / data.length) * 26) % 13));
+        codecText += char + vol;
+    },
+    columns: (t, c) => pairColumns(t, c, code => code >= 78 && code <= 90),
+    peak: t => pairPeak(t, 9),
+    schedule: schedule13
+},
+
+'PCM-64': {
+    desc: 'No pitch at all — every character IS one raw waveform sample, 6-bit, 64 levels. The most faithful and by far the most text-hungry.',
+    unit: 'SAMPLES',
+    count: t => t.length,
+    reset() {},
+    encode(buf) {
+        let s = 0;
+        for (let i = 0; i < buf.length; i++) s += buf[i];
+        const v = Math.max(-1, Math.min(1, (s / buf.length) * 3));
+        codecText += B64[Math.max(0, Math.min(63, Math.round((v + 1) / 2 * 63)))];
+    },
+    columns(text, cols) {
+        const n = text.length;
+        const used = Math.min(cols, n);
+        const heights = new Array(used).fill(0), noisy = new Array(used).fill(false);
+        for (let x = 0; x < used; x++) {
+            const from = Math.floor(x * n / used), to = Math.max(from + 1, Math.floor((x + 1) * n / used));
+            for (let i = from; i < to && i < n; i++) {
+                const c = text.charCodeAt(i);
+                const q = c < 128 ? B64MAP[c] : -1;
+                if (q < 0) continue;
+                const h = Math.round(Math.abs(q / 63 * 2 - 1) * 9);
+                if (h > heights[x]) heights[x] = h;
+            }
+        }
+        return { heights, noisy, used };
+    },
+    peak(text) {
+        let mx = 0;
+        for (let i = 0; i < text.length; i++) {
+            const c = text.charCodeAt(i);
+            const q = c < 128 ? B64MAP[c] : -1;
+            if (q >= 0) mx = Math.max(mx, Math.abs(q / 63 * 2 - 1));
+        }
+        return mx;
+    },
+    schedule(ctx, dest, text, stepTime, t0, sources) {
+        const n = text.length;
+        if (!n) return 0;
+        const total = n * stepTime;
+        const outLen = Math.max(1, Math.ceil(total * ctx.sampleRate));
+        const buffer = ctx.createBuffer(1, outLen, ctx.sampleRate);
+        const d = buffer.getChannelData(0);
+        const val = k => { const c = k >= 0 && k < n ? text.charCodeAt(k) : -1;
+                           const q = c >= 0 && c < 128 ? B64MAP[c] : -1; return q < 0 ? 0 : q / 63 * 2 - 1; };
+        const perChar = stepTime * ctx.sampleRate;
+        for (let i = 0; i < outLen; i++) {
+            const pos = i / perChar, i0 = Math.floor(pos), f = pos - i0;
+            const a = val(i0), b = val(i0 + 1);
+            d[i] = a + (b - a) * f;
+        }
+        const src = ctx.createBufferSource();
+        src.buffer = buffer;
+        src.connect(dest);
+        src.start(t0);
+        sources && sources.push(src);
+        return total;
+    }
+}
+};
+
+let codecId = 'VOICE-26';
+const codec = () => CODECS[codecId];
+
+function buildCodecPicker() {
+    const row = $('codecRow');
+    row.innerHTML = '';
+    Object.keys(CODECS).forEach(id => {
+        const b = document.createElement('button');
+        b.className = 'codec-opt' + (id === codecId ? ' sel' : '');
+        b.textContent = (id === codecId ? '(•) ' : '( ) ') + id;
+        b.onclick = () => selectCodec(id);
+        row.appendChild(b);
+    });
+    $('codecDesc').textContent = codec().desc;
+    $('stCodec').textContent = codecId;
+}
+function selectCodec(id) {
+    codecId = id;
+    codec().reset();
+    buildCodecPicker();
+    outDirty = true;
+}
+
+/* ---------------- 7. INPUT SCOPE ---------------- */
+let IN_W = 58;
+const IN_H = 9, IN_MID = (IN_H - 1) / 2, SCOPE_GAIN = 2.2;
+let levels = new Array(IN_W).fill(0);
+let livePeak = 0, idleBlip = 0;
+
+function pushLevel(v) { levels.push(v); levels.shift(); }
+
+function drawInputScope() {
+    const rows = Array.from({ length: IN_H }, () => new Array(IN_W).fill(' '));
+    for (let x = 0; x < IN_W; x++) {
+        const h = Math.round(Math.min(1, levels[x] || 0) * IN_MID);
+        for (let y = IN_MID - h; y <= IN_MID + h; y++) rows[y][x] = h === 0 ? '·' : '█';
+    }
+    if (mode === 'idle') {
+        idleBlip = (idleBlip + 0.6) % IN_W;
+        rows[IN_MID][Math.floor(idleBlip)] = '·';
+    }
+    $('inWave').textContent = rows.map(r => r.join('')).join('\n');
+
+    const thrLevel = Math.min(1, (thrSlider.value / 100) * SCOPE_GAIN);
+    const thrRow = Math.max(0, Math.round(IN_MID - thrLevel * IN_MID));
+    $('inThr').textContent = Array.from({ length: IN_H }, (_, y) =>
+        (y === thrRow || y === IN_H - 1 - thrRow) ? '┈'.repeat(IN_W) : ' '.repeat(IN_W)).join('\n');
+    $('inGuides').textContent = Array.from({ length: IN_H }, (_, y) =>
+        y === IN_MID ? '─'.repeat(IN_W) : ' '.repeat(IN_W)).join('\n');
+
+    const pct = Math.round(livePeak * 100);
+    const bars = Math.min(10, Math.round(livePeak * 10 * SCOPE_GAIN));
+    const line = $('levelLine');
+    line.textContent = 'LEVEL [' + '█'.repeat(bars) + '·'.repeat(10 - bars) + '] '
+                     + String(pct).padStart(3) + '%   TRIG ' + thrSlider.value + '%';
+    line.classList.toggle('over', pct > +thrSlider.value);
+}
+
+/* ---------------- 8. OUTPUT DISPLAYS ---------------- */
+let OUT_W = 56;
+const OUT_H = 9;
+let outDirty = true, lastText = null, lastCodec = null, outCols = 0;
+
+function drawOutputScope() {
+    const text = outputField.value;
+    if (outDirty || text !== lastText || codecId !== lastCodec) {
+        lastText = text; lastCodec = codecId; outDirty = false;
+        const { heights, noisy, used } = codec().columns(text, OUT_W);
+        const rows = Array.from({ length: OUT_H }, () => new Array(OUT_W).fill(' '));
+        for (let x = 0; x < used; x++) {
+            const h = Math.round((heights[x] / 9) * (OUT_H - 1));
+            for (let y = 0; y < h; y++) rows[OUT_H - 1 - y][x] = noisy[x] ? '▒' : '█';
+        }
+        $('outWave').textContent = rows.map(r => r.join('')).join('\n');
+        outCols = used;
+        const c = codec().count(text);
+        $('bufMeta').textContent = c + ' ' + codec().unit.toLowerCase() + ' / ' + text.length + ' chars';
+        $('stSlices').textContent = c + ' ' + codec().unit;
+    }
+    const guides = Array.from({ length: OUT_H }, () => new Array(OUT_W).fill(' '));
+    for (let x = 0; x < OUT_W; x++) guides[OUT_H - 1][x] = '─';
+    if (playhead && audioCtx) {
+        const prog = (audioCtx.currentTime - playhead.t0) / playhead.total;
+        if (prog >= 0 && prog <= 1) {
+            const px = Math.min(OUT_W - 1, Math.floor(prog * outCols));
+            for (let y = 0; y < OUT_H; y++) guides[y][px] = '│';
+        }
+    }
+    $('outGuides').textContent = guides.map(r => r.join('')).join('\n');
+}
+
+const MS_W = 26, MS_H = 9, MS_MID = (MS_H - 1) / 2;
+let scopeData = null;
+
+function drawMiniScope() {
+    const rows = Array.from({ length: MS_H }, () => new Array(MS_W).fill(' '));
+    let sum = 0;
+    if (scopeAnalyser) {
+        if (!scopeData) scopeData = new Uint8Array(scopeAnalyser.fftSize);
+        scopeAnalyser.getByteTimeDomainData(scopeData);
+        let prevY = null;
+        for (let x = 0; x < MS_W; x++) {
+            const v = (scopeData[Math.floor(x / MS_W * scopeData.length)] - 128) / 128;
+            const y = Math.max(0, Math.min(MS_H - 1, Math.round(MS_MID - v * MS_MID)));
+            if (prevY !== null) {
+                const [a, b] = y < prevY ? [y, prevY] : [prevY, y];
+                for (let yy = a; yy <= b; yy++) rows[yy][x] = '│';
+            }
+            rows[y][x] = '█';
+            prevY = y;
+        }
+        for (let i = 0; i < scopeData.length; i++) { const v = (scopeData[i] - 128) / 128; sum += v * v; }
+        sum = Math.sqrt(sum / scopeData.length);
+    } else {
+        for (let x = 0; x < MS_W; x++) rows[MS_MID][x] = '█';
+    }
+    audioLevel = Math.max(sum * 3, livePeak * 2);
+    $('miniWave').textContent = rows.map(r => r.join('')).join('\n');
+    $('miniGuides').textContent = Array.from({ length: MS_H }, (_, y) =>
+        y === MS_MID ? '─'.repeat(MS_W) : ' '.repeat(MS_W)).join('\n');
+}
+
+/* ---------------- 9. RESPONSIVE SCOPE WIDTH ----------------
+   The scopes are character grids, so their width must be measured in
+   characters or they only fill part of their box.                    */
+let charW = 6.6;
+function measureChar() {
+    const probe = document.createElement('pre');
+    probe.style.cssText = 'position:absolute;visibility:hidden;font-size:11px;line-height:1.05;white-space:pre;';
+    probe.textContent = '0'.repeat(100);
+    document.body.appendChild(probe);
+    const w = probe.getBoundingClientRect().width / 100;
+    probe.remove();
+    if (w > 1) charW = w;
+}
+function fitScopes() {
+    measureChar();
+    const outBox = $('outScopeBox'), inBox = $('inScopeBox');
+    if (outBox && outBox.clientWidth > 20) {
+        const w = Math.max(20, Math.floor((outBox.clientWidth - 13) / charW));
+        if (w !== OUT_W) { OUT_W = w; outDirty = true; }
+    }
+    if (inBox && inBox.clientWidth > 20) {
+        const w = Math.max(20, Math.floor((inBox.clientWidth - 13) / charW));
+        if (w !== IN_W) {
+            const old = levels;
+            levels = new Array(w).fill(0);
+            for (let i = 0; i < Math.min(w, old.length); i++) levels[w - 1 - i] = old[old.length - 1 - i];
+            IN_W = w;
+        }
+    }
+}
+addEventListener('resize', fitScopes);
+
+/* ================================================================
+   10. SOUND SOURCES — microphone and dropped files
+   ================================================================ */
+let queue = [], queueOffset = 0, queueLen = 0;
+
+function pullSlice(n) {
+    const out = new Float32Array(n);
+    let filled = 0;
+    while (filled < n) {
+        const head = queue[0];
+        const take = Math.min(head.length - queueOffset, n - filled);
+        out.set(head.subarray(queueOffset, queueOffset + take), filled);
+        filled += take; queueOffset += take;
+        if (queueOffset >= head.length) { queue.shift(); queueOffset = 0; }
+    }
+    queueLen -= n;
+    return out;
+}
+
+async function armRecorder() {
+    const ctx = getCtx();
+    try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (err) {
+        $('recMeta').textContent = 'mic: DENIED';
+        setMode('idle');
+        return;
+    }
+    const source = ctx.createMediaStreamSource(micStream);
+    procNode = ctx.createScriptProcessor(1024, 1, 1);
+    monitorGain = ctx.createGain();
+    monitorGain.gain.value = 0;
+
+    procNode.onaudioprocess = e => {
+        const input = e.inputBuffer.getChannelData(0);
+        let peak = 0;
+        const half = input.length >> 1;
+        for (let s = 0; s < 2; s++) {
+            let p = 0;
+            for (let i = s * half; i < (s + 1) * half; i++) p = Math.max(p, Math.abs(input[i]));
+            pushLevel(p * SCOPE_GAIN);
+            peak = Math.max(peak, p);
+        }
+        livePeak = peak;
+
+        if (mode === 'armed') {
+            if (peak * 100 > +thrSlider.value) startRecording();
+            else return;
+        }
+        if (mode !== 'recording') return;
+
+        queue.push(new Float32Array(input));
+        queueLen += input.length;
+        const sliceSamples = Math.max(4, Math.round(resolutionMs() / 1000 * ctx.sampleRate));
+        while (queueLen >= sliceSamples) codec().encode(pullSlice(sliceSamples), ctx.sampleRate);
+
+        if ((performance.now() - recStart) / 1000 > MAX_REC_SECONDS) stopRecording();
+    };
+
+    source.connect(procNode);
+    procNode.connect(monitorGain);
+    monitorGain.connect(ctx.destination);
+    setMode('armed');
+}
+
+function startRecording() {
+    codecText = '';
+    queue = []; queueOffset = 0; queueLen = 0;
+    codec().reset();
+    recStart = performance.now();
+    setMode('recording');
+}
+
+function stopRecording() {
+    if (micStream) micStream.getTracks().forEach(t => t.stop());
+    if (procNode) { procNode.onaudioprocess = null; procNode.disconnect(); }
+    if (monitorGain) monitorGain.disconnect();
+    procNode = monitorGain = micStream = null;
+    levels.fill(0); livePeak = 0;
+    setMode('idle');
+}
+
+function setMode(m) {
+    mode = m;
+    const btn = $('recordBtn');
+    btn.classList.toggle('armed', m === 'armed');
+    btn.classList.toggle('rec',   m === 'recording');
+    if (m === 'idle')      { drawButton(btn, 'ARM RECORDER');      $('stMode').textContent = 'READY'; $('recMeta').textContent = 'mic: idle'; }
+    if (m === 'armed')     { drawButton(btn, 'LISTENING… (STOP)'); $('stMode').textContent = 'ARMED'; $('recMeta').textContent = 'mic: live — waiting for trigger'; }
+    if (m === 'recording') { drawButton(btn, '■ STOP RECORDING');  $('stMode').innerHTML = '<span class="rec-on">● REC</span>'; $('recMeta').textContent = 'mic: recording'; }
+}
+
+/* Encode a dropped or picked audio file with the current algorithm.
+   Channels are averaged to mono, then sliced exactly like live input. */
+async function encodeFile(file) {
+    const zone = $('dropZone');
+    zone.classList.add('busy');
+    zone.textContent = 'DECODING ' + file.name + '…';
+    try {
+        const ctx = getCtx();
+        const buf = await ctx.decodeAudioData(await file.arrayBuffer());
+        const len = buf.length, chans = buf.numberOfChannels;
+        const mono = new Float32Array(len);
+        for (let c = 0; c < chans; c++) {
+            const d = buf.getChannelData(c);
+            for (let i = 0; i < len; i++) mono[i] += d[i] / chans;
+        }
+
+        const sliceSamples = Math.max(4, Math.round(resolutionMs() / 1000 * buf.sampleRate));
+        codecText = '';
+        codec().reset();
+        let count = 0;
+        for (let p = 0; p + sliceSamples <= len && count < MAX_FILE_SLICES; p += sliceSamples, count++) {
+            codec().encode(mono.subarray(p, p + sliceSamples), buf.sampleRate);
+            if (count % 4000 === 0) {                       // let the UI breathe
+                zone.textContent = 'ENCODING… ' + count + ' slices';
+                await new Promise(r => setTimeout(r, 0));
+            }
+        }
+        outputField.value = codecText;
+        outDirty = true;
+        const capped = count >= MAX_FILE_SLICES ? ' (truncated)' : '';
+        zone.textContent = file.name + ' → ' + count + ' slices' + capped;
+    } catch (err) {
+        zone.textContent = 'COULD NOT DECODE THAT FILE';
+    }
+    zone.classList.remove('busy', 'over');
+    setTimeout(() => { zone.textContent = 'DROP AN AUDIO FILE HERE — OR CLICK TO PICK ONE'; }, 6000);
+}
+
+const dropZone = $('dropZone');
+['dragenter', 'dragover'].forEach(ev => dropZone.addEventListener(ev, e => {
+    e.preventDefault(); dropZone.classList.add('over');
+}));
+['dragleave', 'dragend'].forEach(ev => dropZone.addEventListener(ev, () => dropZone.classList.remove('over')));
+dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('over');
+    const f = e.dataTransfer.files[0];
+    if (f) encodeFile(f);
+});
+dropZone.addEventListener('click', () => $('fileInput').click());
+$('fileInput').addEventListener('change', e => { if (e.target.files[0]) encodeFile(e.target.files[0]); });
+// dropping anywhere else shouldn't make the browser navigate away
+addEventListener('dragover', e => e.preventDefault());
+addEventListener('drop', e => e.preventDefault());
+
+/* ================================================================
+   11. PLAYBACK
+   Every playthrough runs through its own gate gain, so a new one can
+   silence and stop whatever was already sounding instead of piling up.
+   ================================================================ */
+function stopPlayback() {
+    if (!current) return;
+    const now = audioCtx.currentTime;
+    try {
+        current.gate.gain.cancelScheduledValues(now);
+        current.gate.gain.setTargetAtTime(0, now, 0.004);
+    } catch (e) {}
+    current.sources.forEach(s => { try { s.stop(now + 0.03); } catch (e) {} });
+    clearTimeout(current.timer);
+    const gate = current.gate;
+    setTimeout(() => { try { gate.disconnect(); } catch (e) {} }, 250);
+    current = null;
+    playhead = null;
+    $('outWave').classList.remove('hot');
+    $('playMeta').textContent = 'idle';
+}
+
+function playSequence() {
+    const ctx = getCtx();
+    const text = outputField.value;
+    if (!text.length) return;
+    stopPlayback();                                  // kill any older playthrough
+
+    const stepTime = resolutionMs() / 1000;
+    const t0 = ctx.currentTime + 0.06;
+
+    // Normalise: lift the buffer's loudest slice to full scale. Decibel
+    // volumes are tiny in absolute terms, which is why VOICE-26 used to
+    // play back so much quieter than the other algorithms.
+    const peak = codec().peak(text) || 1;
+    const gate = ctx.createGain();
+    gate.gain.value = Math.max(0.05, Math.min(24, NORM_TARGET / peak));
+    gate.connect(masterOut);
+
+    const sources = [];
+    const total = codec().schedule(ctx, gate, text, stepTime, t0, sources);
+    if (!total) { gate.disconnect(); return; }
+
+    playhead = { t0, total };
+    $('outWave').classList.add('hot');
+    $('playMeta').textContent = 'playing ' + total.toFixed(1) + 's · ' + codecId
+                              + ' · norm ×' + gate.gain.value.toFixed(1);
+    const timer = setTimeout(() => { if (current && current.gate === gate) stopPlayback(); }, total * 1000 + 250);
+    current = { gate, sources, timer };
+}
+
+/* ================================================================
+   12. WAV EXPORT — rendered offline, written as real 16-bit PCM
+   ================================================================ */
+function encodeWav(buffer) {
+    const data = buffer.getChannelData(0);
+    const out = new DataView(new ArrayBuffer(44 + data.length * 2));
+    const str = (off, s) => { for (let i = 0; i < s.length; i++) out.setUint8(off + i, s.charCodeAt(i)); };
+    str(0, 'RIFF'); out.setUint32(4, 36 + data.length * 2, true); str(8, 'WAVE');
+    str(12, 'fmt '); out.setUint32(16, 16, true); out.setUint16(20, 1, true);
+    out.setUint16(22, 1, true); out.setUint32(24, buffer.sampleRate, true);
+    out.setUint32(28, buffer.sampleRate * 2, true); out.setUint16(32, 2, true);
+    out.setUint16(34, 16, true);
+    str(36, 'data'); out.setUint32(40, data.length * 2, true);
+    for (let i = 0; i < data.length; i++) {
+        const s = Math.max(-1, Math.min(1, data[i]));
+        out.setInt16(44 + i * 2, s * 32767, true);
+    }
+    return new Blob([out], { type: 'audio/wav' });
+}
+
+async function exportWav() {
+    const text = outputField.value;
+    if (!text.length) return;
+    const stepTime = resolutionMs() / 1000;
+    const total = codec().count(text) * stepTime + 0.3;
+    const rate = 44100;
+    const off = new OfflineAudioContext(1, Math.ceil(total * rate), rate);
+    const peak = codec().peak(text) || 1;
+    const gate = off.createGain();
+    gate.gain.value = Math.max(0.05, Math.min(24, NORM_TARGET / peak));
+    gate.connect(off.destination);
+    codec().schedule(off, gate, text, stepTime, 0, null);
+    download(encodeWav(await off.startRendering()), 'codec_export.wav');
+}
+
+function download(blob, name) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* ================================================================
+   13. ASCII ART — sprites and woven panels
+   ================================================================ */
+const ART = {
+    speaker:  { a: ' ▄▄▄\n ███▌\n ███▌\n ▀▀▀',            b: ' ▄▄▄\n ███▌ ))\n ███▌   ))\n ▀▀▀' },
+    cassette: { a: '╔════════╗\n║ ◉ ── ◉ ║\n║  ░░░░  ║\n╚════════╝', b: '╔════════╗\n║ ◎ ── ◎ ║\n║  ▒▒▒▒  ║\n╚════════╝' },
+    robot:    { a: '┌──────┐\n│ ▀  ▀ │\n│  ──  │\n└──┬───┘', b: '┌──────┐\n│ ●  ● │\n│  ▄▄  │\n└──┬───┘' },
+    tower:    { a: '   ▲\n  ╱│╲\n ╱ │ ╲\n   ┴',           b: ' ( ▲ )\n  ╱│╲\n ╱ │ ╲\n   ┴' },
+    floppy:   { a: '┌───────┐\n│ ▄▄▄▄▄ │\n│ █   █ │\n└───────┘', b: '┌───────┐\n│ ▀▀▀▀▀ │\n│ █▓▓▓█ │\n└───────┘' },
+    cat:      { a: ' /\\_/\\\n( o.o )\n > ^ <\n  ---',   b: ' /\\_/\\\n( -.- )\n > ^ <\n  ~~~' },
+    eye:      { a: '╭───────╮\n│  ◉    │\n╰───────╯\n    ╵',  b: '╭───────╮\n│    ◉  │\n╰───────╯\n    ╵' },
+    face:     { a: ' ┌─────┐\n │ ▪ ▪ │\n │  ▽  │\n └─────┘', b: ' ┌─────┐\n │ ◕ ◕ │\n │  ○  │\n └─────┘' }
+};
+
+/* The cross-stitch panel. Each line is its own element so the rows can
+   slide sideways independently and ripple with the sound. */
+const PATTERNS = {
+    stitch: [
+        '<>================================<>',
+        '||\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/||',
+        '||<> <> <> <> <> <> <> <> <> <> <>||',
+        '||/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\||',
+        '||================================||',
+        '||<> <> <> <> <> <> <> <> <> <> <>||',
+        '||================================||',
+        '||/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\||',
+        '||<> <> <> <> <> <> <> <> <> <> <>||',
+        '||\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/||',
+        '<>================================<>'
+    ]
+};
+
+function buildArt() {
+    $('bootSprites').innerHTML = '';
+    ['cassette', 'robot', 'tower', 'floppy', 'cat', 'eye', 'face'].forEach(name => {
+        const s = document.createElement('span');
+        s.className = 'sprite';
+        s.dataset.art = name;
+        $('bootSprites').appendChild(s);
+    });
+    document.querySelectorAll('.sprite').forEach(s => {
+        const pre = document.createElement('pre');
+        pre.textContent = ART[s.dataset.art].a;
+        s.appendChild(pre);
+        s.addEventListener('mouseenter', () => s.dataset.hover = '1');
+        s.addEventListener('mouseleave', () => s.dataset.hover = '');
+    });
+    document.querySelectorAll('.pattern').forEach(p => {
+        p.innerHTML = '';
+        PATTERNS[p.dataset.pattern].forEach(line => {
+            const d = document.createElement('div');
+            d.textContent = line;
+            p.appendChild(d);
+        });
+        p.addEventListener('mouseenter', () => p.dataset.hover = '1');
+        p.addEventListener('mouseleave', () => p.dataset.hover = '');
+    });
+}
+
+let artClock = 0;
+function animateArt() {
+    artClock += 0.13;
+    const loud = audioLevel > 0.06;
+
+    document.querySelectorAll('.sprite').forEach(s => {
+        const active = loud || s.dataset.hover === '1';
+        const art = ART[s.dataset.art];
+        const want = active ? art.b : art.a;
+        const pre = s.firstChild;
+        if (pre.textContent !== want) pre.textContent = want;
+        s.classList.toggle('loud', loud);
+        if (active) {
+            const amp = Math.min(3, loud ? audioLevel * 14 : 1.2);
+            s.style.transform = `translate(${(Math.random() - .5) * amp}px, ${(Math.random() - .5) * amp}px)`;
+        } else if (s.style.transform) s.style.transform = '';
+    });
+
+    // rows ripple as a travelling wave, so the weave reads like a scope
+    document.querySelectorAll('.pattern').forEach(p => {
+        const hover = p.dataset.hover === '1';
+        const amp = loud ? Math.min(9, audioLevel * 11) : (hover ? 2.2 : 0.6);
+        p.classList.toggle('loud', loud);
+        [...p.children].forEach((row, i) => {
+            row.style.transform = `translateX(${Math.sin(artClock + i * 0.55) * amp}px)`;
+        });
+    });
+
+    $('algoBanner').classList.toggle('loud', loud);
+}
+
+/* ================================================================
+   14. BUTTON + MENU HANDLERS
+   ================================================================ */
+$('recordBtn').onclick = () => { (mode === 'idle') ? armRecorder() : stopRecording(); };
+$('playBtn').onclick   = playSequence;
+$('clearBtn').onclick  = () => { outputField.value = ''; codecText = ''; outDirty = true; };
+$('mutateBtn').onclick = () => { mutate(); outDirty = true; };
+$('saveTxt').onclick   = () => download(new Blob([outputField.value], { type: 'text/plain' }), 'sound_codec.txt');
+$('saveWav').onclick   = exportWav;
+$('copyBtn').onclick   = async () => {
+    try { await navigator.clipboard.writeText(outputField.value); drawButton($('copyBtn'), 'COPIED'); }
+    catch { outputField.select(); drawButton($('copyBtn'), 'SELECT'); }
+    setTimeout(() => drawButton($('copyBtn'), 'COPY'), 1200);
+};
+document.querySelectorAll('[data-seq]').forEach(btn => {
+    btn.onclick = () => { outputField.value += btn.dataset.seq; outDirty = true; };
+});
+$('helpToggle').onclick = () => {
+    const body = $('helpBody');
+    const hidden = body.style.display === 'none';
+    body.style.display = hidden ? '' : 'none';
+    drawButton($('helpToggle'), hidden ? '-' : '+');
+};
+$('menuHelp').onclick = () => {
+    finishBoot();
+    $('helpBody').style.display = '';
+    drawButton($('helpToggle'), '-');
+    $('winHelp').scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+document.querySelectorAll('.menu').forEach(m => {
+    m.addEventListener('click', e => {
+        if (e.target === m || e.target.tagName === 'B') {
+            document.querySelectorAll('.menu').forEach(o => { if (o !== m) o.classList.remove('open'); });
+            m.classList.toggle('open');
+        }
+    });
+});
+document.addEventListener('click', e => {
+    if (!e.target.closest('.menu')) document.querySelectorAll('.menu').forEach(m => m.classList.remove('open'));
+});
+
+function mutate() {
+    const text = outputField.value;
+    let out = '';
+    for (let i = 0; i + 1 < text.length; i += 2) {
+        let c = text.charCodeAt(i);
+        let v = text.charCodeAt(i + 1) - 48;
+        if (!(v >= 0 && v <= 9)) { out += text[i] + text[i + 1]; continue; }
+        const base = (c >= 97 && c <= 122) ? 97 : (c >= 65 && c <= 90) ? 65 : -1;
+        if (base > 0 && Math.random() > 0.8) {
+            c = base + Math.max(0, Math.min(PITCH_STEPS - 1, c - base + (Math.random() > 0.5 ? 1 : -1)));
+        }
+        if (Math.random() > 0.8) v = Math.max(0, Math.min(9, v + (Math.random() > 0.5 ? 1 : -1)));
+        out += String.fromCharCode(c) + v;
+    }
+    outputField.value = out;
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'F5') { e.preventDefault(); playSequence(); }
+});
+
+/* ================================================================
+   15. THE FRAME LOOP
+   ================================================================ */
+let frameNo = 0;
+function frame() {
+    frameNo++;
+    drawInputScope();
+    drawMiniScope();
+    animateArt();
+
+    if (mode === 'recording' && frameNo % 6 === 0) {
+        if (outputField.value !== codecText) { outputField.value = codecText; outDirty = true; }
+        const secs = (performance.now() - recStart) / 1000;
+        $('stTime').textContent =
+            String(Math.floor(secs / 60)).padStart(2, '0') + ':' +
+            (secs % 60).toFixed(1).padStart(4, '0');
+    }
+    drawOutputScope();
+    requestAnimationFrame(frame);
+}
+
+/* ================================================================
+   16. BOOT SEQUENCE — the interface types itself in
+   ================================================================ */
+const BOOT = [
+ 'NOISE-CODEC  v6.0    (c) 199X  RAW-TEXT AUDIO SYSTEMS',
+ 'CPU: 486DX2/66   MEM: 640K OK   SND: PC SPEAKER + WEB AUDIO',
+ '',
+ '> LOAD ASCII.SYS  ................ OK',
+ '> LOAD SCOPE.OVL  ................ OK',
+ '> LOAD CODEC.DRV  ......... 4 ALGO',
+ '> RUN  CODEC.EXE',
+ ''
+];
+const WINDOWS = ['winRec', 'winBuf', 'winPlay', 'winHelp'];
+let bootDone = false;
+
+function finishBoot() {
+    if (bootDone) return;
+    bootDone = true;
+    $('bootText').textContent = BOOT.join('\n');
+    WINDOWS.forEach(id => $(id).classList.remove('pending'));
+    refreshSliders();
+    fitScopes();
+}
+
+async function runBoot() {
+    const el = $('bootText');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { finishBoot(); return; }
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    let text = '';
+    for (const line of BOOT) {
+        for (const ch of line) {
+            if (bootDone) return;
+            text += ch;
+            el.textContent = text + '█';
+            await wait(4);
+        }
+        text += '\n';
+        el.textContent = text + '█';
+        await wait(45);
+    }
+    if (bootDone) return;
+    el.textContent = text;
+    for (const id of WINDOWS) {
+        if (bootDone) return;
+        $(id).classList.remove('pending');
+        refreshSliders();
+        fitScopes();
+        await wait(110);
+    }
+    bootDone = true;
+}
+
+addEventListener('click', finishBoot, { once: true });
+addEventListener('keydown', finishBoot, { once: true });
+
+buildCodecPicker();
+buildArt();
+refreshSliders();
+runBoot();
+frame();
+</script>
+</body>
+</html>

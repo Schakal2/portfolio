@@ -7,18 +7,15 @@ export function MarkStar({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 200 200" className={className} aria-hidden="true">
       <polygon className={styles.polygon} points={STAR_POINTS} />
-      <text x="100" y="93" textAnchor="middle" className={styles.letters}>
-        J_
-      </text>
-      <text x="100" y="122" textAnchor="middle" className={styles.letters}>
-        W!
+      <text x="100" y="105" textAnchor="middle" className={styles.letters}>
+        JULIAN WEGNER
       </text>
     </svg>
   )
 }
 
-export function RingBadge({ words }: { words: string[] }) {
-  const ringText = `${words.join(" • ")} • `
+export function RingBadge({ name }: { name: string }) {
+  const ringText = `${Array(6).fill(name).join(" • ")} • `
 
   return (
     <div className={styles.ringWrap} aria-hidden="true">

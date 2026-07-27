@@ -5,8 +5,9 @@ import { MarkStar } from "@/components/mark-badge"
 import styles from "./site-footer.module.css"
 
 export function SiteFooter() {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
   const year = new Date().getFullYear()
+  const cvHref = locale === "de" ? "/images/cv-de.png" : "/images/cv-en.png"
 
   return (
     <footer className={styles.footer} id="contact">
@@ -15,6 +16,9 @@ export function SiteFooter() {
         <h5>{t.footer.navTitle}</h5>
         <a href="/">{t.nav.home}</a>
         <a href="/#work">{t.nav.work}</a>
+        <a href={cvHref} target="_blank" rel="noopener noreferrer">
+          {t.nav.cv}
+        </a>
       </div>
       <div className={styles.col}>
         <h5>{t.footer.contactTitle}</h5>
