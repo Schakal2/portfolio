@@ -40,7 +40,9 @@ interface Content {
     rights: string
   }
   caseStudies: {
-    ebehoerde: CaseStudyCopy
+    Wt186: CaseStudyCopy
+    codec: CaseStudyCopy
+    Ebehoerde: CaseStudyCopy
     planora: CaseStudyCopy
     flavorFusion: CaseStudyCopy
   }
@@ -147,7 +149,7 @@ export const content: Record<Locale, Content> = {
           "WT-186 ist ein experimentelles Audio-Plugin, das Bild- und Audiodateien in dynamischen Klang verwandelt. Entstanden als Projekt während der UX/UI-Weiterbildung bei neue fische.",
         tags: ["UX/UI Design", "Interaction Design"],
       },
-      ebehoerde: {
+      Ebehoerde: {
         back: "Zurück zur Übersicht",
         role: "Digitale Behördenplattform",
         intro:
@@ -268,7 +270,7 @@ export const content: Record<Locale, Content> = {
       rights: "All rights reserved.",
     },
     caseStudies: {
-      ebehoerde: {
+      Ebehoerde: {
         back: "Back to overview",
         role: "Digital government platform",
         intro:
