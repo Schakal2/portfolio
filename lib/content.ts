@@ -82,7 +82,7 @@ export const content: Record<Locale, Content> = {
           headline:
             "Verwandelt hochgeladene Bild- und Audiodateien per Drag-and-Drop in dynamischen Klang.",
           meta: "UX/UI Design · Interaction Design",
-          tag: "Bald verfügbar",
+          tag: "Audio Plug-In",
           href: "/wt186",
           ctaLabel: "Case Study lesen",
           cover: "/images/wt186/1.png",
@@ -93,7 +93,7 @@ export const content: Record<Locale, Content> = {
           role: "Digitale Behördenplattform",
           headline:
             "Eine digitale Plattform, die die Interaktion zwischen Bürger:innen und Behörden in Deutschland erleichtert.",
-          meta: "UX/UI Design · Service Design",
+          meta: "UX/UI Design · Service Design · Mobile",
           tag: "Case Study",
           href: "/ebehoerde",
           ctaLabel: "Case Study lesen",
