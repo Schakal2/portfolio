@@ -42,7 +42,7 @@ interface Content {
   caseStudies: {
     Wt186: CaseStudyCopy
     codec: CaseStudyCopy
-    Ebehoerde: CaseStudyCopy
+    ebehoerde: CaseStudyCopy
     planora: CaseStudyCopy
     flavorFusion: CaseStudyCopy
   }
