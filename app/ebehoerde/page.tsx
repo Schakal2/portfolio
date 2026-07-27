@@ -10,7 +10,7 @@ export default function eBehoerdePage() {
   return (
     <CaseStudyPage
       title="eBehörde"
-      copy={t.caseStudies.Ebehoerde}
+      copy={t.caseStudies.ebehoerde}
       cover={ebehoerdeCover}
       gallery={ebehoerdeGallery}
     />

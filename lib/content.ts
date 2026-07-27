@@ -149,7 +149,7 @@ export const content: Record<Locale, Content> = {
           "WT-186 ist ein experimentelles Audio-Plugin, das Bild- und Audiodateien in dynamischen Klang verwandelt. Entstanden als Projekt während der UX/UI-Weiterbildung bei neue fische.",
         tags: ["UX/UI Design", "Interaction Design"],
       },
-      Ebehoerde: {
+      ebehoerde: {
         back: "Zurück zur Übersicht",
         role: "Digitale Behördenplattform",
         intro:
@@ -270,7 +270,7 @@ export const content: Record<Locale, Content> = {
       rights: "All rights reserved.",
     },
     caseStudies: {
-      Ebehoerde: {
+      ebehoerde: {
         back: "Back to overview",
         role: "Digital government platform",
         intro:
