@@ -4,6 +4,17 @@ export interface CaseStudyImage {
   height: number
 }
 
+export const wtCover: CaseStudyImage = {
+  src: "/images/wt186/1.png",
+  width: 1440,
+  height: 1080,
+}
+
+export const wtGallery: CaseStudyImage[] = [
+  { src: "/images/wt186/2.png", width: 1440, height: 1080 },
+
+]
+
 export const ebehoerdeCover: CaseStudyImage = {
   src: "/images/ebehoerde-cover.png",
   width: 1535,
@@ -42,4 +53,16 @@ export const flavorFusionCover: CaseStudyImage = {
 export const flavorFusionGallery: CaseStudyImage[] = [
   { src: "/images/flavor-fusion/landing.png", width: 1440, height: 4695 },
   { src: "/images/flavor-fusion/app-screen.png", width: 390, height: 844 },
+]
+
+export const codecCover: CaseStudyImage = {
+  src: "/images/NOISE-CODEC v6.0/2.png",
+  width: 1440,
+  height: 1080,
+}
+
+export const codecGallery: CaseStudyImage[] = [
+  { src: "/images/NOISE-CODEC v6.0/1.png", width: 1440, height: 1080 },
+  { src: "/images/NOISE-CODEC v6.0/vid.mov", width: 1440, height: 1080 },
+
 ]

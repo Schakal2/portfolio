@@ -81,7 +81,7 @@ export const content: Record<Locale, Content> = {
             "Verwandelt hochgeladene Bild- und Audiodateien per Drag-and-Drop in dynamischen Klang.",
           meta: "UX/UI Design · Interaction Design",
           tag: "Bald verfügbar",
-          href: null,
+          href: "/wt186",
           ctaLabel: "Case Study lesen",
         },
       {
@@ -114,9 +114,10 @@ export const content: Record<Locale, Content> = {
           role: "Projekt in Arbeit",
           headline: "Case Study folgt.",
           meta: "Interaction Design",
-          tag: "Bald verfügbar",
-          href: null,
+          tag: "Product page",
+          href: "/Codec",
           ctaLabel: "Case Study lesen",
+          cover: "/images/NOISE-CODEC v6.0/2.png",
         },
         {
           slug: "flavor-fusion",
@@ -138,6 +139,13 @@ export const content: Record<Locale, Content> = {
       rights: "Alle Rechte vorbehalten.",
     },
     caseStudies: {
+      Wt186: {
+        back: "Zurück zur Übersicht",
+        role: "Wave-Terrain-Synthesizer-Plugin",
+        intro:
+          "WT-186 ist ein experimentelles Audio-Plugin, das Bild- und Audiodateien in dynamischen Klang verwandelt. Entstanden als Projekt während der UX/UI-Weiterbildung bei neue fische.",
+        tags: ["UX/UI Design", "Interaction Design"],
+      },
       ebehoerde: {
         back: "Zurück zur Übersicht",
         role: "Digitale Behördenplattform",
@@ -158,6 +166,13 @@ export const content: Record<Locale, Content> = {
         intro:
           "FlavorFusion ist die Landingpage für eine Rezept-App: Rezepte entdecken, Einkaufslisten verwalten und mit dem Hands-free-Modus entspannt kochen, ohne das Handy anzufassen.",
         tags: ["UX/UI Design", "Landing Page"],
+      },
+      codec: {
+        back: "Zurück zur Übersicht",
+        role: "Experimental Audio Encoder",
+        intro:
+          "Codec ist ein experimenteller Audio-Encoder, der Bild- und Audiodateien in dynamischen Klang verwandelt. Entstanden als Projekt während der UX/UI-Weiterbildung bei neue fische.",
+        tags: ["UX/UI Design", "Interaction Design"],
       },
     },
   },
@@ -206,9 +221,10 @@ export const content: Record<Locale, Content> = {
           headline:
             "Turns uploaded image and audio files into dynamic sound through drag-and-drop integration.",
           meta: "UX/UI Design · Interaction Design",
-          tag: "Coming soon",
-          href: null,
+          tag: "Case Study",
+          href: "/wt186",
           ctaLabel: "Read case study",
+          cover: "/images/wt186/1.png",
         },
         {
           slug: "planora",
@@ -240,7 +256,7 @@ export const content: Record<Locale, Content> = {
           headline: "Case study coming soon.",
           meta: "Interaction Design",
           tag: "Coming soon",
-          href: null,
+          href: "/codec",
           ctaLabel: "Read case study",
         },
       ],
@@ -271,6 +287,20 @@ export const content: Record<Locale, Content> = {
         intro:
           "FlavorFusion is the landing page for a recipe app: discover recipes, manage shopping lists, and cook hands-free without touching your phone.",
         tags: ["UX/UI Design", "Landing Page"],
+      },
+      codec: {
+        back: "Back to overview",
+        role: "Experimental Audio Encoder",
+        intro:
+          "Codec is an experimental audio encoder that turns image and audio files into dynamic sound. Built as a project during a UX/UI training at neue fische.",
+        tags: ["UX/UI Design", "Interaction Design"],
+      },
+      Wt186: {
+        back: "Back to overview",
+        role: "Wave-terrain synthesizer plugin",
+        intro:
+          "WT-186 is an experimental audio plugin that turns image and audio files into dynamic sound. Built as a project during a UX/UI training at neue fische.",
+        tags: ["UX/UI Design", "Interaction Design"],
       },
     },
   },
