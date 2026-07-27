@@ -83,6 +83,7 @@ export const content: Record<Locale, Content> = {
           tag: "Bald verfügbar",
           href: "/wt186",
           ctaLabel: "Case Study lesen",
+          cover: "/images/wt186/1.png",
         },
       {
           slug: "ebehoerde",

@@ -10,7 +10,7 @@ export default function WtPage() {
   return (
     <CaseStudyPage
       title="WT-186"
-      copy={t.caseStudies.wt}
+      copy={t.caseStudies.Wt186}
       cover={wtCover}
       gallery={wtGallery}
     />
