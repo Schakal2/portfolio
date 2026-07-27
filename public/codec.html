@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
     <title>NOISE-CODEC v6.0</title>
     <style>
         /* ============================================================
@@ -1041,13 +1042,32 @@ function pullSlice(n) {
 
 async function armRecorder() {
     const ctx = getCtx();
-    try {
-        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    } catch (err) {
-        $('recMeta').textContent = 'mic: DENIED';
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        // Safari/iOS only exposes getUserMedia in a secure context (https,
+        // or the literal host "localhost"). Over plain http on a LAN IP
+        // the whole mediaDevices object is missing, so this must be
+        // checked before even trying to call it.
+        $('recMeta').textContent = 'mic: unavailable (needs https)';
         setMode('idle');
         return;
     }
+
+    try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (err) {
+        $('recMeta').textContent = 'mic: DENIED (' + (err && err.name || 'error') + ')';
+        setMode('idle');
+        return;
+    }
+
+    // iOS can leave the context suspended even after resume() was called
+    // pre-permission, so make sure it is actually running before wiring
+    // up the processor — otherwise onaudioprocess silently never fires.
+    if (ctx.state === 'suspended') {
+        try { await ctx.resume(); } catch (err) {}
+    }
+
     const source = ctx.createMediaStreamSource(micStream);
     procNode = ctx.createScriptProcessor(1024, 1, 1);
     monitorGain = ctx.createGain();
