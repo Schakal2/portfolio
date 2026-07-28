@@ -4,7 +4,12 @@ import { useLocale } from "@/lib/locale-context"
 import { RingBadge } from "@/components/mark-badge"
 import styles from "./hero.module.css"
 
-export function Hero() {
+interface HeroProps {
+  selectedSkill?: string | null
+  onSelectSkill?: (skill: string | null) => void
+}
+
+export function Hero({ selectedSkill, onSelectSkill }: HeroProps) {
   const { t } = useLocale()
 
   return (
@@ -22,12 +27,24 @@ export function Hero() {
             {t.hero.cta} <span aria-hidden="true">&gt;</span>
           </a>
           <ul className={styles.skills}>
-            {t.skills.map((skill) => (
-              <li key={skill}>{skill}</li>
-            ))}
+            {t.skills.map((skill) => {
+              const isSelected = selectedSkill === skill
+              return (
+                <li key={skill}>
+                  <button
+                    type="button"
+                    onClick={() => onSelectSkill?.(skill)}
+                    className={`${styles.skillBtn} ${isSelected ? styles.activeSkill : ""}`}
+                    aria-pressed={isSelected}
+                  >
+                    {skill}
+                  </button>
+                </li>
+              )
+            })}
           </ul>
         </div>
-        <RingBadge name="Julian Wegner" />
+        <RingBadge text="UX Design · UI Design · Web Design · " />
       </div>
     </section>
   )

@@ -20,20 +20,30 @@ export function MarkStar({
   )
 }
 
-export function RingBadge({ name }: { name: string }) {
-  const ringText = `${Array(6).fill(name).join(" • ")} • `
+export function RingBadge({ text }: { text: string }) {
+  // Placing each character at its own angle (instead of flowing text along
+  // a <textPath>) guarantees the loop closes exactly, whatever the text —
+  // textPath length never matched the circle's circumference perfectly,
+  // which is what cut the last word off mid-way and overlapped it with
+  // the start.
+  const chars = text.toUpperCase().split("")
+  const step = 360 / chars.length
 
   return (
     <div className={styles.ringWrap} aria-hidden="true">
       <svg className={styles.ring} viewBox="0 0 260 260">
-        <defs>
-          <path id="markRingPath" d="M 130,130 m -100,0 a 100,100 0 1,1 200,0 a 100,100 0 1,1 -200,0" />
-        </defs>
-        <text className={styles.ringText}>
-          <textPath href="#markRingPath" startOffset="0%">
-            {ringText}
-          </textPath>
-        </text>
+        {chars.map((char, i) => (
+          <text
+            key={i}
+            x="130"
+            y="30"
+            textAnchor="middle"
+            transform={`rotate(${i * step} 130 130)`}
+            className={styles.ringChar}
+          >
+            {char === " " ? " " : char}
+          </text>
+        ))}
       </svg>
       <div className={styles.star}>
         <MarkStar className={styles.starSvg} hideShape />
