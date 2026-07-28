@@ -13,17 +13,10 @@ export interface WorkItem {
   external?: boolean
 }
 
-export interface CaseStudySection {
-  heading: string
-  body: string
-}
-
 export interface CaseStudyCopy {
   back: string
   role: string
-  intro: string
   tags: string[]
-  sections?: CaseStudySection[]
 }
 
 interface Content {
@@ -151,47 +144,21 @@ export const content: Record<Locale, Content> = {
       Wt186: {
         back: "Zurück zur Übersicht",
         role: "Wave-Terrain-Synthesizer-Plugin",
-        intro:
-          "WT-186 ist ein selbst entwickeltes Wave-Terrain-Synthesizer-Plug-in für die Musikproduktion — entstanden aus einem Studienhintergrund in Digital Signal Processing (DSP) und der Idee, Klangerzeugung visuell und intuitiv erlebbar zu machen.",
         tags: ["UX/UI Design", "Interaction Design"],
-        sections: [
-          {
-            heading: "Vision & Konzept",
-            body: "Die Erzählidee: ein abstraktes DSP-Konzept in physischer Realität verankern — mit den Höhendaten des Mount Everest entsteht ein organischer, weiträumiger Cosmic-Pad-Sound. Die Grundphilosophie dahinter: Ein visuelles Interface schafft eine intuitivere Verbindung zwischen dem, was einen Klang erzeugt, und wie diese Erzeugung sichtbar wird — statt sich im Menü zu verlieren.",
-          },
-          {
-            heading: "Interface & Navigation",
-            body: "Ein Dual-View-Feedback-Loop: das Sonar-LCD, ein kompaktes Display mit Fadenkreuz zur genauen Positionsanzeige — angelehnt an eine Sonar-Radar-Ästhetik, ohne mit rohen Höhendaten zu überfordern —, kombiniert mit der Terrain View, einer großen Visualisierung, die den Orbitalpfad als fließendes Band über die geografischen Höhendaten legt. Orbit-Mechanik und Sound-Shaping (ADSR, FX) sind klar voneinander getrennt, damit der Workflow musikerfreundlich bleibt.",
-          },
-          {
-            heading: "Herausforderungen & Lösungen",
-            body: "Feinsteuerung vs. Spielbarkeit: Der Orbital-Speed-Regler wurde in Grob- und Feineinstellung aufgeteilt, um einen extrem sensiblen Parameterbereich zu zähmen. Klangchaos bändigen: Da eine kleine Wellenform, die pro Zyklus riesige Terrain-Daten abtastet, schnell zu extremem Rauschen führt, dienen dedizierte FX- und Makro-Bereiche als kreative Leitplanken. Die Mod-Matrix neu gedacht: Statt einer sperrigen Grid-Seite läuft Modulation über die direkte Interaktion mit dem Morph-Button — Parameter leuchten beim Hover dezent auf und zeigen aktive Modulationen (LFOs, Hüllkurven), ohne den Screen zu überladen.",
-          },
-          {
-            heading: "User-Testing & Validierung",
-            body: "Die Validierung entwickelte sich von informellen Synth-Jams und Dogfooding hin zu strukturierten Nutzer:inneninterviews und Usability-Tests, mit Fokus auf drei Fragen: Sind die Drag-Affordanzen an den Reglern für neue Nutzer:innen sofort erkennbar? Kommunizieren modulierbare Knobs und Slider ihren Zustand auch ohne versteckte Einstellungsseite? Und wie gut lässt sich das Hover-basierte Licht-Modell auf unterschiedlicher Hardware entdecken?",
-          },
-        ],
       },
       ebehoerde: {
         back: "Zurück zur Übersicht",
         role: "Digitale Behördenplattform",
-        intro:
-          "eBehörde ist eine digitale Plattform, die entwickelt wurde, um die Interaktion der Bürgerinnen und Bürger mit den Behörden in Deutschland zu erleichtern. Entstanden als Capstone-Projekt der UX/UI-Weiterbildung bei neue fische — von der Nutzer:innen-Befragung bis zum fertigen Interface.",
         tags: ["UX/UI Design", "Service Design"],
       },
       planora: {
         back: "Zurück zur Übersicht",
         role: "Reise-App",
-        intro:
-          "Planora vereint jedes Detail einer Reise an einem Ort — vom Notizenmachen über gespeicherte Orte bis zur Organisation von Tagesausflügen und Reisezeiten. Entstanden während der UX/UI-Weiterbildung bei neue fische.",
         tags: ["UX/UI Design", "Mobile"],
       },
       flavorFusion: {
         back: "Zurück zur Übersicht",
         role: "Rezept-App Landingpage",
-        intro:
-          "FlavorFusion ist die Landingpage für eine Rezept-App: Rezepte entdecken, Einkaufslisten verwalten und mit dem Hands-free-Modus entspannt kochen, ohne das Handy anzufassen.",
         tags: ["UX/UI Design", "Landing Page"],
       },
     },
@@ -222,18 +189,6 @@ export const content: Record<Locale, Content> = {
       banner: "Featured Work",
       items: [
         {
-          slug: "ebehoerde",
-          title: "eBehörde",
-          role: "Digital government platform",
-          headline:
-            "A digital platform designed to make it easier for citizens to interact with government agencies in Germany.",
-          meta: "UX/UI Design · Service Design",
-          tag: "Case Study",
-          href: "/ebehoerde",
-          ctaLabel: "Read case study",
-          cover: "/images/ebehoerde-cover.png",
-        },
-        {
           slug: "wt-186",
           title: "WT-186",
           role: "Wave-terrain synthesizer plugin",
@@ -244,6 +199,18 @@ export const content: Record<Locale, Content> = {
           href: "/wt186",
           ctaLabel: "Read case study",
           cover: "/images/wt186/1.png",
+        },
+        {
+          slug: "ebehoerde",
+          title: "eBehörde",
+          role: "Digital government platform",
+          headline:
+            "A digital platform designed to make it easier for citizens to interact with government agencies in Germany.",
+          meta: "UX/UI Design · Service Design",
+          tag: "Case Study",
+          href: "/ebehoerde",
+          ctaLabel: "Read case study",
+          cover: "/images/ebehoerde-cover.png",
         },
         {
           slug: "planora",
@@ -292,48 +259,22 @@ export const content: Record<Locale, Content> = {
       ebehoerde: {
         back: "Back to overview",
         role: "Digital government platform",
-        intro:
-          "eBehörde is a digital platform designed to make it easier for citizens to interact with government agencies in Germany. Built as the capstone project of a UX/UI training at neue fische — from user research to the final interface.",
         tags: ["UX/UI Design", "Service Design"],
       },
       planora: {
         back: "Back to overview",
         role: "Travel app",
-        intro:
-          "Planora brings every detail of a trip into one place — from notes and saved spots to organizing day trips and timing. Built during a UX/UI training at neue fische.",
         tags: ["UX/UI Design", "Mobile"],
       },
       flavorFusion: {
         back: "Back to overview",
         role: "Recipe app landing page",
-        intro:
-          "FlavorFusion is the landing page for a recipe app: discover recipes, manage shopping lists, and cook hands-free without touching your phone.",
         tags: ["UX/UI Design", "Landing Page"],
       },
       Wt186: {
         back: "Back to overview",
         role: "Wave-terrain synthesizer plugin",
-        intro:
-          "WT-186 is a custom-built wave terrain synthesizer plug-in for music production — grown out of a background in Digital Signal Processing (DSP) and the idea of making sound design visual and intuitive.",
         tags: ["UX/UI Design", "Interaction Design"],
-        sections: [
-          {
-            heading: "Vision & Concept",
-            body: "The narrative hook: grounding an abstract DSP concept in physical reality — Mount Everest's height data generates an organic, sweeping cosmic pad sound. The core philosophy: a visual interface creates a more intuitive connection between what shapes a sound and how that shaping is represented, instead of sterile menu-diving.",
-          },
-          {
-            heading: "Interface & Navigation",
-            body: "A dual-view feedback loop: the Sonar LCD, a compact screen with a crosshair marking the current position — echoing a sonar-radar aesthetic without overwhelming the user with raw height data — paired with the Terrain View, a larger visualization showing the orbital path as a flowing ribbon across the geographic terrain data. Orbit mechanics and sound-shaping (ADSR, FX) live in clearly separated sections to keep the workflow musician-friendly.",
-          },
-          {
-            heading: "Challenges & Solutions",
-            body: "Granular control vs. playability: the orbital Speed fader was split into coarse and fine controls to tame an extremely sensitive parameter range. Taming sonic chaos: because a small waveform sampling vast terrain data in one cycle risks extreme noise, dedicated FX and macro sections act as creative safety rails. Reinventing the mod matrix: instead of a cumbersome grid page, modulation runs through direct manipulation of the morph button, with parameters subtly lighting up on hover to reveal active modulations (LFOs, envelopes) without cluttering the screen.",
-          },
-          {
-            heading: "User Testing & Validation",
-            body: "Validation moved from informal synth jams and dogfooding to structured user interviews and usability tests, focused on three questions: are the drag affordances on handlers immediately clear to new users, do modulatable knobs and sliders communicate their state without a hidden settings page, and how discoverable is the hover-based lighting model across different hardware setups.",
-          },
-        ],
       },
     },
   },

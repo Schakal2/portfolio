@@ -3,10 +3,16 @@ import styles from "./mark-badge.module.css"
 const STAR_POINTS =
   "100,4 112,70 170,36 128,90 196,100 128,110 170,164 112,130 100,196 88,130 30,164 72,110 4,100 72,90 30,36 88,70"
 
-export function MarkStar({ className }: { className?: string }) {
+export function MarkStar({
+  className,
+  hideShape,
+}: {
+  className?: string
+  hideShape?: boolean
+}) {
   return (
     <svg viewBox="0 0 200 200" className={className} aria-hidden="true">
-      <polygon className={styles.polygon} points={STAR_POINTS} />
+      {!hideShape && <polygon className={styles.polygon} points={STAR_POINTS} />}
       <text x="100" y="105" textAnchor="middle" className={styles.letters}>
         JULIAN WEGNER
       </text>
@@ -30,7 +36,7 @@ export function RingBadge({ name }: { name: string }) {
         </text>
       </svg>
       <div className={styles.star}>
-        <MarkStar className={styles.starSvg} />
+        <MarkStar className={styles.starSvg} hideShape />
       </div>
     </div>
   )

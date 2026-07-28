@@ -7,7 +7,7 @@ import styles from "./site-header.module.css"
 
 export function SiteHeader() {
   const { t, locale } = useLocale()
-  const cvHref = locale === "de" ? "/images/cv-de.png" : "/images/cv-en.png"
+  const cvHref = locale === "de" ? "/images/cv-de.pdf" : "/images/cv-en.pdf"
 
   return (
     <header className={styles.top}>

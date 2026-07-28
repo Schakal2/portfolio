@@ -25,6 +25,19 @@
   animation: spin 24s linear infinite;
 }
 
+/* Desktop (real hover + precise pointer): ring stays still, only spins
+   while the mouse is over it. Touch devices keep the default — always
+   spinning, since there is no hover there to trigger it. */
+@media (hover: hover) and (pointer: fine) {
+  .ring {
+    animation-play-state: paused;
+  }
+
+  .ringWrap:hover .ring {
+    animation-play-state: running;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ring {
     animation: none;

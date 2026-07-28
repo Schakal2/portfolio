@@ -7,11 +7,11 @@ import styles from "./site-footer.module.css"
 export function SiteFooter() {
   const { t, locale } = useLocale()
   const year = new Date().getFullYear()
-  const cvHref = locale === "de" ? "/images/cv-de.png" : "/images/cv-en.png"
+  const cvHref = locale === "de" ? "/images/cv-de.pdf" : "/images/cv-en.pdf"
 
   return (
     <footer className={styles.footer} id="contact">
-      <MarkStar className={styles.badge} />
+      <MarkStar className={styles.badge} hideShape />
       <div className={styles.col}>
         <h5>{t.footer.navTitle}</h5>
         <a href="/">{t.nav.home}</a>

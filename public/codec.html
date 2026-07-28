@@ -203,14 +203,6 @@
         .sprite.loud { color: var(--fg); }
         #bootSprites { display: flex; gap: 22px; flex-wrap: wrap; padding: 6px 12px 0; max-width: 900px; margin: 0 auto; }
 
-        /* Each row of a pattern is its own line so it can slide sideways
-           independently — that is what makes it ripple with the sound. */
-        .pattern { font-size: 10px; line-height: 1.05; color: var(--dim); user-select: none; cursor: crosshair; }
-        .pattern div { white-space: pre; will-change: transform; }
-        .pattern:hover { color: var(--amber); }
-        .pattern.loud { color: var(--fg); }
-        .pattern-cap { font-size: 0.68em; color: var(--dark); letter-spacing: 1px; text-align: right; }
-
         /* ============================================================
            11. SOUND BOARD + MANUAL
            ============================================================ */
@@ -355,10 +347,6 @@
                         <button class="abtn abtn-sm" data-label="GLITCH" data-w="10" data-style="bracket" data-seq="M9r9P9t9S9v9"></button>
                         <button class="abtn abtn-sm" data-label="ALARM"  data-w="10" data-style="bracket" data-seq="P9T9P9T9P9T9"></button>
                     </div>
-                </div>
-                <div>
-                    <div class="pattern" id="stitchPanel" data-pattern="stitch"></div>
-                    <div class="pattern-cap">Simple<br>Cross-Stitch Pattern<br>gfj/98</div>
                 </div>
             </div>
         </div>
@@ -1306,24 +1294,6 @@ const ART = {
     face:     { a: ' ┌─────┐\n │ ▪ ▪ │\n │  ▽  │\n └─────┘', b: ' ┌─────┐\n │ ◕ ◕ │\n │  ○  │\n └─────┘' }
 };
 
-/* The cross-stitch panel. Each line is its own element so the rows can
-   slide sideways independently and ripple with the sound. */
-const PATTERNS = {
-    stitch: [
-        '<>================================<>',
-        '||\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/||',
-        '||<> <> <> <> <> <> <> <> <> <> <>||',
-        '||/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\||',
-        '||================================||',
-        '||<> <> <> <> <> <> <> <> <> <> <>||',
-        '||================================||',
-        '||/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\||',
-        '||<> <> <> <> <> <> <> <> <> <> <>||',
-        '||\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/||',
-        '<>================================<>'
-    ]
-};
-
 function buildArt() {
     $('bootSprites').innerHTML = '';
     ['cassette', 'robot', 'tower', 'floppy', 'cat', 'eye', 'face'].forEach(name => {
@@ -1338,16 +1308,6 @@ function buildArt() {
         s.appendChild(pre);
         s.addEventListener('mouseenter', () => s.dataset.hover = '1');
         s.addEventListener('mouseleave', () => s.dataset.hover = '');
-    });
-    document.querySelectorAll('.pattern').forEach(p => {
-        p.innerHTML = '';
-        PATTERNS[p.dataset.pattern].forEach(line => {
-            const d = document.createElement('div');
-            d.textContent = line;
-            p.appendChild(d);
-        });
-        p.addEventListener('mouseenter', () => p.dataset.hover = '1');
-        p.addEventListener('mouseleave', () => p.dataset.hover = '');
     });
 }
 
@@ -1367,16 +1327,6 @@ function animateArt() {
             const amp = Math.min(3, loud ? audioLevel * 14 : 1.2);
             s.style.transform = `translate(${(Math.random() - .5) * amp}px, ${(Math.random() - .5) * amp}px)`;
         } else if (s.style.transform) s.style.transform = '';
-    });
-
-    // rows ripple as a travelling wave, so the weave reads like a scope
-    document.querySelectorAll('.pattern').forEach(p => {
-        const hover = p.dataset.hover === '1';
-        const amp = loud ? Math.min(9, audioLevel * 11) : (hover ? 2.2 : 0.6);
-        p.classList.toggle('loud', loud);
-        [...p.children].forEach((row, i) => {
-            row.style.transform = `translateX(${Math.sin(artClock + i * 0.55) * amp}px)`;
-        });
     });
 
     $('algoBanner').classList.toggle('loud', loud);
