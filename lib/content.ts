@@ -251,13 +251,13 @@ export const content: Record<Locale, Content> = {
     meta: {
       title: "Julian Wegner — UX/UI Designer",
       description:
-        "Julian Wegner is a UX/UI designer with a background in film production and web development. Portfolio with case studies and projects.",
+        "Julian Wegner is a UX/UI designer with a background in audio and web development. Portfolio with case studies and projects.",
     },
     nav: { home: "Home", work: "Work", contact: "Contact", cv: "CV" },
     hero: {
       banner: "Welcome",
-      heading: "Hi, I'm Julian — a UX/UI designer who came up through set and code.",
-      bio: "I design digital products that feel clear, usable, and have character. With a background in film production and web development, I bring structure and curiosity to every project.",
+      heading: "Hi, I'm Julian. I design intuitive digital experiences grounded in a deep technical foundation.",
+      bio: "I design digital products that feel clear, usable, and have character. With a background in audio and web development, I bring structure and curiosity to every project.",
       cta: "View projects",
     },
     skills: [
