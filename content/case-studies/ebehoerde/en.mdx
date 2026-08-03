@@ -1,13 +1,99 @@
-eBehörde is a digital platform designed to make it easier for citizens to interact with government agencies in Germany. Built as the capstone project of a UX/UI training at neue fische — from user research to the final interface.
+<MetaGrid>
+  <MetaItem label="Team" value="2 UX/UI Designers" />
+  <MetaItem label="My Role" value="UX Research, Prototyping, Form Logic & Layout Architecture" />
+  <MetaItem label="Duration" value="4 Weeks" />
+  <MetaItem label="Goal" value="Relieving citizens & public offices through real-time transparency" />
+</MetaGrid>
 
-![](/images/ebehoerde/slice-1.png)
+## Background & Problem Statement
 
-![](/images/ebehoerde/slice-2.png)
+<Callout>
+Imagine this: You sit in a crowded waiting room at your local government office for 2 hours. When your number is finally called, you are told at the counter in 30 seconds: *“Proof of income is missing on page 4, please book another appointment.”*
+</Callout>
 
-![](/images/ebehoerde/slice-3.png)
+In Germany, public offices are legally required under the Online Access Act (OZG) to provide digital service applications. However, the reality often falls short: citizens submit documents via email or post and hear nothing for weeks.
 
-![](/images/ebehoerde/slice-4.png)
+The result? Persistent anxiety for applicants, confusion over missing paperwork, and overloaded phone helplines at public offices handling nervous status check calls.
 
-![](/images/ebehoerde/slice-5.png)
+<StatGrid>
+  <StatCard number="3+ Weeks" label="Uncertainty following submission without any processing status update" />
+  <StatCard number="80%" label="Of PDF form fields are irrelevant to individual cases, yet still must be scanned" />
+  <StatCard number="100%" label="Avoidable in-person visits that could be clarified digitally in 1 minute" />
+</StatGrid>
 
-![](/images/ebehoerde/slice-6.png)
+---
+
+## Discovery: 30 Survey Responses & 4 In-Depth Interviews
+
+To avoid building in a vacuum, we surveyed 30 citizens and conducted 4 intensive user interviews. From this data, we crafted 2 **User Personas** and a **User Journey Map** revealing peak points of frustration.
+
+<StatGrid>
+  <StatCard number="30" label="Citizens surveyed in quantitative research" />
+  <StatCard number="4" label="In-depth user interviews analyzing pain points" />
+  <StatCard number="2" label="User Personas & 1 comprehensive User Journey Map" />
+</StatGrid>
+
+![](/images/ebehoerde/SurveyEN.png)
+
+### Core Citizen Demands:
+1. **“Just tell me where my application is.”** (Real-time tracking timeline)
+2. **“Help me organize my paperwork.”** (Clear division into *pending* vs *completed*)
+3. **“Don't torture me with 10-page PDFs.”** (Answering only relevant questions)
+
+![](/images/ebehoerde/UserPersonaEN.png)
+![](/images/ebehoerde/JourneyMapEN.png)
+
+---
+
+## From Confusion to Clarity: User Flow & Prototyping
+
+With the User Journey in place, we mapped the **User Flow** and iterated across **Lo-Fi** and **Hi-Fi prototypes**.
+
+![](/images/ebehoerde/UserFlowEN.png)
+![](/images/ebehoerde/HIFI1EN.png)
+
+### 3 Key Screens
+
+#### 1. Dashboard: Application Tracker
+Instead of worrying for weeks, the visual timeline shows current progress (*Submitted → Under Review → Approved*). Immediate notifications flag missing documents.
+
+---
+
+#### 2. Digital Document Vault (Family File)
+Never lose track of uploaded paperwork. The vault separates **pending items** from **completed procedure archives**.
+
+---
+
+#### 3. Smart Forms: 5 Pages of Bureaucracy Bypassed
+An interactive questionnaire replaces static PDFs, using logic jumps to bypass irrelevant sections automatically.
+
+---
+
+![](/images/ebehoerde/HIFI2EN.png)
+
+## Explorations & Decisions: Color & Form Architecture
+
+<Exploration title="Color Palette 1: German Flag Colors (Black, Red, Gold)" selected={false}>
+Felt outdated, visually overwhelming, and lacked accessible contrast for visually impaired users.
+</Exploration>
+
+<Exploration title="Color Palette 2: Accessible Blue & Slate Gray (WCAG Compliant)" selected={true}>
+Meets high accessibility standards (WCAG), conveys trust, and guarantees optimal legibility.
+</Exploration>
+
+<Exploration title="Forms 1: Digitizing static paper PDFs 1:1" selected={false}>
+Does not solve the root issue: language remains cryptic and non-applicable fields still confuse users.
+</Exploration>
+
+<Exploration title="Forms 2: Dynamic step-by-step logic + application timeline" selected={true}>
+Removes 90% of user anxiety. Pending actions are immediately clear and completed records safely archived.
+</Exploration>
+
+---
+
+## Key Takeaways
+
+<Callout>
+**Structured organization & accessible design remove anxiety from bureaucracy.**
+When an interface clearly separates *pending* from *completed* tasks, embraces accessibility, and communicates status transparently, the process remains simple — regardless of how complex the underlying public service is.
+</Callout>

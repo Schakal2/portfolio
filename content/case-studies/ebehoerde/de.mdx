@@ -1,13 +1,99 @@
-eBehörde ist eine digitale Plattform, die entwickelt wurde, um die Interaktion der Bürgerinnen und Bürger mit den Behörden in Deutschland zu erleichtern. Entstanden als Capstone-Projekt der UX/UI-Weiterbildung bei neue fische — von der Nutzer:innen-Befragung bis zum fertigen Interface.
+<MetaGrid>
+  <MetaItem label="Team" value="2 UX/UI Designer" />
+  <MetaItem label="Meine Rolle" value="UX Research, Prototyping, Formular-Logik & Layout" />
+  <MetaItem label="Dauer" value="4 Wochen" />
+  <MetaItem label="Ziel" value="Entlastung von Bürger:innen & Ämtern durch Transparenz" />
+</MetaGrid>
 
-![](/images/ebehoerde/slice-1.png)
+## Hintergründe & Problemstellung
 
-![](/images/ebehoerde/slice-2.png)
+<Callout>
+Stell dir vor: Du sitzt 2 Stunden im überfüllten Wartebereich deiner lokalen Behörde. Als du endlich aufgerufen wirst, erfährst du am Schalter in 30 Sekunden: *„Da fehlt noch der Gehaltsnachweis auf Seite 4, bitte kommen Sie mit Termin wieder.“* 
+</Callout>
 
-![](/images/ebehoerde/slice-3.png)
+In Deutschland sind Behörden durch das Online-Zugangsgesetz (OZG) verpflichtet, Anträge digital anzubieten. Doch die Realität sieht oft anders aus: Bürger:innen senden Dokumente per Mail oder Post ab und hören Wochen lang absolut nichts. 
 
-![](/images/ebehoerde/slice-4.png)
+Das Ergebnis? Ständige Unruhe bei den Antragsteller:innen, Verwirrung über noch benötigte Zettel und überlastete Behörden-Hotlines durch nervöse Nachfragen.
 
-![](/images/ebehoerde/slice-5.png)
+<StatGrid>
+  <StatCard number="3+ Wochen" label="Ungewissheit nach Einreichung ohne jegliches Bearbeitungs-Update" />
+  <StatCard number="80%" label="Der PDF-Formularfelder sind für den individuellen Fall irrelevant, müssen aber überflogen werden" />
+  <StatCard number="100%" label="Vermeidbare Termine im Amt, die sich digital in 1 Minute hätten klären lassen" />
+</StatGrid>
 
-![](/images/ebehoerde/slice-6.png)
+---
+
+## Die Discovery: 30 Antworten & 4 Tiefeninterviews
+
+Um nicht am Nutzer vorbeizubauen, haben wir 30 Bürger:innen befragt und 4 intensive Interviews geführt. Aus den Daten entstanden 2 klare **User Personas** und eine **User Journey Map**, die den genauen Frustrationsverlauf aufdeckte.
+
+<StatGrid>
+  <StatCard number="30" label="Bürger:innen in quantitiver Survey befragt" />
+  <StatCard number="4" label="Tiefeninterviews zur Analyse der Frustrationspunkte" />
+  <StatCard number="2" label="User Personas & 1 umfassende User Journey Map entwickelt" />
+</StatGrid>
+
+![](/images/ebehoerde/SurveyDE.png)
+
+### Das haben die Bürger gefordert:
+1. **„Sag mir einfach, wo mein Antrag steckt.“** (Echtzeit-Status wie beim Paket-Tracking)
+2. **„Hilf mir, meine Zettel zu organisieren.“** (Klare Trennung in *offen* und *erledigt*)
+3. **„Quäl mich nicht mit 10 Seiten PDF.“** (Nur beantworten, was wirklich für mich zählt)
+
+![](/images/ebehoerde/UserPersonaDE.png)
+![](/images/ebehoerde/JourneyMapDE.png)
+
+---
+
+## Von Verwirrung zu Klarheit: User Flow & Prototyping
+
+Nachdem die User Journey stand, entwickelten wir den **User Flow** und testeten unsere Ideen über schrittweise **Lo-Fi** und **Hi-Fi Prototypen**.
+
+![](/images/ebehoerde/UserFlowDE.png)
+![](/images/ebehoerde/HIFI1DE.png)
+
+### Die 3 Schlüssel-Screens
+
+#### 1. Das Dashboard: Paket-Tracking für Amtsanträge
+Statt Wochen lang zu zittern, siehst du auf der Zeitleiste sofort, in welchem Schritt dein Antrag liegt (*Eingereicht → In Prüfung → Genehmigt*). Sobald dem Amt etwas fehlt, bekommst du eine direkte Benachrichtigung.
+
+---
+
+#### 2. Der Familien-Tresor: Nie wieder Suchen, was fehlt
+Niemand wusste bisher, welche Zettel schon hochgeladen wurden. Die Dokumentenablage trennt klar zwischen **offenen Nachweisen** und **abgeschlossenen Dokumenten** für die ganze Familie.
+
+---
+
+#### 3. Das smarte Formular: 5 Seiten Bürokratie einfach weggelassen
+Statt starren Papier-PDFs führt dich ein interaktiver Fragebogen durch den Antrag. Wenn du keine Kinder hast, verschwinden die nächsten 5 Seiten automatisch.
+
+---
+
+![](/images/ebehoerde/HIFI2DE.png)
+
+## Der „So What?“ Vergleicher: Farben & Formulare auf dem Prüfstand
+
+<Exploration title="Farbschema 1: Bundesflaggen-Farben (Schwarz, Rot, Gold)" selected={false}>
+Wirkt altbacken, überlädt das Auge und bietet ungenügende Kontraste für sehbehinderte Menschen.
+</Exploration>
+
+<Exploration title="Farbschema 2: Klares Blau & Dunkelgrau (WCAG Konform)" selected={true}>
+Erfüllt höchste Barrierefreiheits-Standards (WCAG), strahlt Vertrauen aus und garantiert optimale Lesbarkeit bei Sehschwäche.
+</Exploration>
+
+<Exploration title="Formulare 1: Papier-PDF 1:1 digitalisieren" selected={false}>
+Behebt das Hauptproblem nicht: Sprache bleibt unverständlich, unpassende Felder verwirren weiterhin.
+</Exploration>
+
+<Exploration title="Formulare 2: Step-by-Step Multiple Choice + Zeitleiste" selected={true}>
+Nimmt Nutzern 90 % der Angst. Offene Aufgaben sind sofort sichtbar, fertige sicher verwahrt.
+</Exploration>
+
+---
+
+## Key Takeaways: Was ich gelernt habe
+
+<Callout>
+**Organisierte Dokumente & barrierefreie Farben nehmen die Angst vor der Bürokratie.**
+Wenn ein Interface klar zwischen *offenen* und *abgeschlossenen* Aufgaben unterscheidet, Barrierefreiheit ernst nimmt und den Bearbeitungsstand transparent zeigt, bleibt der Prozess simpel – egal wie komplex das Behördenthema ist.
+</Callout>
