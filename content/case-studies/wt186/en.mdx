@@ -1,37 +1,88 @@
-WT-186 is a custom-built wave terrain synthesizer plug-in for music production — grown out of a background in Digital Signal Processing (DSP) and the idea of making sound design visual and intuitive.
+<MetaGrid>
+  <MetaItem label="Type" value="Audio Plug-In & DSP Software" />
+  <MetaItem label="Focus" value="Wave-Terrain Synthesis & Visual Sound Design" />
+  <MetaItem label="Tech Stack" value="C++, JUCE Framework, Web Audio API, Figma" />
+  <MetaItem label="Goal" value="Transforming abstract mathematics into a tangible, visual interface" />
+</MetaGrid>
+
+<Callout>
+🎛️ **Interactive Web Audio Demo**: Want to try out the Wave-Terrain Synthesizer directly in your browser?
+<a href="/wt186-app/index.html" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '12px', padding: '10px 18px', background: 'var(--color-violet)', color: '#fff', fontWeight: 'bold', textDecoration: 'none', borderRadius: '4px' }}>
+  Open Live Web Synthesizer in Browser ↗
+</a>
+</Callout>
+
+## Background & Problem Statement
+
+<Callout>
+Imagine this: You want to craft a lush pad sound, click through submenus of 50 identical knobs for 10 minutes — and lose your creative spark.
+</Callout>
+
+Audio synthesis is often abstract mathematics. But musicians don't want to think like engineers when creating — they want to immediately see and feel what generates a sound.
+
+WT-186 solves this through drag-and-drop elevation data (like Mount Everest), turning geographic landscapes into dynamic soundscapes.
 
 <Video src="/images/wt186/mvp-demo.mov" />
 
-## Vision & Concept
+---
 
-Grounding an abstract DSP concept in physical reality — Mount Everest's height data generates an organic, sweeping cosmic pad sound. The core philosophy: a visual interface creates a more intuitive connection between what shapes a sound and how that shaping is represented, instead of sterile menu-diving.
+## 2 Core Perspectives: The Dual-View Feedback Loop
 
-![](/images/wt186/splash.png)
+### 1. Sonar LCD: Precision in Radar Aesthetics
+A compact display with crosshairs tracks the exact scanning position on the terrain surface. Radar aesthetics without overwhelming users with raw numbers.
 
-## Interface & Navigation
+![](/images/wt186/8.png)
+![](/images/wt186/9.png)
 
-A dual-view feedback loop: the Sonar LCD, a compact screen with a crosshair marking the current position — echoing a sonar-radar aesthetic without overwhelming the user with raw height data — paired with the Terrain View, a larger visualization showing the orbital path as a flowing ribbon across the geographic terrain data. Orbit mechanics and sound-shaping (ADSR, FX) live in clearly separated sections to keep the workflow musician-friendly.
+---
 
+### 2. Terrain View: Sound as a Flowing Ribbon
+The main view visualizes the orbital path as a 3D flowing ribbon across the landscape. Producers see in real time how terrain geometry shapes harmonics.
+
+![](/images/wt186/2.png)
 ![](/images/wt186/3.png)
-
 ![](/images/wt186/4.png)
-
 ![](/images/wt186/5.png)
 
-## Challenges & Solutions
+---
 
-Granular control vs. playability: the orbital Speed fader was split into coarse and fine controls to tame an extremely sensitive parameter range. Taming sonic chaos: because a small waveform sampling vast terrain data in one cycle risks extreme noise, dedicated FX and macro sections act as creative safety rails. Reinventing the mod matrix: instead of a cumbersome grid page, modulation runs through direct manipulation of the morph button, with parameters subtly lighting up on hover to reveal active modulations (LFOs, envelopes) without cluttering the screen.
+## Explorations & Engineering Solutions
+
+<Exploration title="Speed Control 1: Single knob for orbital speed" selected={false}>
+The parameter range was ultra-sensitive — tiny tweaks immediately resulted in extreme noise or silence.
+</Exploration>
+
+<Exploration title="Speed Control 2: Split coarse & fine adjustment" selected={true}>
+Allows both rapid leaps and subtle, highly musical tuning.
+</Exploration>
+
+<Exploration title="Modulation Matrix 1: Bulky grid table" selected={false}>
+Cluttered the UI and pulled producers out of their creative flow.
+</Exploration>
+
+<Exploration title="Modulation Matrix 2: Hover-based light feedback" selected={true}>
+Modulatable knobs gently glow on hover to communicate active LFOs directly on the control.
+</Exploration>
 
 ![](/images/wt186/6.png)
-
 ![](/images/wt186/7.png)
+
+---
 
 ## User Testing & Validation
 
-Validation moved from informal synth jams and dogfooding to structured user interviews and usability tests, focused on three questions: are the drag affordances on handlers immediately clear to new users, do modulatable knobs and sliders communicate their state without a hidden settings page, and how discoverable is the hover-based lighting model across different hardware setups.
-
-![](/images/wt186/8.png)
-
-![](/images/wt186/9.png)
+Testing evolved from informal jams to targeted usability tests:
+- Are drag affordances on knobs clear without instructions?
+- Do producers grasp modulation state without opening submenus?
+- Does the hover lighting model perform reliably across different displays?
 
 <Video src="/images/wt186/final-demo.mov" />
+
+---
+
+## Key Takeaways
+
+<Callout>
+**Great interface design removes friction between humans and technology.**
+Complex algorithms reveal true magic when the interface doesn't force musicians to think like engineers, but lets them experiment intuitively and visually with sound.
+</Callout>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave Terrain Synth V4</title>
+    <!-- Load gl-matrix FIRST so main.js can use it -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+        /* Add this near the top of your <style> */
+        body { 
+            background: var(--bg); color: #eee; font-family: monospace; 
+            margin: 0; display: flex; flex-direction: column; 
+            height: 100vh; 
+            overflow-y: auto; /* Change from hidden to auto */
+        }
+
+        .control-grid {
+            display: grid; 
+            /* This allows the grid to wrap items to a new row if the screen is too narrow */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 15px; 
+            padding: 20px;
+            background: #111; 
+            min-height: 400px; /* Changed from fixed height to min-height */
+        }
+
+        .control-box { 
+            background: var(--bg); 
+            padding: 15px; 
+            border: 1px solid #333;
+            /* Remove overflow-y: auto here so the whole page scrolls instead */
+        }
+
+        /* Update your label block to this */
+        label { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 10px; 
+            margin-bottom: 2px;
+            color: #bbb; /* Makes the label text a light grey */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Ensure slider values (if you add them later) are visible */
+        input[type=range] { 
+            width: 100%; 
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        :root { 
+            --accent: #0f0; 
+            --bg: #111; 
+            --panel: rgba(255,255,255,0.05); 
+        }
+
+        /* stage for the canvas */
+        .visualizer-section {
+            flex: 1; 
+            background: #000;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            border-bottom: 1px solid #333;
+            padding: 20px;
+        }
+
+        /* The actual floating container */
+        #terrain-canvas { 
+            width: 512px; 
+            height: 512px; 
+            background: #050505;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.1); /* Subtle neon glow */
+            border: 1px solid #222;
+        }
+
+        /* Container for the whole top area */
+        #drop-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        /* The Overlay Ghost */
+        #drop-zone {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 0, 0); /* Start transparent */
+            color: transparent;
+            border: 2px dashed transparent;
+            z-index: 100;
+            pointer-events: none; /* Let clicks go through to canvases normally */
+            transition: all 0.3s ease;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        /* State when dragging a file over the wrapper */
+        #drop-wrapper.dragover #drop-zone {
+            background: rgba(0, 255, 0, 0.15);
+            color: #0f0;
+            border: 2px dashed #0f0;
+            pointer-events: all; /* Now it catches the drop */
+        }
+
+        .control-grid2 { 
+            position: relative; /* Ensures it stays on top of the body background */
+            z-index: 20;        /* Higher than the drop-zone */
+            display: grid; 
+            grid-template-columns: 300px 1fr 300px; /* Left: Layers, Mid: Orbit, Right: Mod */
+            gap: 1px; background: #333; height: 400px;
+        }
+        /* .control-box { background: var(--bg); padding: 15px; overflow-y: auto; } */
+        /* h3 { font-size: 12px; color: var(--accent); margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 5px; } */
+
+        /* Layer Manager Styles */
+        .layer-item {
+            display: flex; align-items: center; gap: 10px;
+            background: var(--panel); margin-bottom: 5px; padding: 8px;
+            border-radius: 4px; font-size: 11px; cursor: grab;
+        }
+        .layer-item:active { cursor: grabbing; }
+        .layer-item .name { flex: 1; white-space: nowrap; overflow: hidden; }
+        .delete-btn { color: #f00; cursor: pointer; border: none; background: none; }
+
+        /* Sliders & UI */
+        .knob-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        label { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 2px; }
+        input[type=range] { width: 100%; accent-color: var(--accent); }
+        
+        .btn-row { display: flex; gap: 5px; margin-bottom: 10px; }
+        button { 
+            flex: 1; padding: 8px; background: #333; color: white; border: 1px solid #444; 
+            cursor: pointer; font-size: 10px; text-transform: uppercase;
+        }
+        button:hover { background: #444; }
+        #start-audio { background: var(--accent); color: #000; font-weight: bold; }
+        
+        #vector-drop-zone {
+            height: 60px; border: 1px dashed #555; display: flex; 
+            align-items: center; justify-content: center; font-size: 10px; margin-top: 10px;
+        }
+
+        /* --- MODULATION UI --- */
+        .mod-block {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .mod-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        /* The Handle you drag */
+        .mod-handle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #000;
+            font-weight: bold;
+        }
+        .mod-handle:active {
+            cursor: grabbing;
+        }
+
+        /* The target sliders */
+        .drop-target {
+            transition: all 0.2s;
+            border-radius: 3px;
+            padding: 2px;
+        }
+
+        .drop-target.drag-over {
+            background: rgba(0, 255, 255, 0.2);
+            outline: 1px dashed cyan;
+        }
+
+        /* Colors for different Modulators */
+        .mod-color-1 { background: #0ff; box-shadow: 0 0 5px #0ff; }
+        .mod-color-2 { background: #fa0; box-shadow: 0 0 5px #fa0; }
+
+        .mod-indicator-bar {
+            height: 2px;
+            background: var(--accent);
+            margin-top: -5px;
+            width: 0%; /* This will be updated by JS */
+            transition: width 0.05s linear;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="drop-wrapper" style="position: relative;">
+        
+        <div id="drop-zone" class="drop-zone">
+            <p>DRAG AUDIO OR IMAGES HERE</p>
+        </div>
+
+        <div class="visualizer-container" style="display: flex; gap: 10px; padding: 20px;">
+            <div class="canvas-wrapper" style="flex: 1; text-align: center;">
+                <label>3D HOLOGRAM</label>
+                <canvas id="terrain-canvas-3d" width="512" height="512" style="width: 100%; background: #000; border: 1px solid #333;"></canvas>
+            </div>
+            
+            <div class="canvas-wrapper" style="flex: 1; text-align: center;">
+                <label>TOPOGRAPHIC MAP</label>
+                <canvas id="terrain-canvas-2d" width="512" height="512" style="width: 100%; background: #000; border: 1px solid #333;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="control-grid">
+        
+        <!-- LEFT: LAYER MANAGER -->
+        <section class="control-box">
+            <h3>LAYER MANAGER</h3>
+            <div class="knob-group">
+                <!-- IMPORTANT: IDs added to labels for the Drag & Drop handshake -->
+                <label class="drop-target" id="label-morph">
+                    MORPH 
+                    <input type="range" id="morph" min="0" max="0" step="0.01" value="0">
+                </label>
+                
+                <label class="drop-target" id="label-xmod">
+                    X-MOD 
+                    <input type="range" id="xmod" min="0" max="1" step="0.01" value="0.5">
+                </label>
+                
+                <!-- Moved these here to keep the control-box logic clean -->
+                <h3 style="margin-top:15px;">GLOBAL MODS</h3>
+                <label class="drop-target" id="label-noise">Noise <input type="range" id="noise" min="0" max="0.2" step="0.001" value="0"></label>
+                <label class="drop-target" id="label-phaseDist">Phase Dist <input type="range" id="phaseDist" min="-2" max="2" step="0.01" value="0"></label>
+                <h3 style="margin-top:15px;">FILTER</h3>
+                <label class="drop-target" id="label-cutoff">
+                    Cutoff <span class="val-display">2000Hz</span>
+                    <input type="range" id="cutoff" min="20" max="20000" step="1" value="2000">
+                </label>
+                <label class="drop-target" id="label-res">
+                    Resonance <span class="val-display">0.7</span>
+                    <input type="range" id="res" min="0.01" max="1.0" step="0.01" value="0.7">
+                </label>
+            </div>
+                
+            <div id="layer-list">
+                <!-- Layers injected by JS -->
+            </div>
+        </section>
+
+        <!-- MID: ORBIT CONTROLS -->
+        <section class="control-box">
+            <h3>ORBIT & PATH</h3>
+            <div class="btn-row">
+                <button id="start-audio">Start Audio</button>
+                <button id="toggle-mode">Mode: Orbit</button>
+                <button id="panic" style="color: #f55;">Panic</button>
+            </div>
+            <div class="control-group">
+                <label style="color: #0f0; font-family: monospace; font-size: 12px;">
+                    <input type="checkbox" id="drone-mode" checked> DRONE MODE
+                </label>
+            </div>
+            <div class="control-group">
+                <label for="audio-output-select">Output Device:</label>
+                <select id="audio-output-select" style="background: #000; color: #fff; padding: 5px; width: 100%;">
+                    <option value="default">Default System Audio</option>
+                </select>
+            </div>
+            <div class="knob-group">
+                <label class="drop-target" id="label-speed">Speed <input type="range" id="speed" min="0.2" max="200" value="0.2"></label>
+                <label class="drop-target" id="label-radius">Radius <input type="range" id="radius" min="0" max="0.5" step="0.001" value="0.1"></label>
+                <label class="drop-target" id="label-centerX">Center X <input type="range" id="centerX" min="0" max="1" step="0.001" value="0.5"></label>
+                <label class="drop-target" id="label-centerY">Center Y <input type="range" id="centerY" min="0" max="1" step="0.001" value="0.5"></label>
+            </div>
+            <div class="btn-row">
+                <button id="reset-circle">○ CIRCLE</button>
+                <button id="drive-x">↔ DRIVE X</button>
+                <button id="drive-y">↕ DRIVE Y</button>
+            </div>
+            <div id="vector-drop-zone">DROP SVG PATH HERE</div>
+        </section>
+
+        <!-- RIGHT: MODULATION -->
+        <section class="control-box">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 10px;">
+                <h3 style="margin: 0; border: none;">MODULATION</h3>
+                <button id="add-mod-btn" style="background: #222; border: 1px solid #444; color: #0ff; cursor: pointer; padding: 2px 8px;">+ ADD</button>
+            </div>
+
+            <div id="mod-list-container">
+                <!-- Modulator 1 -->
+                <div id="mod-list-container">
+                    <div class="mod-block" id="mod1-container">
+                        <div class="mod-header">
+                            <span style="font-size: 10px; color: #aaa; font-weight: bold; margin-right: 10px;">MOD 1</span>
+                            <select class="mod-type" id="mod1-type" style="background: #000; color: #fff; border: 1px solid #444; flex: 1; margin-right: 10px;">
+                                <option value="lfo">LFO</option>
+                                <option value="env">ENV</option>
+                                <option value="oneshot">ONE-SHOT</option>
+                            </select>
+                            <div class="mod-handle mod-color-1" draggable="true" data-source="mod1">+</div>
+                        </div>
+                        
+                        <div class="knob-group mod-controls" id="mod1-controls"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRESETS & ADSR -->
+        <section class="control-box">
+            <h3>MARK I BROWSER</h3>
+            <select id="preset-list" size="12" style="width: 100%; background: #000; color: #0f0; border: 1px solid #333; font-family: monospace;"></select>
+            <div style="margin-top: 10px;">
+                <input type="text" id="preset-name" placeholder="Folder/PatchName" style="width: 60%; background: #111; color: #fff; border: 1px solid #444;">
+                <button id="save-to-browser" style="width: 35%; background: #005500; color: #0f0;">SAVE</button>
+            </div>
+            <button id="delete-preset" style="width: 100%; background: #550000; color: #f00; margin-top: 5px;">DELETE SELECTED</button>
+
+            <hr style="border: 0; border-top: 1px solid #333; margin: 15px 0;">
+
+            <h3>ADSR ENVELOPE</h3>
+            <div class="knob-group">
+                <label>A <input type="range" id="attack" min="0.001" max="1" step="0.01" value="0.001"></label>
+                <label>D <input type="range" id="decay" min="0.001" max="1" step="0.01" value="0.2"></label>
+                <label>S <input type="range" id="sustain" min="0" max="1" step="0.01" value="0.7"></label>
+                <label>R <input type="range" id="release" min="0.001" max="2" step="0.01" value="0.5"></label>
+            </div>
+        </section>
+
+        <!-- SYSTEM SETTINGS -->
+        <section class="control-box">
+            <h3>SYSTEM</h3>
+            <button id="export-btn" style="width: 100%; background: var(--accent); color: #000; font-weight: bold; margin-bottom: 5px;">EXPORT MASTER ZIP</button>
+            
+            <!-- Removed the duplicate mount-lib input that was breaking things -->
+            <label class="mount-btn" style="display: block; text-align: center; cursor: pointer; background: #222; padding: 10px; border: 1px solid #444; font-size: 10px;">
+                IMPORT MASTER ZIP
+                <input type="file" id="mount-lib" onchange="mountLibrary(event)" style="display: none;">
+            </label>
+
+            <button id="clear-stack" style="background: #550000; color: #fff; width: 100%; margin-top: 10px;">CLEAR ALL LAYERS</button>
+            
+            <div class="knob-group" style="margin-top: 20px;">
+                <label>VIEW ROTATION <input type="range" id="view-rotate-speed" min="0" max="0.05" step="0.001" value="0.005"></label>
+            </div>
+            <div id="midi-status" style="font-size: 9px; color: var(--accent); margin-top: 10px;">MIDI: WAITING...</div>
+        </section>
+
+    </div>
+
+    <!-- Script loading order remains unchanged -->
+     <script src="js/VisualManager.js"></script>
+    <script src="js/AudioManager.js"></script>
+
+    <script src="js/PresetManager.js"></script>
+    <script src="js/TerrainManager.js"></script>
+    
+    
+    <script src="js/InputManager.js"></script>
+    <script src="js/TerrainEngine.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

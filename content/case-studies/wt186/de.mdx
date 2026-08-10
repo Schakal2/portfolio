@@ -1,41 +1,88 @@
-WT-186 ist ein  Wave-Terrain-Synthesizer-Plug-in für die Musikproduktion — 
-entstanden aus einem Studienhintergrund in Digital Signal Processing (DSP) und der Idee, 
-Klangerzeugung visuell und intuitiv erlebbar zu machen.
+<MetaGrid>
+  <MetaItem label="Typ" value="Audio Plug-In & DSP Software" />
+  <MetaItem label="Fokus" value="Wave-Terrain-Synthese & Visuelles Sound-Design" />
+  <MetaItem label="Technologien" value="C++, JUCE Framework, Web Audio API, Figma" />
+  <MetaItem label="Ziel" value="Abstrakte Mathematik in ein greifbares, visuelles Interface verwandeln" />
+</MetaGrid>
+
+<Callout>
+🎛️ **Interaktive Web-Audio Demo**: Du möchtest den Wave-Terrain Synthesizer direkt im Browser ausprobieren?
+<a href="/wt186-app/index.html" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '12px', padding: '10px 18px', background: 'var(--color-violet)', color: '#fff', fontWeight: 'bold', textDecoration: 'none', borderRadius: '4px' }}>
+  Live Web-Synthesizer im Browser öffnen ↗
+</a>
+</Callout>
+
+## Hintergründe & Problemstellung
+
+<Callout>
+Stell dir vor: Du willst einen schwebenden Sound schrauben, klickst dich 10 Minuten durch Untermenüs von 50 gleichen Drehreglern – und verlierst den kreativen Faden.
+</Callout>
+
+Audio-Synthese ist oft reine abstrakte Mathematik. Musiker wollen beim Produzieren jedoch nicht wie Ingenieure denken – sie wollen sofort sehen und fühlen, was einen Klang erzeugt.
+
+WT-186 löst dieses Problem durch Drag-and-Drop von Höhendaten (wie dem Mount Everest) und verwandelt geografische Landschaften in dynamische Klangwelten.
 
 <Video src="/images/wt186/mvp-demo.mov" />
 
-## Vision & Konzept
+---
 
-Ein abstraktes DSP-Konzept in physischer Realität verankern — mit den Höhendaten des Mount Everest entsteht ein organischer, weiträumiger Cosmic-Pad-Sound. Die Grundphilosophie dahinter: Ein visuelles Interface schafft eine intuitivere Verbindung zwischen dem, was einen Klang erzeugt, und wie diese Erzeugung sichtbar wird — statt sich im Menü zu verlieren.
+## Die 2 Kern-Sichten: Der Dual-View Feedback-Loop
+
+### 1. Das Sonar-LCD: Präzision im Radar-Look
+Ein kompaktes Display mit Fadenkreuz zeigt die exakte Position der Abtastung auf der Oberfläche. Radar-Ästhetik ohne den Nutzer mit rohen Zahlenwerten zu erschlagen.
 
 ![](/images/wt186/8.png)
-
 ![](/images/wt186/9.png)
 
-![](/images/wt186/splash.png)
+---
 
-## Interface & Navigation
+### 2. Die Terrain View: Der Sound als fließendes Band
+Die Hauptansicht visualisiert den Orbitalpfad als dreidimensionales Band über die Landschaft. Musiker sehen in Echtzeit, wie die Geometrie des Geländes die Obertöne formt.
 
-Ein Dual-View-Feedback-Loop: das Sonar-LCD, ein kompaktes Display mit Fadenkreuz zur genauen Positionsanzeige — angelehnt an eine Sonar-Radar-Ästhetik, ohne mit rohen Höhendaten zu überfordern —, kombiniert mit der Terrain View, einer großen Visualisierung, die den Orbitalpfad als fließendes Band über die geografischen Höhendaten legt. Orbit-Mechanik und Sound-Shaping (ADSR, FX) sind klar voneinander getrennt, damit der Workflow musikerfreundlich bleibt.
-
+![](/images/wt186/2.png)
 ![](/images/wt186/3.png)
-
 ![](/images/wt186/4.png)
-
 ![](/images/wt186/5.png)
 
-## Herausforderungen & Lösungen
+---
 
-Feinsteuerung vs. Spielbarkeit: Der Orbital-Speed-Regler wurde in Grob- und Feineinstellung aufgeteilt, um einen extrem sensiblen Parameterbereich zu zähmen. Klangchaos bändigen: Da eine kleine Wellenform, die pro Zyklus riesige Terrain-Daten abtastet, schnell zu extremem Rauschen führt, dienen dedizierte FX- und Makro-Bereiche als kreative Leitplanken. Die Mod-Matrix neu gedacht: Statt einer sperrigen Grid-Seite läuft Modulation über die direkte Interaktion mit dem Morph-Button — Parameter leuchten beim Hover dezent auf und zeigen aktive Modulationen (LFOs, Hüllkurven), ohne den Screen zu überladen.
+## Der „So What?“ Vergleicher: Design-Explorationen & Hürden
+
+<Exploration title="Geschwindigkeits-Steuerung 1: Ein Drehregler für den Speed" selected={false}>
+Der Parameterbereich war extrem sensibel – minimale Drehungen führten sofort zu Rauschen oder Stille.
+</Exploration>
+
+<Exploration title="Geschwindigkeits-Steuerung 2: Aufteilung in Grob- & Feineinstellung" selected={true}>
+Erlaubt sowohl blitzschnelle Sprünge als auch extrem feine, musikalische Nuancen.
+</Exploration>
+
+<Exploration title="Modulations-Matrix 1: Sperrige Grid-Tabelle" selected={false}>
+Überfordert das Auge und reißt Nutzer aus dem kreativen Workflow.
+</Exploration>
+
+<Exploration title="Modulations-Matrix 2: Hover-basiertes Lichtmodell" selected={true}>
+Modulierbare Regler leuchten bei Hover dezent auf und zeigen aktive LFOs direkt am Bedienelement.
+</Exploration>
 
 ![](/images/wt186/6.png)
-
 ![](/images/wt186/7.png)
+
+---
 
 ## User-Testing & Validierung
 
-Die Validierung entwickelte sich von informellen Synth-Jams und Dogfooding hin zu strukturierten Nutzer:inneninterviews und Usability-Tests, mit Fokus auf drei Fragen: Sind die Drag-Affordanzen an den Reglern für neue Nutzer:innen sofort erkennbar? Kommunizieren modulierbare Knobs und Slider ihren Zustand auch ohne versteckte Einstellungsseite? Und wie gut lässt sich das Hover-basierte Licht-Modell auf unterschiedlicher Hardware entdecken?
-
-
+Die Validierung entwickelte sich von informellen Synth-Jams hin zu gezielten Usability-Tests:
+- Sind Drag-Affordanzen an den Knobs ohne Anleitung verständlich?
+- Erkennen Produzenten den Modulationsstatus auch ohne versteckte Menüs?
+- Funktioniert das Lichtmodell verlässlich auf unterschiedlichen Monitor-Setups?
 
 <Video src="/images/wt186/final-demo.mov" />
+
+---
+
+## Key Takeaways
+
+<Callout>
+**Gutes Interface-Design baut Hürden zwischen Mensch und Technologie ab.**
+Komplexe technische Algorithmen entfalten ihre echte Magie erst, wenn das Interface Musiker nicht dazu zwingt wie Ingenieure zu denken, sondern ihnen erlaubt, intuitiv und visuell mit dem Klang zu experimentieren.
+</Callout>
