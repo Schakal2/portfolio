@@ -5,12 +5,7 @@
   <MetaItem label="Ziel" value="Abstrakte Mathematik in ein greifbares, visuelles Interface verwandeln" />
 </MetaGrid>
 
-<Callout>
-🎛️ **Interaktive Web-Audio Demo**: Du möchtest den Wave-Terrain Synthesizer direkt im Browser ausprobieren?
-<a href="/wt186-app/index.html" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '12px', padding: '10px 18px', background: 'var(--color-violet)', color: '#fff', fontWeight: 'bold', textDecoration: 'none', borderRadius: '4px' }}>
-  Live Web-Synthesizer im Browser öffnen ↗
-</a>
-</Callout>
+
 
 ## Hintergründe & Problemstellung
 
@@ -25,6 +20,16 @@ WT-186 löst dieses Problem durch Drag-and-Drop von Höhendaten (wie dem Mount E
 <Video src="/images/wt186/mvp-demo.mov" />
 ![](/images/wt186/8.png)
 ![](/images/wt186/9.png)
+
+<Callout>
+🎛️ **Interaktive Web-Audio Demo**: Du möchtest den Wave-Terrain Synthesizer direkt im Browser ausprobieren?
+#### 1. Ziehen Sie Bilder oder Audiodateien per Drag-and-Drop auf die Ansichten
+#### 2. Klicken Sie auf die Schaltfläche „Start Audio“
+#### 3. Bewegen Sie den Speed Regler direkt darunter
+<a href="/wt186-app/index.html" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '12px', padding: '10px 18px', background: 'var(--color-violet)', color: '#fff', fontWeight: 'bold', textDecoration: 'none', borderRadius: '4px' }}>
+  Live Web-Synthesizer im Browser öffnen ↗
+</a>
+</Callout>
 
 ---
 
@@ -41,13 +46,16 @@ Ein kompaktes Display mit Fadenkreuz zeigt die exakte Position der Abtastung auf
 ### 2. Die Terrain View: Der Sound als fließendes Band
 Die Hauptansicht visualisiert den Orbitalpfad als dreidimensionales Band über die Landschaft. Musiker sehen in Echtzeit, wie die Geometrie des Geländes die Obertöne formt.
 
-![](/images/wt186/23.png)
-![](/images/wt186/3.png)
 
+<Video src="/images/wt186/vid1.mov" />
+<Video src="/images/wt186/vid2.mov" />
+<Video src="/images/wt186/vid3.mov" />
 
 ---
 
 ## Der „So What?“ Vergleicher: Design-Explorationen & Hürden
+
+
 
 <Exploration title="Geschwindigkeits-Steuerung 1: Ein Drehregler für den Speed" selected={false}>
 Der Parameterbereich war extrem sensibel – minimale Drehungen führten sofort zu Rauschen oder Stille.
@@ -65,9 +73,8 @@ Erlaubt sowohl blitzschnelle Sprünge als auch extrem feine, musikalische Nuance
 Modulierbare Regler leuchten bei Hover dezent auf und zeigen aktive LFOs direkt am Bedienelement.
 </Exploration>
 
-<Video src="/images/wt186/vid1.mov" />
-<Video src="/images/wt186/vid2.mov" />
-<Video src="/images/wt186/vid3.mov" />
+![](/images/wt186/23.png)
+![](/images/wt186/3.png)
 
 
 ---
