@@ -214,3 +214,29 @@
   line-height: 1.6;
 }
 
+/* Audio Player Wrapper */
+.audioWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--color-block);
+  background: var(--color-paper);
+  margin: 12px 0;
+}
+
+.audioTitle {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-violet);
+}
+
+.audioPlayer {
+  width: 100%;
+  border-radius: 4px;
+}
+
+

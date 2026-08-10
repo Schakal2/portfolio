@@ -57,6 +57,15 @@ function Exploration({ title, selected, children }: { title: string; selected?: 
   )
 }
 
+function Audio({ src, title }: { src: string; title?: string }) {
+  return (
+    <div className={styles.audioWrapper}>
+      {title && <span className={styles.audioTitle}>{title}</span>}
+      <audio src={src} controls className={styles.audioPlayer} />
+    </div>
+  )
+}
+
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     h2: (props) => <h2 className={styles.sectionHeading} {...props} />,
@@ -67,6 +76,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     // eslint-disable-next-line @next/next/no-img-element
     img: (props) => <img className={styles.galleryImage} alt="" {...props} />,
     Video,
+    Audio,
     MetaGrid,
     MetaItem,
     StatGrid,
@@ -76,4 +86,5 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ...components,
   }
 }
+
 
