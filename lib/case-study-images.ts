@@ -5,7 +5,7 @@ export interface CaseStudyImage {
 }
 
 export const wtCover: CaseStudyImage = {
-  src: "/images/wt186/splash.png",
+  src: "/images/wt186/splash3.png",
   width: 1296,
   height: 870,
 }

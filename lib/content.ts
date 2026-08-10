@@ -118,7 +118,7 @@ export const content: Record<Locale, Content> = {
           ],
           href: "/wt186",
           ctaLabel: "Case Study lesen",
-          cover: "/images/wt186/splash.png",
+          cover: "/images/wt186/splash3.png",
         },
         {
           slug: "ebehoerde",
@@ -317,7 +317,7 @@ export const content: Record<Locale, Content> = {
           ],
           href: "/wt186",
           ctaLabel: "Read case study",
-          cover: "/images/wt186/splash.png",
+          cover: "/images/wt186/splash3.png",
         },
         {
           slug: "ebehoerde",
