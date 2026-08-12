@@ -1,47 +1,61 @@
 <MetaGrid>
-  <MetaItem label="Type" value="Audio Plug-In & DSP Software" />
-  <MetaItem label="Focus" value="Wave-Terrain Synthesis & Visual Sound Design" />
-  <MetaItem label="Technologies" value="C++, JUCE Framework, Web Audio API, Figma" />
-  <MetaItem label="Goal" value="Transforming abstract mathematics into a tangible, visual interface" />
+  <MetaItem label="Type" value="Native Audio Plug-In & DSP Engine" />
+  <MetaItem label="Focus" value="Wave Terrain Synthesis & Hardware FX" />
+  <MetaItem label="Technologies" value="C++, Swift, JUCE Framework, Web Audio, Figma" />
+  <MetaItem label="Workflow" value="AI-Assisted (Claude Code, Gemini), Git/GitHub" />
 </MetaGrid>
 
-## Background & Problem Statement
+## Overview & Concept
 
-<Callout>  
-Imagine this: You want to craft a lush pad sound, click through submenus of 50 identical knobs for 10 minutes — and lose your creative spark.
-</Callout>
+WT-186 is a native audio plug-in built to explore **Wave Terrain Synthesis** — an uncommon synthesis method where a virtual particle moves across a three-dimensional surface, and its spatial coordinates dictate the generated waveform. 
 
-Audio synthesis is often abstract mathematics. But musicians don't want to think like engineers when creating — they want to immediately see and feel what generates a sound.
+The project bridges complex digital signal processing with an intuitive, hardware-inspired workflow, allowing users to generate terrain data natively from uploaded audio and image files.
 
-WT-186 solves this problem through drag-and-drop elevation data (like Mount Everest), turning geographic landscapes into dynamic soundscapes.
-
-![](/images/wt186/mvp-demo.gif)
 ![](/images/wt186/8.png)
 ![](/images/wt186/9.png)
 
+---
+
+## Engineering & Technical Stack
+
+- **Language & Architecture**: C++ and Swift, custom audio rendering engine.
+- **UI/UX Design**: Figma, custom vector components, interactive LCD radar feedback loop.
+- **AI-Assisted Workflow**: Leveraged modern development assistants like Claude Code and Gemini for rapid prototyping, version control, and codebase scaling via GitHub.
+
+---
+
+## Web Audio MVP & Interactive Prototype
+
+To rapidly validate the particle movement and scanning logic in the browser prior to native C++/JUCE implementation, an interactive Web Audio prototype was created.
+
+![](/images/wt186/mvp-demo.gif)
+
 <Callout>
-🎛️ **Interactive Web Audio Demo**: Want to try out the Wave-Terrain Synthesizer directly in your browser?
+🎛️ **Interactive Web Audio Demo**: Want to try out the Wave-Terrain Web Prototype directly in your browser?
 #### 1. Drag and drop images or audio files onto the views
 #### 2. Click the "Start Audio" button
 #### 3. Adjust the Speed slider directly underneath
 <a href="/wt186-app/index.html" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '12px', padding: '10px 18px', background: 'var(--color-violet)', color: '#fff', fontWeight: 'bold', textDecoration: 'none', borderRadius: '4px' }}>
-  Open Live Web Synthesizer in Browser ↗
+  Open Live Web Prototype in Browser ↗
 </a>
 </Callout>
 
 ---
 
-## The 2 Core Perspectives: The Dual-View Feedback Loop
+## Key Technical Challenges & Solutions
 
-### 1. The Sonar LCD: Precision in Radar Aesthetics
-A compact display with crosshairs tracks the exact scanning position on the terrain surface. Radar aesthetics without overwhelming users with raw numbers.
+### 1. Managing Chaos in Wave Terrain Synthesis
+* **The Challenge**: Wave terrain algorithms inherently generate extreme high-frequency noise when the scanning radius samples vast height arrays within a single cycle.
+* **The Solution**: Implemented precise scaling controls, splitting parameters into coarse and fine adjustments, and designed an integrated macro and modulation matrix to give producers quick tactile control over chaotic soundscapes.
 
-![](/images/wt186/final-demo.gif)
+![](/images/wt186/23.png)
+![](/images/wt186/3.png)
 
 ---
 
-### 2. The Terrain View: Sound as a Flowing Ribbon
-The main view visualizes the orbital path as a 3D flowing ribbon across the landscape. Producers see in real time how terrain geometry shapes harmonics.
+### 2. Hardware-Informed FX Architecture (Roland Jupiter-4)
+* **The Challenge**: Replicating the distinct character of vintage hardware without relying on vague "analog warmth" tropes.
+* **The Solution**: Researched the circuit architecture of the **Roland Jupiter-4**. Identified a specific pre-filter circuit featuring a sub-oscillator and an ensemble unit incorporating a low-pass filter, and successfully integrated this topology into the plug-in's FX chain.
 
 ![](/images/wt186/vid1.gif)
 ![](/images/wt186/vid2.gif)
@@ -49,46 +63,29 @@ The main view visualizes the orbital path as a 3D flowing ribbon across the land
 
 ---
 
+### 3. Streamlining the Modulation Matrix & UI Hierarchy
+* **The Challenge**: Mod matrices in software synths often suffer from cluttered interfaces and steep learning curves.
+* **The Solution**: Designed a space-saving layout by grouping modulation controls directly adjacent to modulators within the matrix. Visual feedback, such as a draggable crosshair on an LCD radar display, was prioritized to instantly communicate the particle's spatial orbit.
+
+![](/images/wt186/final-demo.gif)
+
+---
+
 ## Sound Examples & Audio Demos
 
-Here are direct sound samples generated with the Wave-Terrain Synthesizer:
+Here are direct sound samples generated with the WT-186 engine:
 
-<Audio src="/sounds/wt-186/1.m4a" title="Audio Sample 1: Cosmic Terrain Pad" />
-<Audio src="/sounds/wt-186/2.m4a" title="Audio Sample 2: Wave Modulation Texture" />
-<Audio src="/sounds/wt-186/3.m4a" title="Audio Sample 3: Bass Distortion" />
-
-
----
-
-## The "So What?" Comparator: Design Explorations & Friction Points
-
-<Exploration title="Speed Control 1: Single knob for orbital speed" selected={false}>
-The parameter range was ultra-sensitive — tiny tweaks immediately resulted in extreme noise or silence.
-</Exploration>
-
-<Exploration title="Speed Control 2: Split coarse & fine adjustment" selected={true}>
-Allows both rapid leaps and subtle, highly musical tuning.
-</Exploration>
-
-<Exploration title="Modulation Matrix 1: Bulky grid table" selected={false}>
-Overwhelms the eye and pulls producers out of their creative workflow.
-</Exploration>
-
-<Exploration title="Modulation Matrix 2: Hover-based light feedback" selected={true}>
-Modulatable knobs gently glow on hover to communicate active LFOs directly on the control.
-</Exploration>
-
-![](/images/wt186/23.png)
-![](/images/wt186/3.png)
+<Audio src="/sounds/wt-186/1.wav" title="Audio Sample 1: Cosmic Terrain Pad" />
+<Audio src="/sounds/wt-186/2.wav" title="Audio Sample 2: Wave Modulation Texture" />
+<Audio src="/sounds/wt-186/3.wav" title="Audio Sample 3: Dynamic Orbital Sweep" />
 
 ---
 
-## User Testing & Validation
+## Product Roadmap & Next Steps
 
-Validation evolved from informal synth jams to targeted usability tests:
-- Are drag affordances on knobs clear without instructions?
-- Do producers grasp modulation state without opening submenus?
-- Does the hover lighting model perform reliably across different displays?
+1. **In-Depth User Testing**: Conducting beta testing sessions and small synth jams to refine parameter ranges and ensure the instrument feels intuitive for producers.
+2. **UI Refinement**: De-cluttering visual hierarchies by separating the FX low-pass filter from the global filter and elevating the central Morph knob for seamless real-time wavetable transitions.
+3. **Preset Library**: Finalizing default presets utilizing unique geographical height data, such as Mount Everest topographical maps, to showcase the engine's textural range.
 
 ---
 
