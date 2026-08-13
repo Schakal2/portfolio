@@ -7,9 +7,15 @@
 
 ## Übersicht & Konzept
 
-WT-186 ist ein natives Audio-Plug-in zur Erkundung der **Wave-Terrain-Synthese** — einer außergewöhnlichen Synthesemethode, bei der sich ein virtuelles Partikel über eine dreidimensionale Oberfläche bewegt und seine Raumkoordinaten die erzeugte Wellenform bestimmen. 
+WT-186 ist ein Audio-Plug-in zur Erkundung der **Wave-Terrain-Synthese** — einer außergewöhnlichen Synthesemethode, bei der sich ein virtuelles Partikel über eine dreidimensionale Oberfläche bewegt und seine Raumkoordinaten die erzeugte Wellenform bestimmen. 
 
-Das Projekt schlägt eine Brücke zwischen komplexer digitaler Signalverarbeitung (DSP) und einem intuitiven, hardware-inspirierten Workflow. Nutzer können Terraindaten nativ aus hochgeladenen Audio- und Bilddateien erzeugen.
+Was mich an der Terrain-Synthese besonders fasziniert, ist das große Potenzial, traditionelle Klangquellen mit experimentellen Sounds zu verbinden. Mit meinem Synthesizer ist es möglich, Bilddateien als Terraindaten zu verwenden und zwei Audiosamples in ein gemeinsames Terrain zu überführen.
+
+Karlheinz Stockhausen beschrieb als Kriterium der elektronischen Musik eine vereinheitlichte Zeit. Das bedeutet, dass Klänge beliebig verkürzt oder verlangsamt werden können – etwa indem eine Sinfonie innerhalb einer Sekunde abgespielt oder ein beliebiger Klang auf 20 Minuten ausgedehnt wird. Dies führt zu einer zeitlichen Gleichberechtigung des Materials. Mein Synthesizer ist in gewisser Weise eine Hommage an diesen Gedanken: Er erlaubt es, beliebige Klänge mit Sinfonien zu kombinieren indem man sie per Drag-and-Drop in ein Terrain verwandelt und dieses interaktiv erkundet.
+
+Der Name ist als Reminiszenz an die Pionierexperimente des Synthesizerbaus gedacht, als diese Instrumente noch futuristische Zukunftsvisionen verkörperten. Damit möchte ich daran erinnern, dass die zugrundeliegenden Algorithmen aus den 1970er und 1980er Jahren stammen – ähnlich wie die theoretischen Grundlagen neuronaler Netze, die heute in der Künstlichen Intelligenz Anwendung finden.
+
+Das Projekt schlägt eine Brücke zwischen komplexer digitaler Signalverarbeitung (DSP) und einem intuitiven, hardware-inspirierten Workflow. Nutzer können Terraindaten aus hochgeladenen Audio- und Bilddateien erzeugen.
 
 ---
 
@@ -23,7 +29,7 @@ Das Projekt schlägt eine Brücke zwischen komplexer digitaler Signalverarbeitun
 
 ## Web Audio MVP & Interaktiver Prototyp
 
-Um die mathematische Partikelbewegung und die Abtastlogik vor der nativer C++/JUCE-Implementierung schnell im Browser zu validieren, entstand ein interaktiver Web-Audio-Prototyp.
+Um die mathematische Partikelbewegung und die Abtastlogik vor der C++-Implementierung schnell im Browser zu validieren, entstand ein interaktiver Web-Audio-Prototyp.
 
 ![](/images/wt186/mvp-demo.gif)
 
@@ -37,10 +43,8 @@ Um die mathematische Partikelbewegung und die Abtastlogik vor der nativer C++/JU
 </a>
 </Callout>
 
-
 ![](/images/wt186/8.png)
 ![](/images/wt186/9.png)
-
 
 ---
 
@@ -87,7 +91,7 @@ Hier sind direkte Sound-Beispiele, die mit der WT-186 Engine erzeugt wurden:
 
 1. **Fundiertes User-Testing**: Durchführung von Betatests und kleinen Synth-Jams, um Parameterbereiche zu verfeinern und eine intuitive Haptik sicherzustellen.
 2. **UI-Verfeinerung**: Entlastung der visuellen Hierarchien durch Trennung des FX-Tiefpassfilters vom globalen Filter sowie Hervorhebung des zentralen Morph-Knopfs für nahtlose Wavetable-Übergänge in Echtzeit.
-3. **Preset-Bibliothek**: Finalisierung von Werkspresets auf Basis einzigartiger geografischer Höhendaten (z. B. Topografie-Karten des Mount Everest), um die klangliche Bandbreite der Engine zu demonstrieren.
+3. **Preset-Bibliothek**: Finalisierung von Werkspresets auf Basis einzigartiger geografischer Höhendaten (z.B. Topografie-Karten des Mount Everest), um die klangliche Bandbreite der Engine zu demonstrieren.
 
 ---
 

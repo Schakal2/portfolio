@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useLocale } from "@/lib/locale-context"
 import { RingBadge } from "@/components/mark-badge"
 import styles from "./hero.module.css"
@@ -19,13 +20,22 @@ export function Hero({ selectedSkill, onSelectSkill }: HeroProps) {
         <span>{t.hero.banner}</span>
         <span aria-hidden="true">✶</span>
       </div>
-      <div className={styles.grid}>
-        <div>
+      <div className={styles.topSection}>
+        <Image
+          src="/images/Portrait.png"
+          alt="Julian Wegner"
+          width={120}
+          height={120}
+          priority
+          className={styles.portrait}
+        />
+        <div className={styles.headerBlock}>
           <h1 className={styles.heading}>{t.hero.heading}</h1>
           <p className={styles.bio}>{t.hero.bio}</p>
-          <a className={styles.cta} href="#work">
-            {t.hero.cta} <span aria-hidden="true">&gt;</span>
-          </a>
+        </div>
+      </div>
+      <div className={styles.grid}>
+        <div>
           <ul className={styles.skills}>
             {t.skills.map((skill) => {
               const isSelected = selectedSkill === skill
@@ -43,6 +53,9 @@ export function Hero({ selectedSkill, onSelectSkill }: HeroProps) {
               )
             })}
           </ul>
+          <a className={styles.cta} href="#work">
+            {t.hero.cta} <span aria-hidden="true">&gt;</span>
+          </a>
         </div>
         <RingBadge text="UX Design · UI Design · Web Design · " />
       </div>

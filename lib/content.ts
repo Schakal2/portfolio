@@ -57,8 +57,8 @@ export const content: Record<Locale, Content> = {
     nav: { home: "Home", work: "Projekte", contact: "Kontakt", cv: "CV" },
     hero: {
       banner: "Willkommen",
-      heading: "Hi, ich bin Julian. Ich löse spezielle Probleme mit durchdachtem Design.",
-      bio: "Ich gestalte digitale Produkte, die Kraft und Benutzerfreundlichkeit in Einklang bringen. Mein Hintergrund in Audio und Web-Entwicklung hilft mir, die technischen Grenzen und Möglichkeiten zu verstehen, die großartige Designentscheidungen prägen.",
+      heading: "Hi, ich bin Julian.",
+      bio: "UX/UI-Designer, der die Lücke zwischen Interface-Design und sauberem Frontend-Code schließt.",
       cta: "Projekte ansehen",
     },
     skills: [
@@ -240,8 +240,8 @@ export const content: Record<Locale, Content> = {
     nav: { home: "Home", work: "Work", contact: "Contact", cv: "CV" },
     hero: {
       banner: "Welcome",
-      heading: "Hi, I'm Julian. I solve unique problems with thoughtful design.",
-      bio: "I design digital products that balance power with usability. My background in audio and web development helps me understand the technical constraints and possibilities that shape great design decisions.",
+      heading: "Hi, I'm Julian.",
+      bio: "UX/UI designer bridging the gap between interface design and clean frontend code.",
       cta: "View projects",
     },
     skills: [
