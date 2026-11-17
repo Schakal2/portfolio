@@ -1,0 +1,94 @@
+<MetaGrid>
+  <MetaItem label="Rolle" value="Frontend-Entwickler, verantwortlich für das ganze Theme" />
+  <MetaItem label="Zeitraum" value="2 Wochen, Sep. bis Okt. 2026" />
+  <MetaItem label="Stack" value="Shopify CLI, Liquid, JavaScript, CSS, GitHub" />
+  <MetaItem label="Live" value="meintee.de" />
+</MetaGrid>
+
+<StatGrid>
+  <StatCard number="22" label="Fixes im Live-Shop" />
+  <StatCard number="2 Wo." label="vom ersten Audit bis zum letzten Fix" />
+  <StatCard number="1,8 s" label="bis das größte Element am Handy sichtbar ist (Grenze 2,5 s)" />
+  <StatCard number="0" label="Layout-Sprünge beim Laden (CLS)" />
+</StatGrid>
+
+## Ein Shop, den keiner anfassen wollte
+
+meinTee verkauft Tee-Sets und Geschenke, mit einem Konfigurator für gravierte Sets. Mit der Zeit hatte das Shopify-Theme viele kleine Fehler angesammelt: Produktbilder, die unter der Kopfzeile verschwanden, ein Bewertungsformular im falschen Ton, ein Warenkorb, der aufging, bevor das Produkt drin war.
+
+Keiner davon war groß. Zusammen ließen sie den Shop unzuverlässig wirken. Und weil der lokale Code nicht mehr zum Live-Stand passte, konnte jeder Fix etwas anderes kaputt machen.
+
+---
+
+## Fünf Schritte für jede Änderung
+
+Bevor ich irgendetwas repariert habe, habe ich einen festen Ablauf aufgesetzt. Jede Änderung, egal wie klein, ging durch dieselben fünf Schritte.
+
+1. **Den Live-Stand holen.** Den Code direkt aus dem Live-Shop laden, damit er zu dem passt, was Kund:innen sehen.
+2. **Vergleichen.** Jede Datei mit dem Original-Theme vergleichen und festhalten, was anders ist und warum.
+3. **Im Browser testen.** Jede Lösung erst in den DevTools am echten Shop ausprobieren, bevor eine Datei angefasst wird.
+4. **Markieren.** Jede eigene Änderung im Code kennzeichnen, damit sie nach Theme-Updates wiederzufinden ist.
+5. **Eine Datei hochladen.** Immer nur eine Datei hochladen, nachdem geprüft ist, dass niemand sonst sie geändert hat.
+
+---
+
+## Vier Fixes, vorher und nachher
+
+Jeder Fix folgte demselben Muster: Was war falsch, warum, und was habe ich geändert.
+
+### Die Galerie, die unter die Kopfzeile rutschte
+
+Beim Scrollen auf der Produktseite rutschten die Bilder unter die fixierte Kopfzeile und wurden abgeschnitten. Die Galerie wusste nicht, wie hoch die Kopfzeile ist. Jetzt hält sie genau so viel Abstand, wie die Kopfzeile Platz braucht.
+
+![Produktseite vorher und nachher: Die Galerie bleibt unter der Kopfzeile](/images/meintee/fix-gallery.jpg)
+
+### Eine Prüfseite, die fremd aussah
+
+Nach dem Kontaktformular zeigt Shopify manchmal eine Captcha-Seite. Diese Seite baut Shopify selbst, das Theme hatte sie nie gestaltet, und so sah sie aus wie von einer anderen Firma. Markenfarben, ein beiger Kasten und ein runder Button machen sie jetzt zu einem Teil von meinTee.
+
+![Captcha-Seite vorher und nachher im meinTee-Look](/images/meintee/fix-captcha.jpg)
+
+### Ein Warenkorb, der zu früh aufging
+
+Nach „In den Warenkorb“ ging die Seitenleiste auf, bevor das Produkt drin war, weil das Theme nicht auf Shopify wartete. Jetzt wartet der Warenkorb, bis das Produkt wirklich hinzugefügt ist. Dazwischen zeigt der Button einen Haken.
+
+![Handy: Haken am Button direkt nach dem Klick, danach öffnet der Warenkorb mit dem Produkt](/images/meintee/fix-cart.jpg)
+
+### Ein Bewertungsformular, das siezte
+
+meinTee duzt seine Kundschaft. Nur das Bewertungsformular sagte „Sie“, und die Bewertungs-App lässt diese Texte nicht anpassen. Ein kleines Skript tauscht alle 71 Texte aus, bevor die App sie anzeigt. Das Formular passt jetzt zur Marke und lässt sich schließen.
+
+![Bewertungsformular vorher und nachher](/images/meintee/fix-reviews.jpg)
+
+Außerdem live: ein Safari-Hover-Fehler, ein Startseiten-Video ohne Layout-Sprung, Kategorienamen im Handy-Menü als echte Links, ein Barrierefreiheits-Icon, das über die Kaufleiste rückt, und ein Icon für den Home-Bildschirm.
+
+---
+
+## Mehr als Fixes: ein Logo, das sich zusammensetzt
+
+Neben den Fixes habe ich etwas Neues für die Kopfzeile gebaut. Ich habe das meinTee-Zeichen in drei SVG-Ebenen zerlegt und nur mit CSS-Keyframes animiert, ohne Bibliothek. Im Theme-Editor lässt sich die Animation an- und ausschalten, auf einmal pro Sitzung begrenzen und in allen drei Farben einstellen.
+
+![Zeitachse der Animation: Stern 4,0 s, Blätter 2,1 s, Ringe 2,6 s](/images/meintee/logo-timeline.jpg)
+
+---
+
+## Schnell für echte Besucher
+
+Google misst, wie schnell sich ein Shop für echte Besucher anfühlt (Core Web Vitals). meinTee besteht diesen Test am Handy und am Computer.
+
+<StatGrid>
+  <StatCard number="1,8 s / 1,2 s" label="Largest Contentful Paint, Handy / Computer" />
+  <StatCard number="1,5 s / 1,1 s" label="First Contentful Paint" />
+  <StatCard number="0 / 0" label="Cumulative Layout Shift" />
+  <StatCard number="0,5 s / 0,3 s" label="Time to First Byte" />
+</StatGrid>
+
+Als Nächstes: leichtere Bilder und Videos auf der Startseite und bessere Barrierefreiheit mit Alt-Texten, Linknamen und Kontrast.
+
+---
+
+## Was ich mitnehme
+
+- **Erst die echte Quelle holen.** Die Arbeit an einer veralteten Kopie hat mich Tage gekostet. Heute ist der erste Schritt immer, den Live-Stand zu holen.
+- **Am echten Shop testen.** Im Browser sehe ich den Fehler am Live-Shop, ohne etwas kaputt zu machen.
+- **Dokumentation gehört zum Fix.** Weil jede Änderung markiert und erklärt ist, übersteht die Arbeit jedes Update und andere können sie nachvollziehen.

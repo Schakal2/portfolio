@@ -41,6 +41,7 @@ interface Content {
   }
   caseStudies: {
     Wt186: CaseStudyCopy
+    meintee: CaseStudyCopy
     ebehoerde: CaseStudyCopy
     planora: CaseStudyCopy
     flavorFusion: CaseStudyCopy
@@ -87,6 +88,19 @@ export const content: Record<Locale, Content> = {
     work: {
       banner: "Ausgewählte Arbeiten",
       items: [
+        {
+          slug: "meintee",
+          title: "meinTee",
+          role: "Shopify-Shop für Tee-Sets",
+          headline:
+            "Sieben kleine Fehler, ein fragiles Theme: wie ich einen Live-Shop wieder sicher änderbar gemacht habe.",
+          meta: "Frontend · Shopify · Performance",
+          tag: "Case Study",
+          tags: ["JavaScript", "HTML / CSS", "Responsive Design", "Accessibility (WCAG)", "Web Design"],
+          href: "/meintee",
+          ctaLabel: "Case Study lesen",
+          cover: "/images/meintee/cover.jpg",
+        },
         {
           slug: "wt-186",
           title: "WT-186",
@@ -209,6 +223,11 @@ export const content: Record<Locale, Content> = {
       rights: "Alle Rechte vorbehalten.",
     },
     caseStudies: {
+      meintee: {
+        back: "Zurück zur Übersicht",
+        role: "Shopify-Shop für Tee-Sets",
+        tags: ["Frontend", "Shopify", "Performance"],
+      },
       Wt186: {
         back: "Zurück zur Übersicht",
         role: "Wave-Terrain-Synthesizer-Plugin",
@@ -270,6 +289,19 @@ export const content: Record<Locale, Content> = {
     work: {
       banner: "Featured Work",
       items: [
+        {
+          slug: "meintee",
+          title: "meinTee",
+          role: "Shopify store for tea sets",
+          headline:
+            "Seven small bugs, one fragile theme: how I made a live store safe to change again.",
+          meta: "Frontend · Shopify · Performance",
+          tag: "Case Study",
+          tags: ["JavaScript", "HTML / CSS", "Responsive Design", "Accessibility (WCAG)", "Web Design"],
+          href: "/meintee",
+          ctaLabel: "Read case study",
+          cover: "/images/meintee/cover.jpg",
+        },
         {
           slug: "wt-186",
           title: "WT-186",
@@ -406,6 +438,11 @@ export const content: Record<Locale, Content> = {
         back: "Back to overview",
         role: "Recipe app landing page",
         tags: ["UX/UI Design", "Landing Page"],
+      },
+      meintee: {
+        back: "Back to overview",
+        role: "Shopify store for tea sets",
+        tags: ["Frontend", "Shopify", "Performance"],
       },
       Wt186: {
         back: "Back to overview",
