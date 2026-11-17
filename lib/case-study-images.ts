@@ -33,3 +33,9 @@ export const meinteeCover: CaseStudyImage = {
   width: 1524,
   height: 813,
 }
+
+export const evenlyCover: CaseStudyImage = {
+  src: "/images/evenly/cover.jpg",
+  width: 1524,
+  height: 813,
+}

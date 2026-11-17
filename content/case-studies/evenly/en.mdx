@@ -1,0 +1,61 @@
+<MetaGrid>
+  <MetaItem label="Role" value="Design and development, solo" />
+  <MetaItem label="Type" value="Personal project, used on a group trip" />
+  <MetaItem label="Stack" value="HTML, CSS, JavaScript, Vercel Functions, Upstash Redis" />
+  <MetaItem label="Platform" value="Mobile web, light and dark mode" />
+</MetaGrid>
+
+<StatGrid>
+  <StatCard number="1" label="HTML file for the whole interface" />
+  <StatCard number="0" label="accounts, ads or trackers" />
+  <StatCard number="6" label="friends using it on a trip to Venice" />
+  <StatCard number="15 s" label="until everyone's phone shows a new expense" />
+</StatGrid>
+
+## Splitting costs without giving away your data
+
+On trips and in families, someone always pays for everyone. Splitwise solves that, but it wants an account from every person and builds a business on their data. I wanted the same core idea without the overhead: open a link, enter what you paid, see who owes whom.
+
+The first version was for my family. Its real test came with six friends on a trip to Venice, all on their phones, in shops and restaurants, often with one hand.
+
+---
+
+## Design decisions
+
+- **The answer comes first.** The dark card at the top answers the only question that matters: who gets money back, and who owes how much. Everything else sits below it.
+- **Fewer payments to settle up.** Next to the person-to-person balances, Evenly suggests a simplified plan. In the example, 4 payments settle what would otherwise take 9.
+- **One tap marks a debt as paid.** A settlement is just another entry in the history, so nothing gets lost and everyone can see it.
+- **A personal view.** Each person can open their own balance: what they paid, what their share was, and what is still open. Every line explains itself, for example "paid by Jonas, your share (÷5)".
+- **No sign up.** The group shares one link. An optional password keeps strangers out. The app remembers on each phone who you are.
+
+![Group balance with simplified settlement, and the personal balance for one person](/images/evenly/settle.jpg)
+
+---
+
+## Built for one hand and a busy table
+
+Entering an expense takes four fields: what, how much, who paid, and who shares. Everyone is selected by default, because that is the common case. Amounts accept a comma or a dot. Errors are written as plain requests, like "Please say briefly what it was for."
+
+![Expense form and history](/images/evenly/add.jpg)
+
+---
+
+## Small stack, honest maths
+
+The whole interface is one HTML file. A single Vercel function stores people and expenses in Upstash Redis, and every phone checks for changes every 15 seconds and when the app comes back to the foreground.
+
+All amounts are stored in cents. When a bill does not divide evenly, the leftover cents are assigned one by one, so the balances always add up to exactly zero.
+
+---
+
+## From joke name to product name
+
+The app started as "Julianwise", a nod to Splitwise. For the portfolio I gave it a proper identity: **Evenly** says what it does. The mark is an equals sign in the brand amber, which also works as the home screen icon. The group name now comes from a setting instead of being hard coded, so the same app works for a trip, a shared flat or a family.
+
+---
+
+## Takeaways
+
+- **Real use beats any test.** Once the group used it every day, it became clear what was missing. The personal balance view came out of that.
+- **Small is a feature.** One file and one function are easy to understand, cheap to host and quick to change on the go.
+- **Explain the numbers.** People trust a balance when every line says where it comes from.

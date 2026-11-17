@@ -1,0 +1,61 @@
+<MetaGrid>
+  <MetaItem label="Rolle" value="Design und Entwicklung, allein" />
+  <MetaItem label="Art" value="Eigenes Projekt, im Einsatz auf einer Gruppenreise" />
+  <MetaItem label="Stack" value="HTML, CSS, JavaScript, Vercel Functions, Upstash Redis" />
+  <MetaItem label="Plattform" value="Mobile Web, heller und dunkler Modus" />
+</MetaGrid>
+
+<StatGrid>
+  <StatCard number="1" label="HTML-Datei für die ganze Oberfläche" />
+  <StatCard number="0" label="Konten, Werbung oder Tracker" />
+  <StatCard number="6" label="Freund:innen nutzten sie auf einer Reise nach Venedig" />
+  <StatCard number="15 s" label="bis jede neue Ausgabe auf allen Handys steht" />
+</StatGrid>
+
+## Kosten teilen, ohne Daten herzugeben
+
+Auf Reisen und in Familien zahlt immer jemand für alle. Splitwise löst das, verlangt aber von jeder Person ein Konto und macht ein Geschäft mit ihren Daten. Ich wollte die gleiche Grundidee ohne den Ballast: Link öffnen, eintragen, was man bezahlt hat, sehen, wer wem was schuldet.
+
+Die erste Version war für meine Familie. Den echten Test bekam sie mit sechs Freund:innen auf einer Reise nach Venedig, alle am Handy, in Läden und Restaurants, oft mit einer Hand.
+
+---
+
+## Gestaltungsentscheidungen
+
+- **Die Antwort zuerst.** Die dunkle Karte oben beantwortet die einzige Frage, die zählt: Wer bekommt Geld zurück, und wer schuldet wie viel. Alles andere steht darunter.
+- **Weniger Zahlungen zum Ausgleichen.** Neben den Beträgen von Person zu Person schlägt Evenly einen vereinfachten Plan vor. Im Beispiel reichen 4 statt 9 Zahlungen.
+- **Ein Tipp markiert eine Schuld als bezahlt.** Ein Ausgleich ist einfach ein weiterer Eintrag im Verlauf. So geht nichts verloren, und alle sehen es.
+- **Eine persönliche Sicht.** Jede Person kann ihre eigene Bilanz öffnen: was sie bezahlt hat, was ihr Anteil war und was noch offen ist. Jede Zeile erklärt sich selbst, zum Beispiel „bezahlt von Jonas, dein Anteil (÷5)“.
+- **Ohne Anmeldung.** Die Gruppe teilt einen Link. Ein optionales Passwort hält Fremde draußen. Die App merkt sich auf jedem Handy, wer man ist.
+
+![Gruppenbilanz mit vereinfachtem Ausgleich und persönliche Bilanz einer Person](/images/evenly/settle.jpg)
+
+---
+
+## Gebaut für eine Hand und einen vollen Tisch
+
+Eine Ausgabe braucht vier Angaben: wofür, wie viel, wer bezahlt hat und wer mitteilt. Alle sind vorausgewählt, weil das der häufigste Fall ist. Beträge gehen mit Komma oder Punkt. Fehler stehen als einfache Bitten da, etwa „Bitte kurz sagen, wofür.“
+
+![Formular für eine neue Ausgabe und der Verlauf](/images/evenly/add.jpg)
+
+---
+
+## Kleiner Stack, ehrliche Rechnung
+
+Die ganze Oberfläche ist eine HTML-Datei. Eine einzige Vercel-Funktion speichert Personen und Ausgaben in Upstash Redis. Jedes Handy fragt alle 15 Sekunden nach Änderungen und sofort, wenn die App wieder in den Vordergrund kommt.
+
+Alle Beträge werden in Cent gespeichert. Wenn eine Rechnung nicht glatt aufgeht, werden die übrigen Cents einzeln verteilt. So ergeben die Bilanzen zusammen immer genau null.
+
+---
+
+## Vom Witznamen zum Produktnamen
+
+Die App hieß anfangs „Julianwise“, eine Anspielung auf Splitwise. Fürs Portfolio hat sie eine richtige Identität bekommen: **Evenly** sagt, was sie tut. Das Zeichen ist ein Gleichheitszeichen in Bernstein, das auch als Icon auf dem Home-Bildschirm funktioniert. Der Gruppenname kommt jetzt aus einer Einstellung statt fest aus dem Code. So funktioniert dieselbe App für eine Reise, eine WG oder eine Familie.
+
+---
+
+## Was ich mitnehme
+
+- **Echter Einsatz schlägt jeden Test.** Sobald die Gruppe die App jeden Tag benutzt hat, war klar, was fehlt. Die persönliche Bilanz ist daraus entstanden.
+- **Klein ist eine Stärke.** Eine Datei und eine Funktion sind leicht zu verstehen, günstig zu hosten und unterwegs schnell geändert.
+- **Zahlen erklären.** Menschen vertrauen einer Bilanz, wenn jede Zeile sagt, woher sie kommt.

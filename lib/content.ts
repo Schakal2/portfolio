@@ -42,6 +42,7 @@ interface Content {
   caseStudies: {
     Wt186: CaseStudyCopy
     meintee: CaseStudyCopy
+    evenly: CaseStudyCopy
     ebehoerde: CaseStudyCopy
     planora: CaseStudyCopy
     flavorFusion: CaseStudyCopy
@@ -100,6 +101,19 @@ export const content: Record<Locale, Content> = {
           href: "/meintee",
           ctaLabel: "Case Study lesen",
           cover: "/images/meintee/cover.jpg",
+        },
+        {
+          slug: "evenly",
+          title: "Evenly",
+          role: "Ausgaben-Teilen-App",
+          headline:
+            "Kosten in der Gruppe fair teilen, ohne Konto und ohne Datenhandel.",
+          meta: "UX/UI Design · Frontend · Mobile Web",
+          tag: "Eigenes Projekt",
+          tags: ["UX Design", "Product Design", "Web Design", "JavaScript", "HTML / CSS", "Responsive Design"],
+          href: "/evenly",
+          ctaLabel: "Case Study lesen",
+          cover: "/images/evenly/cover.jpg",
         },
         {
           slug: "wt-186",
@@ -223,6 +237,11 @@ export const content: Record<Locale, Content> = {
       rights: "Alle Rechte vorbehalten.",
     },
     caseStudies: {
+      evenly: {
+        back: "Zurück zur Übersicht",
+        role: "Ausgaben-Teilen-App",
+        tags: ["UX/UI Design", "Frontend", "Mobile"],
+      },
       meintee: {
         back: "Zurück zur Übersicht",
         role: "Shopify-Shop für Tee-Sets",
@@ -301,6 +320,19 @@ export const content: Record<Locale, Content> = {
           href: "/meintee",
           ctaLabel: "Read case study",
           cover: "/images/meintee/cover.jpg",
+        },
+        {
+          slug: "evenly",
+          title: "Evenly",
+          role: "Expense splitting app",
+          headline:
+            "Split group costs fairly, without accounts and without selling data.",
+          meta: "UX/UI Design · Frontend · Mobile Web",
+          tag: "Personal project",
+          tags: ["UX Design", "Product Design", "Web Design", "JavaScript", "HTML / CSS", "Responsive Design"],
+          href: "/evenly",
+          ctaLabel: "Read case study",
+          cover: "/images/evenly/cover.jpg",
         },
         {
           slug: "wt-186",
@@ -438,6 +470,11 @@ export const content: Record<Locale, Content> = {
         back: "Back to overview",
         role: "Recipe app landing page",
         tags: ["UX/UI Design", "Landing Page"],
+      },
+      evenly: {
+        back: "Back to overview",
+        role: "Expense splitting app",
+        tags: ["UX/UI Design", "Frontend", "Mobile"],
       },
       meintee: {
         back: "Back to overview",
