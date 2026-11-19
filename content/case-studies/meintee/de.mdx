@@ -1,13 +1,13 @@
 <MetaGrid>
-  <MetaItem label="Rolle" value="Frontend-Entwickler, verantwortlich für das ganze Theme" />
+  <MetaItem label="Rolle" value="Frontend-Entwickler mit UX-Fokus, verantwortlich für das Theme" />
   <MetaItem label="Zeitraum" value="2 Wochen, Sep. bis Okt. 2026" />
-  <MetaItem label="Stack" value="Shopify CLI, Liquid, JavaScript, CSS, GitHub" />
+  <MetaItem label="Stack" value="Shopify, Liquid, JavaScript, CSS, GitHub" />
   <MetaItem label="Live" value="meintee.de" />
 </MetaGrid>
 
 <StatGrid>
-  <StatCard number="22" label="Fixes und Verbesserungen im Live-Shop" />
-  <StatCard number="2 Wo." label="vom ersten Audit bis zum letzten Fix" />
+  <StatCard number="2 Wo." label="von der Einarbeitung in Shopify bis zur letzten Verbesserung" />
+  <StatCard number="22" label="Verbesserungen live im Shop" />
   <StatCard number="1,8 s" label="bis das größte Element am Handy sichtbar ist (Grenze 2,5 s)" />
   <StatCard number="0" label="Layout-Sprünge beim Laden (CLS)" />
 </StatGrid>
@@ -15,119 +15,75 @@
 <Chapter n="01" label="Ausgangslage" />
 
 <Lead>
-meinTee verkauft Tee-Sets und Geschenke für ruhige Teemomente. Herzstück ist ein Konfigurator, mit dem man ein Set zusammenstellt und gravieren lässt.
+Ein laufender Shop, eine Liste mit Tickets und eine Plattform, die ich noch nie benutzt hatte.
 </Lead>
 
-Als ich das Theme übernommen habe, lief der Shop bereits und verkaufte jeden Tag. Wie in jedem gewachsenen Shop gab es eine Reihe kleiner Baustellen: Produktbilder, die beim Scrollen unter die Kopfzeile rutschten, ein Bewertungsformular im falschen Ton, ein Warenkorb, der aufging, bevor das Produkt drin war.
+meinTee verkauft Tee-Sets und Geschenke, mit einem Konfigurator für gravierte Sets. Als ich das Theme übernommen habe, verkaufte der Shop bereits jeden Tag, und parallel wurde im Theme-Editor weitergearbeitet. Mit Shopify hatte ich bis dahin nicht gearbeitet.
 
-Keine davon war groß. Zusammen entscheiden solche Details aber darüber, ob sich ein Shop verlässlich anfühlt. Weil parallel im Theme-Editor weitergearbeitet wurde, musste jede Änderung sicher und nachvollziehbar sein. Deshalb habe ich nicht mit dem ersten Fix angefangen, sondern mit einem Ablauf.
+Auf den ersten Blick sahen die Aufgaben technisch aus. Beim genaueren Hinsehen ging es fast immer um dieselbe Frage: Wo stolpern Kund:innen, und was kostet sie das an Vertrauen?
+
+<Chapter n="02" label="Vom Ticket zur Usability" />
+
+## Bewertungen: Aus einem Textfehler wird ein besserer Ablauf
+
+Das Ticket lautete: Das Bewertungsformular siezt, meinTee duzt. Beim Durchklicken war aber klar, dass die Anrede das kleinste Problem war. Das Formular verteilte sich über mehrere Schritte, und es gab kein X zum Schließen. Wer nur kurz Sterne vergeben wollte, musste sich durchklicken oder die Seite verlassen.
+
+<Quote>
+Wer eine Bewertung abgibt, tut dem Shop einen Gefallen. Jeder zusätzliche Klick ist ein Grund, es zu lassen.
+</Quote>
+
+Ich habe im Team dafür argumentiert, auf die einseitige Variante der Bewertungs-App umzustellen. Weil die App ihre Texte nicht anpassen lässt, tauscht ein kleines Skript alle 71 Texte aus, bevor sie angezeigt werden. Dazu kam ein Button zum Schließen. Das Ergebnis: ein Formular auf einer Seite, im Ton der Marke, das man jederzeit verlassen kann.
 
 <Figure
-  src="/images/meintee/cover.jpg"
-  alt="meinTee am Handy: Menü, Bewertungsformular und Warenkorb"
-  caption="meinTee am Handy heute: Menü, Bewertungsformular und Warenkorb."
-  wide
+  src="/images/meintee/fix-reviews.jpg"
+  alt="Bewertungsformular vorher und nachher"
+  caption="Vorher: mehrstufig, im Sie, ohne Ausweg. Nachher: eine Seite, im Du, mit X."
 />
 
-<Chapter n="02" label="Arbeitsweise" />
+## Mehr aus derselben Liste
 
-## Fünf Schritte für jede Änderung
+Dasselbe Muster bei weiteren Tickets: hinter jedem steckte ein Moment, in dem der Shop unzuverlässig wirkte.
 
-Jede Änderung, egal wie klein, ging durch dieselben fünf Schritte. Das klingt nach Aufwand, spart ihn aber: Kein Fix überschreibt die Arbeit von jemand anderem, und jede eigene Stelle lässt sich nach einem Theme-Update wiederfinden.
+<Gallery>
+  <Shot src="/images/meintee/cart-fix.mp4" poster="/images/meintee/cart-fix.jpg" alt="Haken am Button, danach öffnet der Warenkorb mit dem Produkt" title="Sofortiges Feedback beim Kauf">
+    Statt eines leeren Warenkorbs bestätigt ein Haken den Klick, dann öffnet der Warenkorb mit dem Produkt.
+  </Shot>
+  <Shot src="/images/meintee/fix-gallery.jpg" alt="Produktseite vorher und nachher" title="Produktbilder immer ganz sichtbar">
+    Die Galerie rutscht beim Scrollen nicht mehr unter die fixierte Kopfzeile.
+  </Shot>
+  <Shot src="/images/meintee/fix-captcha.jpg" alt="Captcha-Seite vorher und nachher" title="Kein Bruch im Markenauftritt">
+    Auch die Prüfseite, die Shopify selbst baut, sieht jetzt nach meinTee aus.
+  </Shot>
+</Gallery>
+
+<Chapter n="03" label="Shopify lernen, ohne den Shop zu gefährden" />
+
+## Ein Ablauf statt Bauchgefühl
+
+Neu auf einer Plattform und direkt am Live-Shop: Das geht nur mit Regeln. Ich habe mir einen festen Ablauf gebaut, damit kein Fix die Arbeit von jemand anderem überschreibt und jede Anpassung das nächste Theme-Update übersteht. Diesen Ablauf versuche ich gerade auch im Team zu etablieren.
 
 <Steps>
-  <Step n="01" title="Live-Stand holen">Den Code direkt aus dem Shop laden, damit er zu dem passt, was Kund:innen sehen.</Step>
-  <Step n="02" title="Vergleichen">Jede Datei mit dem Original-Theme abgleichen und festhalten, was anders ist und warum.</Step>
+  <Step n="01" title="Live-Stand holen">Den Code direkt aus dem Shop laden, nicht aus einer alten Kopie.</Step>
+  <Step n="02" title="Vergleichen">Jede Datei mit dem Original-Theme abgleichen. So habe ich Shopify von innen gelernt.</Step>
   <Step n="03" title="Im Browser testen">Jede Lösung erst in den DevTools am echten Shop ausprobieren.</Step>
-  <Step n="04" title="Markieren">Jede eigene Änderung im Code kennzeichnen, damit sie Updates übersteht.</Step>
-  <Step n="05" title="Eine Datei hochladen">Immer nur eine Datei, nach einer Prüfung, ob sie sonst jemand geändert hat.</Step>
+  <Step n="04" title="Markieren">Jede eigene Änderung kennzeichnen, damit sie Updates übersteht.</Step>
+  <Step n="05" title="Eine Datei hochladen">Immer nur eine Datei, nach einer Prüfung auf parallele Änderungen.</Step>
 </Steps>
 
-<Chapter n="03" label="Ausgewählte Fixes" />
-
-## Vier Fixes, vorher und nachher
-
-Jeder Fix folgt demselben Muster: Was war falsch, warum, und was habe ich geändert. Diese vier zeigen die Bandbreite, vom Layout über den Ton bis zur Logik im Warenkorb.
-
-<Fix
-  n="Fix 01"
-  title="Der Warenkorb, der zu früh aufging"
-  problem="Nach „In den Warenkorb“ öffnete sich die Seitenleiste, bevor das Produkt drin war. Kurz sah man einen leeren Warenkorb."
-  cause="Das Theme öffnete die Leiste sofort, ohne auf die Antwort von Shopify zu warten."
-  fix="Der Warenkorb wartet jetzt, bis das Produkt wirklich hinzugefügt ist. Dazwischen bestätigt ein Haken am Button den Klick."
->
-  <video src="/images/meintee/cart-fix.mp4" poster="/images/meintee/cart-fix.jpg" autoPlay muted loop playsInline aria-label="Haken am Button, danach öffnet der Warenkorb mit dem Produkt" style={{ maxWidth: 300 }} />
-</Fix>
-
-<Fix
-  n="Fix 02"
-  title="Die Galerie unter der Kopfzeile"
-  problem="Beim Scrollen auf der Produktseite rutschten die Bilder unter die fixierte Kopfzeile und wurden oben abgeschnitten."
-  cause="Die Kopfzeile bleibt oben stehen, aber die Galerie wusste nicht, wie hoch sie ist."
-  fix="Die Galerie hält jetzt genau so viel Abstand, wie die Kopfzeile Platz braucht, auch wenn sich deren Höhe ändert."
->
-  <img src="/images/meintee/fix-gallery.jpg" alt="Produktseite vorher und nachher: Die Galerie bleibt unter der Kopfzeile" />
-</Fix>
-
-<Fix
-  n="Fix 03"
-  title="Ein Formular im falschen Ton"
-  problem="meinTee duzt seine Kundschaft. Nur das Bewertungsformular sagte „Sie“ und ließ sich nicht schließen."
-  cause="Die Texte kommen aus einer Bewertungs-App, die sie nicht anpassen lässt."
-  fix="Ein kleines Skript tauscht alle 71 Texte aus, bevor die App sie anzeigt. Dazu kam ein Button zum Schließen."
->
-  <img src="/images/meintee/fix-reviews.jpg" alt="Bewertungsformular vorher und nachher" />
-</Fix>
-
-<Fix
-  n="Fix 04"
-  title="Eine Prüfseite im eigenen Look"
-  problem="Nach dem Kontaktformular zeigt Shopify manchmal eine Captcha-Seite. Sie sah aus, als käme sie von einer anderen Firma."
-  cause="Diese Seite baut Shopify selbst. Das Theme hatte sie nie gestaltet."
-  fix="Markenfarben, ein beiger Kasten und ein runder Button machen sie zu einem Teil von meinTee."
->
-  <img src="/images/meintee/fix-captcha.jpg" alt="Captcha-Seite vorher und nachher im meinTee-Look" />
-</Fix>
-
-Dazu kamen kleinere Fixes: ein Hover-Fehler in Safari, ein Startseiten-Video ohne Layout-Sprung, Kategorienamen im Handy-Menü als echte Links, ein Barrierefreiheits-Icon, das über die Kaufleiste rückt, und ein Icon für den Home-Bildschirm.
-
-<Marquee text="22 Fixes · 2 Wochen · 0 Layout-Sprünge" />
-
-<Chapter n="04" label="Logo-Animation" />
+<Chapter n="04" label="Highlight" />
 
 ## Ein Logo, das sich zusammensetzt
 
-Neben den Fixes habe ich etwas Neues für die Kopfzeile gebaut, oben auf dieser Seite in Aktion. Ich habe das meinTee-Zeichen in drei SVG-Ebenen zerlegt: Stern, Blätter und Ringe. Beim ersten Besuch fügen sie sich zwischen „mein“ und „tee“ zum Logo zusammen, der Schriftzug steht von Anfang an.
+Neben den Tickets habe ich etwas Eigenes gebaut, oben auf dieser Seite in Aktion: Das meinTee-Zeichen besteht aus drei SVG-Ebenen, die sich beim ersten Besuch zum Logo zusammenfügen. Alles läuft mit CSS-Keyframes, ohne Bibliothek, und respektiert „Bewegung reduzieren“.
 
-Bewegt wird alles nur mit CSS-Keyframes, ohne Bibliothek. Wer am Gerät „Bewegung reduzieren“ eingestellt hat, sieht das Logo still.
+Damit das Team die Animation ohne Code anpassen kann, ist sie im Theme-Editor einstellbar: an oder aus, einmal pro Sitzung, Farben, Größe, Dauer und Verzögerung je Ebene.
 
-<Figure
-  src="/images/meintee/logo-timeline.jpg"
-  alt="Zeitachse der Animation: Stern 4,0 s, Blätter 2,1 s, Ringe 2,6 s"
-  caption="Drei Ebenen, drei Bewegungen. Die Standardwerte im Shop."
-/>
+<Marquee text="Core Web Vitals bestanden · Handy und Computer" />
 
-Damit das Team die Animation ohne Code anpassen kann, ist sie im Theme-Editor einstellbar: an oder aus, nur einmal pro Sitzung, drei Farben sowie Größe, Dauer und Verzögerung für jede Ebene.
-
-<Chapter n="05" label="Ergebnis" />
-
-## Schnell für echte Besucher
-
-Google misst, wie schnell sich ein Shop für echte Besucher anfühlt (Core Web Vitals). meinTee besteht diesen Test am Handy und am Computer.
-
-<StatGrid>
-  <StatCard number="1,8 s / 1,2 s" label="Largest Contentful Paint, Handy / Computer" />
-  <StatCard number="1,5 s / 1,1 s" label="First Contentful Paint" />
-  <StatCard number="0 / 0" label="Cumulative Layout Shift" />
-  <StatCard number="0,5 s / 0,3 s" label="Time to First Byte" />
-</StatGrid>
-
-Als Nächstes stehen leichtere Bilder und Videos auf der Startseite an und bessere Barrierefreiheit mit Alt-Texten, Linknamen und Kontrast.
-
-<Chapter n="06" label="Was ich mitnehme" />
+<Chapter n="05" label="Was ich mitnehme" />
 
 <Learnings>
-  <Learning title="Erst die echte Quelle holen">Bei einem Live-Shop ist der erste Schritt immer, den aktuellen Stand zu holen. So baut jede Änderung auf dem auf, was Kund:innen wirklich sehen.</Learning>
-  <Learning title="Am echten Shop testen">Im Browser sehe ich den Fehler am Live-Shop, ohne etwas kaputt zu machen.</Learning>
-  <Learning title="Dokumentation gehört zum Fix">Weil jede Änderung markiert und erklärt ist, übersteht die Arbeit jedes Update, und andere können sie nachvollziehen.</Learning>
+  <Learning title="Hinter Tickets stecken Nutzer">Fast jede technische Aufgabe war eigentlich eine Usability-Frage. Sie so zu stellen, hat bessere Lösungen gebracht als die wörtliche Umsetzung.</Learning>
+  <Learning title="Argumentieren gehört zum Job">Die einseitige Bewertung kam nicht von selbst. Ich musste erklären, warum weniger Klicks mehr Bewertungen bringen.</Learning>
+  <Learning title="Struktur macht schnell">Der feste Ablauf hat mir erlaubt, eine neue Plattform zu lernen und trotzdem sicher am Live-Shop zu arbeiten.</Learning>
 </Learnings>

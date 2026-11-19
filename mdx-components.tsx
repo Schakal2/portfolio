@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import type { MDXComponents } from "mdx/types"
 import styles from "@/components/case-study-page.module.css"
-import { Chapter, Figure, Fix, Lead, Learning, Learnings, Marquee, Step, Steps } from "@/components/case-study-blocks"
+import { Chapter, Figure, Fix, Gallery, Lead, Learning, Learnings, Marquee, Quote, Shot, Step, Steps } from "@/components/case-study-blocks"
 
 function Video({ src }: { src: string }) {
   return (
@@ -81,6 +81,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     Chapter,
     Figure,
     Fix,
+    Gallery,
+    Quote,
+    Shot,
     Lead,
     Learning,
     Learnings,

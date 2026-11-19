@@ -132,3 +132,32 @@ export function Marquee({ text }: { text: string }) {
     </div>
   )
 }
+
+export function Gallery({ children }: { children: ReactNode }) {
+  return <div className={styles.gallery}>{children}</div>
+}
+
+/** A compact tile: media on top, outcome title and one sentence below. */
+export function Shot({ src, alt = "", poster, title, children }: { src: string; alt?: string; poster?: string; title: string; children?: ReactNode }) {
+  const isVideo = /\.(mp4|webm)$/i.test(src)
+  return (
+    <figure className={styles.shot}>
+      <div className={styles.shotMedia}>
+        {isVideo ? (
+          <video src={src} poster={poster} autoPlay muted loop playsInline preload="metadata" aria-label={alt} />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={src} alt={alt} loading="lazy" />
+        )}
+      </div>
+      <figcaption className={styles.shotText}>
+        <strong>{title}</strong>
+        {children && <span>{children}</span>}
+      </figcaption>
+    </figure>
+  )
+}
+
+export function Quote({ children }: { children: ReactNode }) {
+  return <blockquote className={styles.quote}>{children}</blockquote>
+}

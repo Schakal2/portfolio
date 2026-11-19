@@ -7,8 +7,8 @@ import MeinteeDe from "@/content/case-studies/meintee/de.mdx"
 import MeinteeEn from "@/content/case-studies/meintee/en.mdx"
 
 const headline = {
-  de: "Ein Live-Shop, viele kleine Details und ein fester Ablauf, mit dem jede Änderung sicher online geht.",
-  en: "A live store, many small details and one routine that lets every change go live safely.",
+  de: "Neu in Shopify, mit UX-Blick: wie ich in zwei Wochen aus technischen Tickets bessere Momente für Kund:innen gemacht habe.",
+  en: "New to Shopify, with a UX lens: how I turned technical tickets into better moments for customers in two weeks.",
 }
 
 export default function MeinteePage() {

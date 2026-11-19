@@ -303,3 +303,89 @@
   border-top: none;
   padding-top: 8px;
 }
+
+/* ---------- Compact gallery ---------- */
+
+.gallery {
+  align-self: center;
+  width: min(1040px, calc(100vw - 48px));
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 2px solid var(--color-ink);
+}
+
+.shot {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--color-ink);
+}
+
+.shot:first-child {
+  border-left: none;
+}
+
+.shotMedia {
+  background: var(--cs-surface, var(--color-block));
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border-bottom: 2px solid var(--color-ink);
+  overflow: hidden;
+}
+
+.shotMedia img,
+.shotMedia video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.shotText {
+  padding: 18px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.shotText strong {
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.shotText span {
+  opacity: 0.8;
+}
+
+@media (max-width: 860px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+  .shot {
+    border-left: none;
+    border-top: 2px solid var(--color-ink);
+  }
+  .shot:first-child {
+    border-top: none;
+  }
+}
+
+/* ---------- Quote ---------- */
+
+.quote {
+  border-left: 6px solid var(--cs-accent, var(--color-violet));
+  padding: 4px 0 4px 20px;
+  font-size: clamp(19px, 2.2vw, 22px);
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.quote p {
+  font-size: inherit;
+  line-height: inherit;
+  opacity: 1;
+}

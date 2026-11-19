@@ -94,8 +94,8 @@ export const content: Record<Locale, Content> = {
           title: "meinTee",
           role: "Shopify-Shop für Tee-Sets",
           headline:
-            "Sieben kleine Fehler, ein fester Ablauf: wie ich einen Live-Shop sicher weiterentwickelt habe.",
-          meta: "Frontend · Shopify · Performance",
+            "Neu in Shopify, mit UX-Blick: wie aus technischen Tickets bessere Momente für Kund:innen wurden.",
+          meta: "UX · Frontend · Shopify",
           tag: "Case Study",
           tags: ["JavaScript", "HTML / CSS", "Responsive Design", "Accessibility (WCAG)", "Web Design"],
           href: "/meintee",
@@ -245,7 +245,7 @@ export const content: Record<Locale, Content> = {
       meintee: {
         back: "Zurück zur Übersicht",
         role: "Shopify-Shop für Tee-Sets",
-        tags: ["Frontend", "Shopify", "Performance"],
+        tags: ["UX", "Frontend", "Shopify"],
       },
       Wt186: {
         back: "Zurück zur Übersicht",
@@ -313,8 +313,8 @@ export const content: Record<Locale, Content> = {
           title: "meinTee",
           role: "Shopify store for tea sets",
           headline:
-            "Seven small bugs, one routine: how I kept improving a live store safely.",
-          meta: "Frontend · Shopify · Performance",
+            "New to Shopify, with a UX lens: turning technical tickets into better moments for customers.",
+          meta: "UX · Frontend · Shopify",
           tag: "Case Study",
           tags: ["JavaScript", "HTML / CSS", "Responsive Design", "Accessibility (WCAG)", "Web Design"],
           href: "/meintee",
@@ -479,7 +479,7 @@ export const content: Record<Locale, Content> = {
       meintee: {
         back: "Back to overview",
         role: "Shopify store for tea sets",
-        tags: ["Frontend", "Shopify", "Performance"],
+        tags: ["UX", "Frontend", "Shopify"],
       },
       Wt186: {
         back: "Back to overview",
