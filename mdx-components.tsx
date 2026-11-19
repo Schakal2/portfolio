@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import type { MDXComponents } from "mdx/types"
 import styles from "@/components/case-study-page.module.css"
+import { Chapter, Figure, Fix, Lead, Learning, Learnings, Marquee, Step, Steps } from "@/components/case-study-blocks"
 
 function Video({ src }: { src: string }) {
   return (
@@ -77,6 +78,15 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     img: (props) => <img className={styles.galleryImage} alt="" {...props} />,
     Video,
     Audio,
+    Chapter,
+    Figure,
+    Fix,
+    Lead,
+    Learning,
+    Learnings,
+    Marquee,
+    Step,
+    Steps,
     MetaGrid,
     MetaItem,
     StatGrid,

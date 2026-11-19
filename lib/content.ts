@@ -94,13 +94,13 @@ export const content: Record<Locale, Content> = {
           title: "meinTee",
           role: "Shopify-Shop für Tee-Sets",
           headline:
-            "Sieben kleine Fehler, ein fragiles Theme: wie ich einen Live-Shop wieder sicher änderbar gemacht habe.",
+            "Sieben kleine Fehler, ein fester Ablauf: wie ich einen Live-Shop sicher weiterentwickelt habe.",
           meta: "Frontend · Shopify · Performance",
           tag: "Case Study",
           tags: ["JavaScript", "HTML / CSS", "Responsive Design", "Accessibility (WCAG)", "Web Design"],
           href: "/meintee",
           ctaLabel: "Case Study lesen",
-          cover: "/images/meintee/cover.jpg",
+          cover: "/images/meintee/cover-v3.jpg",
         },
         {
           slug: "evenly",
@@ -313,13 +313,13 @@ export const content: Record<Locale, Content> = {
           title: "meinTee",
           role: "Shopify store for tea sets",
           headline:
-            "Seven small bugs, one fragile theme: how I made a live store safe to change again.",
+            "Seven small bugs, one routine: how I kept improving a live store safely.",
           meta: "Frontend · Shopify · Performance",
           tag: "Case Study",
           tags: ["JavaScript", "HTML / CSS", "Responsive Design", "Accessibility (WCAG)", "Web Design"],
           href: "/meintee",
           ctaLabel: "Read case study",
-          cover: "/images/meintee/cover.jpg",
+          cover: "/images/meintee/cover-v3.jpg",
         },
         {
           slug: "evenly",

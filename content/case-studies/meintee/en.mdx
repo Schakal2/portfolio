@@ -6,75 +6,118 @@
 </MetaGrid>
 
 <StatGrid>
-  <StatCard number="22" label="fixes shipped to the live store" />
+  <StatCard number="22" label="fixes and improvements shipped to the live store" />
   <StatCard number="2 wks" label="from first audit to last fix" />
   <StatCard number="1.8 s" label="largest paint on mobile, real users (limit 2.5 s)" />
   <StatCard number="0" label="layout shift while loading (CLS)" />
 </StatGrid>
 
-## A store nobody dared to touch
+<Chapter n="01" label="Context" />
 
-meinTee sells tea sets and gifts, with a configurator for engraved sets. Over time the Shopify theme had picked up many small issues: product images cut off under the header, a review form in the wrong tone of voice, a cart that opened before the product was in it.
+<Lead>
+meinTee sells tea sets and gifts for quiet tea moments. At its heart is a configurator for putting together a set and having it engraved.
+</Lead>
 
-None of them was big. Together they made the shop feel unreliable, and because the local code no longer matched what was live, every fix risked breaking something else.
+When I took over the theme, the store was already live and selling every day. Like any store that has grown over time, it had a list of small issues: product images sliding under the header while scrolling, a review form in the wrong tone of voice, a cart that opened before the product was in it.
 
----
+None of them was big. Together, though, details like these decide whether a store feels reliable. Because content was edited in the theme editor at the same time, every change had to be safe and traceable. So I did not start with the first fix. I started with a routine.
+
+<Figure
+  src="/images/meintee/cover.jpg"
+  alt="meinTee on mobile: menu, review form and cart"
+  caption="meinTee on mobile today: menu, review form and cart."
+  wide
+/>
+
+<Chapter n="02" label="Approach" />
 
 ## A five-step routine for every change
 
-Before fixing anything, I set up one fixed workflow. Every change, however small, went through the same five steps.
+Every change, however small, went through the same five steps. It sounds like extra work, but it saves work: no fix overwrites someone else's changes, and every custom edit can be found again after a theme update.
 
-1. **Pull the live theme.** Download the code straight from the live store, so it matches what customers actually see.
-2. **Compare.** Diff every file against the original theme and note what changed and why.
-3. **Test in the browser.** Prototype each fix in DevTools on the real store before touching a file.
-4. **Mark it.** Tag every custom change in the code so it can be found again after theme updates.
-5. **Ship one file.** Upload a single file at a time, after checking that nobody else changed it.
+<Steps>
+  <Step n="01" title="Pull the live theme">Download the code straight from the store, so it matches what customers actually see.</Step>
+  <Step n="02" title="Compare">Diff every file against the original theme and note what changed and why.</Step>
+  <Step n="03" title="Test in the browser">Prototype each fix in DevTools on the real store first.</Step>
+  <Step n="04" title="Mark it">Tag every custom change in the code so it survives theme updates.</Step>
+  <Step n="05" title="Ship one file">Upload one file at a time, after checking nobody else changed it.</Step>
+</Steps>
 
----
+<Chapter n="03" label="Selected fixes" />
 
 ## Four fixes, before and after
 
-Each fix followed the same pattern: what was wrong, why it happened, and what I changed.
+Each fix follows the same pattern: what was wrong, why, and what I changed. These four show the range, from layout to tone of voice to cart logic.
 
-### The gallery that slid under the header
+<Fix
+  n="Fix 01"
+  title="A cart that opened too early"
+  problem="After “Add to cart”, the drawer opened before the product was in it. For a moment, customers saw an empty cart."
+  cause="The theme opened the drawer right away instead of waiting for Shopify to respond."
+  fix="The cart now waits until the product is really added. In between, a check mark on the button confirms the tap."
+  labels={["Problem", "Cause", "Fix"]}
+>
+  <video src="/images/meintee/cart-fix.mp4" poster="/images/meintee/cart-fix.jpg" autoPlay muted loop playsInline aria-label="Check mark on the button, then the cart opens with the product" style={{ maxWidth: 300 }} />
+</Fix>
 
-Scrolling a product page pushed the images under the sticky header and cut them off. The gallery did not know how tall the header was. It now keeps exactly as much space as the header takes up.
+<Fix
+  n="Fix 02"
+  title="The gallery under the header"
+  problem="Scrolling a product page pushed the images under the sticky header and cut them off at the top."
+  cause="The header stays put, but the gallery did not know how tall it was."
+  fix="The gallery now keeps exactly as much space as the header takes up, even when its height changes."
+  labels={["Problem", "Cause", "Fix"]}
+>
+  <img src="/images/meintee/fix-gallery.jpg" alt="Product page before and after: the gallery stays below the header" />
+</Fix>
 
-![Product page before and after: the gallery now stays below the sticky header](/images/meintee/fix-gallery.jpg)
+<Fix
+  n="Fix 03"
+  title="A form in the wrong voice"
+  problem="meinTee talks to customers informally. Only the review form used the formal German “Sie” and could not be closed."
+  cause="The texts come from a review app that does not allow editing them."
+  fix="A small script swaps all 71 strings before the app renders them, and a close button was added."
+  labels={["Problem", "Cause", "Fix"]}
+>
+  <img src="/images/meintee/fix-reviews.jpg" alt="Review form before and after" />
+</Fix>
 
-### A verification page that looked foreign
-
-After the contact form, Shopify sometimes shows a captcha page. Shopify renders this page itself and the theme had never styled it, so it looked like another company's site. Brand colours, a beige card and a rounded button now make it part of meinTee.
-
-![Captcha page before and after, now in the meinTee look](/images/meintee/fix-captcha.jpg)
-
-### A cart that opened too early
-
-After "Add to cart" the drawer slid open before the product was in it, because the theme did not wait for Shopify. The cart now waits until the item is really added, with a check mark on the button in between.
-
-![Mobile: check mark on the button right after the click, then the cart opens with the product](/images/meintee/fix-cart.jpg)
-
-### A review form in the wrong voice
-
-meinTee talks to customers informally. Only the review form used the formal German "Sie", and the review app does not allow these texts to be edited. A small script swaps all 71 strings before the app renders them. The form now matches the brand and can be closed.
-
-![Review form before and after](/images/meintee/fix-reviews.jpg)
+<Fix
+  n="Fix 04"
+  title="A verification page in the brand's look"
+  problem="After the contact form, Shopify sometimes shows a captcha page. It looked like another company's site."
+  cause="Shopify builds this page itself. The theme had never styled it."
+  fix="Brand colours, a beige box and a round button make it part of meinTee."
+  labels={["Problem", "Cause", "Fix"]}
+>
+  <img src="/images/meintee/fix-captcha.jpg" alt="Captcha page before and after in the meinTee look" />
+</Fix>
 
 Also shipped: a Safari hover bug, a homepage video that no longer shifts the layout, category names in the mobile menu that are real links, an accessibility widget that moves above the sticky buy bar, and a home screen icon.
 
----
+<Marquee text="22 fixes · 2 weeks · 0 layout shift" />
 
-## Beyond fixes: a logo that assembles itself
+<Chapter n="04" label="Logo animation" />
 
-Next to the fixes I built something new for the header. I split the meinTee mark into three SVG layers and animated them with CSS keyframes only, no library. Editors can switch it on or off, play it once per session and set all three colours in the theme editor.
+## A logo that assembles itself
 
-![Animation timeline: star 4.0 s, leaves 2.1 s, rings 2.6 s](/images/meintee/logo-timeline.jpg)
+Next to the fixes I built something new for the header, shown in action at the top of this page. I split the meinTee mark into three SVG layers: star, leaves and rings. On the first visit they come together between “mein” and “tee”, while the wordmark is there from the start.
 
----
+Everything moves with CSS keyframes only, no library. Visitors who turned on “reduce motion” on their device see a still logo.
+
+<Figure
+  src="/images/meintee/logo-timeline.jpg"
+  alt="Animation timeline: star 4.0 s, leaves 2.1 s, rings 2.6 s"
+  caption="Three layers, three movements. The default values in the store."
+/>
+
+So the team can adjust it without code, the animation is configurable in the theme editor: on or off, once per session, three colours, plus size, duration and delay for each layer.
+
+<Chapter n="05" label="Result" />
 
 ## Fast for real visitors
 
-Google measures how fast a store feels for real visitors (Core Web Vitals). meinTee now passes on mobile and desktop.
+Google measures how fast a store feels for real visitors (Core Web Vitals). meinTee passes on mobile and desktop.
 
 <StatGrid>
   <StatCard number="1.8 s / 1.2 s" label="Largest Contentful Paint, mobile / desktop" />
@@ -83,12 +126,12 @@ Google measures how fast a store feels for real visitors (Core Web Vitals). mein
   <StatCard number="0.5 s / 0.3 s" label="Time to First Byte" />
 </StatGrid>
 
-Next on the list: lighter homepage images and video, and better accessibility scores with alt texts, link names and contrast.
+Next on the list: lighter homepage images and video, and better accessibility with alt texts, link names and contrast.
 
----
+<Chapter n="06" label="Takeaways" />
 
-## Takeaways
-
-- **Get the real source first.** Working on an outdated copy cost me days. Now the first step is always pulling what is actually live.
-- **Test on the real thing.** Prototyping in the browser shows the bug on the live store without breaking anything.
-- **Documentation is part of the fix.** Because every change is marked and explained, the work survives theme updates and the next person can follow it.
+<Learnings>
+  <Learning title="Get the real source first">With a live store, the first step is always pulling the current state, so every change builds on what customers actually see.</Learning>
+  <Learning title="Test on the real thing">Prototyping in the browser shows the bug on the live store without breaking anything.</Learning>
+  <Learning title="Documentation is part of the fix">Because every change is marked and explained, the work survives theme updates and the next person can follow it.</Learning>
+</Learnings>

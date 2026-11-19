@@ -6,71 +6,110 @@
 </MetaGrid>
 
 <StatGrid>
-  <StatCard number="22" label="Fixes im Live-Shop" />
+  <StatCard number="22" label="Fixes und Verbesserungen im Live-Shop" />
   <StatCard number="2 Wo." label="vom ersten Audit bis zum letzten Fix" />
   <StatCard number="1,8 s" label="bis das größte Element am Handy sichtbar ist (Grenze 2,5 s)" />
   <StatCard number="0" label="Layout-Sprünge beim Laden (CLS)" />
 </StatGrid>
 
-## Ein Shop, den keiner anfassen wollte
+<Chapter n="01" label="Ausgangslage" />
 
-meinTee verkauft Tee-Sets und Geschenke, mit einem Konfigurator für gravierte Sets. Mit der Zeit hatte das Shopify-Theme viele kleine Fehler angesammelt: Produktbilder, die unter der Kopfzeile verschwanden, ein Bewertungsformular im falschen Ton, ein Warenkorb, der aufging, bevor das Produkt drin war.
+<Lead>
+meinTee verkauft Tee-Sets und Geschenke für ruhige Teemomente. Herzstück ist ein Konfigurator, mit dem man ein Set zusammenstellt und gravieren lässt.
+</Lead>
 
-Keiner davon war groß. Zusammen ließen sie den Shop unzuverlässig wirken. Und weil der lokale Code nicht mehr zum Live-Stand passte, konnte jeder Fix etwas anderes kaputt machen.
+Als ich das Theme übernommen habe, lief der Shop bereits und verkaufte jeden Tag. Wie in jedem gewachsenen Shop gab es eine Reihe kleiner Baustellen: Produktbilder, die beim Scrollen unter die Kopfzeile rutschten, ein Bewertungsformular im falschen Ton, ein Warenkorb, der aufging, bevor das Produkt drin war.
 
----
+Keine davon war groß. Zusammen entscheiden solche Details aber darüber, ob sich ein Shop verlässlich anfühlt. Weil parallel im Theme-Editor weitergearbeitet wurde, musste jede Änderung sicher und nachvollziehbar sein. Deshalb habe ich nicht mit dem ersten Fix angefangen, sondern mit einem Ablauf.
+
+<Figure
+  src="/images/meintee/cover.jpg"
+  alt="meinTee am Handy: Menü, Bewertungsformular und Warenkorb"
+  caption="meinTee am Handy heute: Menü, Bewertungsformular und Warenkorb."
+  wide
+/>
+
+<Chapter n="02" label="Arbeitsweise" />
 
 ## Fünf Schritte für jede Änderung
 
-Bevor ich irgendetwas repariert habe, habe ich einen festen Ablauf aufgesetzt. Jede Änderung, egal wie klein, ging durch dieselben fünf Schritte.
+Jede Änderung, egal wie klein, ging durch dieselben fünf Schritte. Das klingt nach Aufwand, spart ihn aber: Kein Fix überschreibt die Arbeit von jemand anderem, und jede eigene Stelle lässt sich nach einem Theme-Update wiederfinden.
 
-1. **Den Live-Stand holen.** Den Code direkt aus dem Live-Shop laden, damit er zu dem passt, was Kund:innen sehen.
-2. **Vergleichen.** Jede Datei mit dem Original-Theme vergleichen und festhalten, was anders ist und warum.
-3. **Im Browser testen.** Jede Lösung erst in den DevTools am echten Shop ausprobieren, bevor eine Datei angefasst wird.
-4. **Markieren.** Jede eigene Änderung im Code kennzeichnen, damit sie nach Theme-Updates wiederzufinden ist.
-5. **Eine Datei hochladen.** Immer nur eine Datei hochladen, nachdem geprüft ist, dass niemand sonst sie geändert hat.
+<Steps>
+  <Step n="01" title="Live-Stand holen">Den Code direkt aus dem Shop laden, damit er zu dem passt, was Kund:innen sehen.</Step>
+  <Step n="02" title="Vergleichen">Jede Datei mit dem Original-Theme abgleichen und festhalten, was anders ist und warum.</Step>
+  <Step n="03" title="Im Browser testen">Jede Lösung erst in den DevTools am echten Shop ausprobieren.</Step>
+  <Step n="04" title="Markieren">Jede eigene Änderung im Code kennzeichnen, damit sie Updates übersteht.</Step>
+  <Step n="05" title="Eine Datei hochladen">Immer nur eine Datei, nach einer Prüfung, ob sie sonst jemand geändert hat.</Step>
+</Steps>
 
----
+<Chapter n="03" label="Ausgewählte Fixes" />
 
 ## Vier Fixes, vorher und nachher
 
-Jeder Fix folgte demselben Muster: Was war falsch, warum, und was habe ich geändert.
+Jeder Fix folgt demselben Muster: Was war falsch, warum, und was habe ich geändert. Diese vier zeigen die Bandbreite, vom Layout über den Ton bis zur Logik im Warenkorb.
 
-### Die Galerie, die unter die Kopfzeile rutschte
+<Fix
+  n="Fix 01"
+  title="Der Warenkorb, der zu früh aufging"
+  problem="Nach „In den Warenkorb“ öffnete sich die Seitenleiste, bevor das Produkt drin war. Kurz sah man einen leeren Warenkorb."
+  cause="Das Theme öffnete die Leiste sofort, ohne auf die Antwort von Shopify zu warten."
+  fix="Der Warenkorb wartet jetzt, bis das Produkt wirklich hinzugefügt ist. Dazwischen bestätigt ein Haken am Button den Klick."
+>
+  <video src="/images/meintee/cart-fix.mp4" poster="/images/meintee/cart-fix.jpg" autoPlay muted loop playsInline aria-label="Haken am Button, danach öffnet der Warenkorb mit dem Produkt" style={{ maxWidth: 300 }} />
+</Fix>
 
-Beim Scrollen auf der Produktseite rutschten die Bilder unter die fixierte Kopfzeile und wurden abgeschnitten. Die Galerie wusste nicht, wie hoch die Kopfzeile ist. Jetzt hält sie genau so viel Abstand, wie die Kopfzeile Platz braucht.
+<Fix
+  n="Fix 02"
+  title="Die Galerie unter der Kopfzeile"
+  problem="Beim Scrollen auf der Produktseite rutschten die Bilder unter die fixierte Kopfzeile und wurden oben abgeschnitten."
+  cause="Die Kopfzeile bleibt oben stehen, aber die Galerie wusste nicht, wie hoch sie ist."
+  fix="Die Galerie hält jetzt genau so viel Abstand, wie die Kopfzeile Platz braucht, auch wenn sich deren Höhe ändert."
+>
+  <img src="/images/meintee/fix-gallery.jpg" alt="Produktseite vorher und nachher: Die Galerie bleibt unter der Kopfzeile" />
+</Fix>
 
-![Produktseite vorher und nachher: Die Galerie bleibt unter der Kopfzeile](/images/meintee/fix-gallery.jpg)
+<Fix
+  n="Fix 03"
+  title="Ein Formular im falschen Ton"
+  problem="meinTee duzt seine Kundschaft. Nur das Bewertungsformular sagte „Sie“ und ließ sich nicht schließen."
+  cause="Die Texte kommen aus einer Bewertungs-App, die sie nicht anpassen lässt."
+  fix="Ein kleines Skript tauscht alle 71 Texte aus, bevor die App sie anzeigt. Dazu kam ein Button zum Schließen."
+>
+  <img src="/images/meintee/fix-reviews.jpg" alt="Bewertungsformular vorher und nachher" />
+</Fix>
 
-### Eine Prüfseite, die fremd aussah
+<Fix
+  n="Fix 04"
+  title="Eine Prüfseite im eigenen Look"
+  problem="Nach dem Kontaktformular zeigt Shopify manchmal eine Captcha-Seite. Sie sah aus, als käme sie von einer anderen Firma."
+  cause="Diese Seite baut Shopify selbst. Das Theme hatte sie nie gestaltet."
+  fix="Markenfarben, ein beiger Kasten und ein runder Button machen sie zu einem Teil von meinTee."
+>
+  <img src="/images/meintee/fix-captcha.jpg" alt="Captcha-Seite vorher und nachher im meinTee-Look" />
+</Fix>
 
-Nach dem Kontaktformular zeigt Shopify manchmal eine Captcha-Seite. Diese Seite baut Shopify selbst, das Theme hatte sie nie gestaltet, und so sah sie aus wie von einer anderen Firma. Markenfarben, ein beiger Kasten und ein runder Button machen sie jetzt zu einem Teil von meinTee.
+Dazu kamen kleinere Fixes: ein Hover-Fehler in Safari, ein Startseiten-Video ohne Layout-Sprung, Kategorienamen im Handy-Menü als echte Links, ein Barrierefreiheits-Icon, das über die Kaufleiste rückt, und ein Icon für den Home-Bildschirm.
 
-![Captcha-Seite vorher und nachher im meinTee-Look](/images/meintee/fix-captcha.jpg)
+<Marquee text="22 Fixes · 2 Wochen · 0 Layout-Sprünge" />
 
-### Ein Warenkorb, der zu früh aufging
+<Chapter n="04" label="Logo-Animation" />
 
-Nach „In den Warenkorb“ ging die Seitenleiste auf, bevor das Produkt drin war, weil das Theme nicht auf Shopify wartete. Jetzt wartet der Warenkorb, bis das Produkt wirklich hinzugefügt ist. Dazwischen zeigt der Button einen Haken.
+## Ein Logo, das sich zusammensetzt
 
-![Handy: Haken am Button direkt nach dem Klick, danach öffnet der Warenkorb mit dem Produkt](/images/meintee/fix-cart.jpg)
+Neben den Fixes habe ich etwas Neues für die Kopfzeile gebaut, oben auf dieser Seite in Aktion. Ich habe das meinTee-Zeichen in drei SVG-Ebenen zerlegt: Stern, Blätter und Ringe. Beim ersten Besuch fügen sie sich zwischen „mein“ und „tee“ zum Logo zusammen, der Schriftzug steht von Anfang an.
 
-### Ein Bewertungsformular, das siezte
+Bewegt wird alles nur mit CSS-Keyframes, ohne Bibliothek. Wer am Gerät „Bewegung reduzieren“ eingestellt hat, sieht das Logo still.
 
-meinTee duzt seine Kundschaft. Nur das Bewertungsformular sagte „Sie“, und die Bewertungs-App lässt diese Texte nicht anpassen. Ein kleines Skript tauscht alle 71 Texte aus, bevor die App sie anzeigt. Das Formular passt jetzt zur Marke und lässt sich schließen.
+<Figure
+  src="/images/meintee/logo-timeline.jpg"
+  alt="Zeitachse der Animation: Stern 4,0 s, Blätter 2,1 s, Ringe 2,6 s"
+  caption="Drei Ebenen, drei Bewegungen. Die Standardwerte im Shop."
+/>
 
-![Bewertungsformular vorher und nachher](/images/meintee/fix-reviews.jpg)
+Damit das Team die Animation ohne Code anpassen kann, ist sie im Theme-Editor einstellbar: an oder aus, nur einmal pro Sitzung, drei Farben sowie Größe, Dauer und Verzögerung für jede Ebene.
 
-Außerdem live: ein Safari-Hover-Fehler, ein Startseiten-Video ohne Layout-Sprung, Kategorienamen im Handy-Menü als echte Links, ein Barrierefreiheits-Icon, das über die Kaufleiste rückt, und ein Icon für den Home-Bildschirm.
-
----
-
-## Mehr als Fixes: ein Logo, das sich zusammensetzt
-
-Neben den Fixes habe ich etwas Neues für die Kopfzeile gebaut. Ich habe das meinTee-Zeichen in drei SVG-Ebenen zerlegt und nur mit CSS-Keyframes animiert, ohne Bibliothek. Im Theme-Editor lässt sich die Animation an- und ausschalten, auf einmal pro Sitzung begrenzen und in allen drei Farben einstellen.
-
-![Zeitachse der Animation: Stern 4,0 s, Blätter 2,1 s, Ringe 2,6 s](/images/meintee/logo-timeline.jpg)
-
----
+<Chapter n="05" label="Ergebnis" />
 
 ## Schnell für echte Besucher
 
@@ -83,12 +122,12 @@ Google misst, wie schnell sich ein Shop für echte Besucher anfühlt (Core Web V
   <StatCard number="0,5 s / 0,3 s" label="Time to First Byte" />
 </StatGrid>
 
-Als Nächstes: leichtere Bilder und Videos auf der Startseite und bessere Barrierefreiheit mit Alt-Texten, Linknamen und Kontrast.
+Als Nächstes stehen leichtere Bilder und Videos auf der Startseite an und bessere Barrierefreiheit mit Alt-Texten, Linknamen und Kontrast.
 
----
+<Chapter n="06" label="Was ich mitnehme" />
 
-## Was ich mitnehme
-
-- **Erst die echte Quelle holen.** Die Arbeit an einer veralteten Kopie hat mich Tage gekostet. Heute ist der erste Schritt immer, den Live-Stand zu holen.
-- **Am echten Shop testen.** Im Browser sehe ich den Fehler am Live-Shop, ohne etwas kaputt zu machen.
-- **Dokumentation gehört zum Fix.** Weil jede Änderung markiert und erklärt ist, übersteht die Arbeit jedes Update und andere können sie nachvollziehen.
+<Learnings>
+  <Learning title="Erst die echte Quelle holen">Bei einem Live-Shop ist der erste Schritt immer, den aktuellen Stand zu holen. So baut jede Änderung auf dem auf, was Kund:innen wirklich sehen.</Learning>
+  <Learning title="Am echten Shop testen">Im Browser sehe ich den Fehler am Live-Shop, ohne etwas kaputt zu machen.</Learning>
+  <Learning title="Dokumentation gehört zum Fix">Weil jede Änderung markiert und erklärt ist, übersteht die Arbeit jedes Update, und andere können sie nachvollziehen.</Learning>
+</Learnings>
