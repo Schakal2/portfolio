@@ -94,13 +94,13 @@ export const content: Record<Locale, Content> = {
           title: "meinTee",
           role: "Shopify-Shop für Tee-Sets",
           headline:
-            "Sieben kleine Fehler, ein fragiles Theme: wie ich einen Live-Shop wieder sicher änderbar gemacht habe.",
-          meta: "Frontend · Shopify · Performance",
+            "Neu in Shopify, mit UX-Blick: wie aus technischen Tickets bessere Momente für Kund:innen wurden.",
+          meta: "UX · Frontend · Shopify",
           tag: "Case Study",
           tags: ["JavaScript", "HTML / CSS", "Responsive Design", "Accessibility (WCAG)", "Web Design"],
           href: "/meintee",
           ctaLabel: "Case Study lesen",
-          cover: "/images/meintee/cover.jpg",
+          cover: "/images/meintee/cover-v3.jpg",
         },
         {
           slug: "evenly",
@@ -245,7 +245,7 @@ export const content: Record<Locale, Content> = {
       meintee: {
         back: "Zurück zur Übersicht",
         role: "Shopify-Shop für Tee-Sets",
-        tags: ["Frontend", "Shopify", "Performance"],
+        tags: ["UX", "Frontend", "Shopify"],
       },
       Wt186: {
         back: "Zurück zur Übersicht",
@@ -313,13 +313,13 @@ export const content: Record<Locale, Content> = {
           title: "meinTee",
           role: "Shopify store for tea sets",
           headline:
-            "Seven small bugs, one fragile theme: how I made a live store safe to change again.",
-          meta: "Frontend · Shopify · Performance",
+            "New to Shopify, with a UX lens: turning technical tickets into better moments for customers.",
+          meta: "UX · Frontend · Shopify",
           tag: "Case Study",
           tags: ["JavaScript", "HTML / CSS", "Responsive Design", "Accessibility (WCAG)", "Web Design"],
           href: "/meintee",
           ctaLabel: "Read case study",
-          cover: "/images/meintee/cover.jpg",
+          cover: "/images/meintee/cover-v3.jpg",
         },
         {
           slug: "evenly",
@@ -479,7 +479,7 @@ export const content: Record<Locale, Content> = {
       meintee: {
         back: "Back to overview",
         role: "Shopify store for tea sets",
-        tags: ["Frontend", "Shopify", "Performance"],
+        tags: ["UX", "Frontend", "Shopify"],
       },
       Wt186: {
         back: "Back to overview",

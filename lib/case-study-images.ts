@@ -29,7 +29,7 @@ export const flavorFusionCover: CaseStudyImage = {
 }
 
 export const meinteeCover: CaseStudyImage = {
-  src: "/images/meintee/cover.jpg",
+  src: "/images/meintee/cover-v3.jpg",
   width: 1524,
   height: 813,
 }

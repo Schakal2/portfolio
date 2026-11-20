@@ -29,6 +29,7 @@ body {
   color: var(--color-ink);
   background: var(--color-paper);
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 a {

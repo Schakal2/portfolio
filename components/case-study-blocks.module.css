@@ -1,0 +1,391 @@
+/* Shared look for rich case studies. The page sets --cs-surface and
+   --cs-accent so each project can carry its own brand colours. */
+
+.lead {
+  font-size: clamp(20px, 2.4vw, 24px);
+  line-height: 1.45;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.lead p {
+  margin: 0 0 16px;
+}
+
+.chapter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 40px;
+  padding: 12px;
+  background: var(--color-lime);
+  border: 2px solid var(--color-ink);
+  font-weight: 900;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Figures ---------- */
+
+.figure {
+  margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wide {
+  align-self: center;
+  width: min(1040px, calc(100vw - 48px));
+}
+
+.frame {
+  border: 2px solid var(--color-ink);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.brand .frame {
+  background: var(--cs-surface, var(--color-block));
+}
+
+.media {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.7;
+}
+
+/* ---------- Steps ---------- */
+
+.steps {
+  align-self: center;
+  width: min(1040px, calc(100vw - 48px));
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border: 2px solid var(--color-ink);
+  counter-reset: none;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 18px 24px;
+  border-left: 2px solid var(--color-ink);
+  background: var(--color-paper);
+}
+
+.step:first-child {
+  border-left: none;
+}
+
+.stepNumber {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cs-accent, var(--color-violet));
+}
+
+.stepTitle {
+  font-size: 17px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+.stepBody {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+@media (max-width: 860px) {
+  .steps {
+    grid-template-columns: 1fr;
+  }
+  .step {
+    border-left: none;
+    border-top: 2px solid var(--color-ink);
+  }
+  .step:first-child {
+    border-top: none;
+  }
+}
+
+/* ---------- Fix cards ---------- */
+
+.fix {
+  align-self: center;
+  width: min(1040px, calc(100vw - 48px));
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  border: 2px solid var(--color-ink);
+}
+
+.fixText {
+  padding: 28px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fixNumber {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cs-accent, var(--color-violet));
+}
+
+.fixTitle {
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 900;
+  margin: 0 0 8px;
+}
+
+.fixList {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 10px 14px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.fixList dt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  padding-top: 4px;
+}
+
+.fixList dd {
+  margin: 0;
+}
+
+.fixMedia {
+  background: var(--cs-surface, var(--color-block));
+  border-left: 2px solid var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.fixMedia img,
+.fixMedia video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  object-fit: contain;
+}
+
+@media (max-width: 860px) {
+  .fix {
+    grid-template-columns: 1fr;
+  }
+  .fixMedia {
+    border-left: none;
+    border-top: 2px solid var(--color-ink);
+    padding: 16px;
+  }
+}
+
+/* ---------- Learnings ---------- */
+
+.learnings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0;
+  border: 2px solid var(--color-ink);
+  align-self: center;
+  width: min(1040px, calc(100vw - 48px));
+}
+
+.learning {
+  padding: 24px;
+  border-left: 2px solid var(--color-ink);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.learning:first-child {
+  border-left: none;
+}
+
+.learning strong {
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.learning p {
+  font-size: 15px;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+@media (max-width: 860px) {
+  .learning {
+    border-left: none;
+    border-top: 2px solid var(--color-ink);
+  }
+  .learning:first-child {
+    border-top: none;
+  }
+}
+
+/* ---------- Marquee ---------- */
+
+.marquee {
+  align-self: center;
+  width: 100vw;
+  overflow: hidden;
+  border-block: 2px solid var(--color-ink);
+  background: var(--cs-accent, var(--color-violet));
+  color: var(--color-paper);
+  padding: 14px 0;
+  margin: 24px 0;
+}
+
+.marqueeTrack {
+  display: inline-flex;
+  white-space: nowrap;
+  gap: 0;
+  font-weight: 900;
+  font-size: clamp(22px, 3vw, 34px);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  animation: cs-marquee 40s linear infinite;
+}
+
+.marqueeTrack > span {
+  padding-right: 0.6em;
+}
+
+@keyframes cs-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marqueeTrack {
+    animation: none;
+  }
+}
+
+/* Fine-tuning around chapters and the lead paragraph */
+.lead p {
+  font-size: inherit;
+  line-height: inherit;
+  opacity: 1;
+}
+
+.chapter + h2 {
+  border-top: none;
+  padding-top: 8px;
+}
+
+/* ---------- Compact gallery ---------- */
+
+.gallery {
+  align-self: center;
+  width: min(1040px, calc(100vw - 48px));
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 2px solid var(--color-ink);
+}
+
+.shot {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid var(--color-ink);
+}
+
+.shot:first-child {
+  border-left: none;
+}
+
+.shotMedia {
+  background: var(--cs-surface, var(--color-block));
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border-bottom: 2px solid var(--color-ink);
+  overflow: hidden;
+}
+
+.shotMedia img,
+.shotMedia video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.shotText {
+  padding: 18px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.shotText strong {
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.shotText span {
+  opacity: 0.8;
+}
+
+@media (max-width: 860px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+  .shot {
+    border-left: none;
+    border-top: 2px solid var(--color-ink);
+  }
+  .shot:first-child {
+    border-top: none;
+  }
+}
+
+/* ---------- Quote ---------- */
+
+.quote {
+  border-left: 6px solid var(--cs-accent, var(--color-violet));
+  padding: 4px 0 4px 20px;
+  font-size: clamp(19px, 2.2vw, 22px);
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.quote p {
+  font-size: inherit;
+  line-height: inherit;
+  opacity: 1;
+}

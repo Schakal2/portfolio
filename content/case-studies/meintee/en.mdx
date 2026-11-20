@@ -1,94 +1,85 @@
 <MetaGrid>
-  <MetaItem label="Role" value="Frontend developer, owned the theme end to end" />
+  <MetaItem label="Role" value="Frontend developer with a UX focus, owned the theme" />
   <MetaItem label="Timeline" value="2 weeks, Sep to Oct 2026" />
-  <MetaItem label="Stack" value="Shopify CLI, Liquid, JavaScript, CSS, GitHub" />
+  <MetaItem label="Stack" value="Shopify, Liquid, JavaScript, CSS, GitHub" />
   <MetaItem label="Live" value="meintee.de" />
 </MetaGrid>
 
 <StatGrid>
-  <StatCard number="22" label="fixes shipped to the live store" />
-  <StatCard number="2 wks" label="from first audit to last fix" />
+  <StatCard number="2 wks" label="from getting to know Shopify to the last improvement" />
+  <StatCard number="22" label="improvements shipped to the live store" />
   <StatCard number="1.8 s" label="largest paint on mobile, real users (limit 2.5 s)" />
   <StatCard number="0" label="layout shift while loading (CLS)" />
 </StatGrid>
 
-## A store nobody dared to touch
+<Chapter n="01" label="Context" />
 
-meinTee sells tea sets and gifts, with a configurator for engraved sets. Over time the Shopify theme had picked up many small issues: product images cut off under the header, a review form in the wrong tone of voice, a cart that opened before the product was in it.
+<Lead>
+A live store, a list of tickets and a platform I had never used before.
+</Lead>
 
-None of them was big. Together they made the shop feel unreliable, and because the local code no longer matched what was live, every fix risked breaking something else.
+meinTee sells tea sets and gifts, with a configurator for engraved sets. When I took over the theme, the store was already selling every day, and content was being edited in the theme editor at the same time. I had not worked with Shopify before.
 
----
+At first glance the tasks looked technical. Looking closer, almost every one came down to the same question: where do customers stumble, and how much trust does it cost?
 
-## A five-step routine for every change
+<Chapter n="02" label="From ticket to usability" />
 
-Before fixing anything, I set up one fixed workflow. Every change, however small, went through the same five steps.
+## Reviews: a copy bug becomes a better flow
 
-1. **Pull the live theme.** Download the code straight from the live store, so it matches what customers actually see.
-2. **Compare.** Diff every file against the original theme and note what changed and why.
-3. **Test in the browser.** Prototype each fix in DevTools on the real store before touching a file.
-4. **Mark it.** Tag every custom change in the code so it can be found again after theme updates.
-5. **Ship one file.** Upload a single file at a time, after checking that nobody else changed it.
+The ticket said: the review form uses the formal German “Sie”, but meinTee talks to customers informally. Clicking through it, the tone was the smallest problem. The form was spread over several steps, and there was no X to close it. Anyone who just wanted to leave a star rating had to click through or leave the page.
 
----
+<Quote>
+Leaving a review is a favour to the store. Every extra click is a reason not to.
+</Quote>
 
-## Four fixes, before and after
+I made the case in the team for switching to the review app's single-page form. Because the app does not let you edit its texts, a small script swaps all 71 strings before they render, and I added a close button. The result: one page, in the brand's voice, that you can leave at any time.
 
-Each fix followed the same pattern: what was wrong, why it happened, and what I changed.
+<Figure
+  src="/images/meintee/fix-reviews.jpg"
+  alt="Review form before and after"
+  caption="Before: several steps, formal tone, no way out. After: one page, informal tone, with an X."
+/>
 
-### The gallery that slid under the header
+<Chapter n="03" label="Learning Shopify without risking the store" />
 
-Scrolling a product page pushed the images under the sticky header and cut them off. The gallery did not know how tall the header was. It now keeps exactly as much space as the header takes up.
+## A routine instead of gut feeling
 
-![Product page before and after: the gallery now stays below the sticky header](/images/meintee/fix-gallery.jpg)
+New to a platform and working on a live store: that only works with rules. I set up a fixed routine so no fix overwrites someone else's work and every customisation survives the next theme update. I am now working on making it the team's standard.
 
-### A verification page that looked foreign
+<Steps>
+  <Step n="01" title="Pull the live theme">Download the code straight from the store, not from an old copy.</Step>
+  <Step n="02" title="Compare">Diff every file against the original theme. This is how I learned Shopify from the inside.</Step>
+  <Step n="03" title="Test in the browser">Prototype each fix in DevTools on the real store first.</Step>
+  <Step n="04" title="Mark it">Tag every custom change so it survives updates.</Step>
+  <Step n="05" title="Ship one file">One file at a time, after checking for parallel changes.</Step>
+</Steps>
 
-After the contact form, Shopify sometimes shows a captcha page. Shopify renders this page itself and the theme had never styled it, so it looked like another company's site. Brand colours, a beige card and a rounded button now make it part of meinTee.
+<Chapter n="04" label="Motion with a purpose" />
 
-![Captcha page before and after, now in the meinTee look](/images/meintee/fix-captcha.jpg)
+## A logo that assembles itself
 
-### A cart that opened too early
+Next to the tickets I built my own animations. The first one runs at the top of this page: the meinTee mark is split into three SVG layers that come together on the first visit. It runs on CSS keyframes only, no library, and respects “reduce motion”.
 
-After "Add to cart" the drawer slid open before the product was in it, because the theme did not wait for Shopify. The cart now waits until the item is really added, with a check mark on the button in between.
+## Leaves that make room for the text
 
-![Mobile: check mark on the button right after the click, then the cart opens with the product](/images/meintee/fix-cart.jpg)
+In the newsletter section, leaves fly in as you scroll. On phones and iPads they used to land right on top of the text. Now they measure the free space, move around the text and scale down. If there is not enough room, they drop out.
 
-### A review form in the wrong voice
+<Figure
+  src="/images/meintee/leaves-animation.mp4"
+  poster="/images/meintee/leaves-animation.jpg"
+  alt="Leaves fly in next to the newsletter text while scrolling"
+  caption="The leaves fly in while scrolling and keep their distance from the text."
+  wide
+/>
 
-meinTee talks to customers informally. Only the review form used the formal German "Sie", and the review app does not allow these texts to be edited. A small script swaps all 71 strings before the app renders them. The form now matches the brand and can be closed.
+Both animations can be tuned in the theme editor with sliders, from duration and delay to size and flight distance. The team can adjust them without code.
 
-![Review form before and after](/images/meintee/fix-reviews.jpg)
+<Marquee text="Core Web Vitals passed · mobile and desktop" />
 
-Also shipped: a Safari hover bug, a homepage video that no longer shifts the layout, category names in the mobile menu that are real links, an accessibility widget that moves above the sticky buy bar, and a home screen icon.
+<Chapter n="05" label="Takeaways" />
 
----
-
-## Beyond fixes: a logo that assembles itself
-
-Next to the fixes I built something new for the header. I split the meinTee mark into three SVG layers and animated them with CSS keyframes only, no library. Editors can switch it on or off, play it once per session and set all three colours in the theme editor.
-
-![Animation timeline: star 4.0 s, leaves 2.1 s, rings 2.6 s](/images/meintee/logo-timeline.jpg)
-
----
-
-## Fast for real visitors
-
-Google measures how fast a store feels for real visitors (Core Web Vitals). meinTee now passes on mobile and desktop.
-
-<StatGrid>
-  <StatCard number="1.8 s / 1.2 s" label="Largest Contentful Paint, mobile / desktop" />
-  <StatCard number="1.5 s / 1.1 s" label="First Contentful Paint" />
-  <StatCard number="0 / 0" label="Cumulative Layout Shift" />
-  <StatCard number="0.5 s / 0.3 s" label="Time to First Byte" />
-</StatGrid>
-
-Next on the list: lighter homepage images and video, and better accessibility scores with alt texts, link names and contrast.
-
----
-
-## Takeaways
-
-- **Get the real source first.** Working on an outdated copy cost me days. Now the first step is always pulling what is actually live.
-- **Test on the real thing.** Prototyping in the browser shows the bug on the live store without breaking anything.
-- **Documentation is part of the fix.** Because every change is marked and explained, the work survives theme updates and the next person can follow it.
+<Learnings>
+  <Learning title="Behind tickets are people">Almost every technical task was really a usability question. Framing it that way led to better solutions than doing exactly what the ticket said.</Learning>
+  <Learning title="Making the case is part of the job">The single-page review form did not happen by itself. I had to explain why fewer clicks mean more reviews.</Learning>
+  <Learning title="Structure makes you fast">A fixed routine let me learn a new platform and still work safely on a live store.</Learning>
+</Learnings>
