@@ -1,0 +1,179 @@
+<MetaGrid>
+  <MetaItem label="Rolle" value="Solo · UX/UI, Research, Frontend" />
+  <MetaItem label="Zeitraum" value="Sep – Nov 2026 · läuft" />
+  <MetaItem label="Plattform" value="Browser · Handy zuerst, dann Desktop" />
+  <MetaItem label="Werkzeuge" value="Figma, Next.js, TypeScript, Web Audio, Claude Code" />
+</MetaGrid>
+
+Pangea ist eine Musik-App im Browser: Pads, Loops, Tape mit Punch-in-Effekten — und eine gemeinsame Session, in der Freunde live mitbauen. Diese Case Study ist **vorläufig**. Sie zeigt den ganzen Weg, auch die Umwege, so wie er gerade steht.
+
+![Pangea auf dem Handy: vom ersten Öffnen bis zum Spielen](/images/pangea/tour-handy.gif)
+
+<StatGrid>
+  <StatCard number="10" label="Wochen" />
+  <StatCard number="1.555" label="automatische Tests" />
+  <StatCard number="35" label="dokumentierte Entscheidungen" />
+  <StatCard number="13" label="geplante UX/UI-Cases" />
+</StatGrid>
+
+<Callout>
+🎛️ **Live ausprobieren** — am besten am Handy im Querformat.
+<a href="https://pangea.julianwegner.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '12px', padding: '10px 18px', background: 'var(--color-violet)', color: '#fff', fontWeight: 'bold', textDecoration: 'none', borderRadius: '4px' }}>
+  Pangea öffnen ↗
+</a>
+</Callout>
+
+---
+
+## 01 · Woher die Idee kommt
+
+Ich mache Musik auf Grooveboxen. Jedes Gerät kann etwas großartig und scheitert an etwas anderem. Pangea soll die Lücke schließen.
+
+![Was die Vorbilder falsch machen](/images/pangea/d01-vorbilder.png)
+
+---
+
+## 02 · Der Weg in drei Phasen
+
+![Zeitleiste: Fundament, Features, Kehrtwende](/images/pangea/d02-zeitleiste.png)
+
+---
+
+## 03 · Erst das Fundament
+
+Eine Musik-App fühlt sich nur leicht an, wenn sie nie aus dem Takt fällt. Deshalb habe ich zuerst den Kern gebaut — mit Regeln, die das garantieren.
+
+![Engineering-Grundsätze](/images/pangea/d03-architektur.png)
+
+---
+
+## 04 · Dann kam das Problem
+
+Bis Ende Oktober ging fast jede Funktion: Sampler, Slicer, Tape, Mixer, Sync zwischen Handy und Laptop. Aber jede neue Funktion wurde in die Oberfläche **hineingequetscht**. Am Handy war sie kaum zu bedienen.
+
+Am 27.10. habe ich die Reihenfolge umgedreht: **Feature-Freeze**. Ab da wird erst gestaltet, dann gebaut — nach dem Double Diamond, mit einem vollständigen UX/UI-Case je Bereich.
+
+---
+
+## 05 · Entdecken
+
+### Für wen?
+
+![Proto-Persona Mo](/images/pangea/d04-persona.png)
+
+![Jobs to be Done und Empathy Map](/images/pangea/d05-jtbd.png)
+
+### Wo es heute hakt
+
+![Ist-Journey mit Emotion Map](/images/pangea/d06-emotion.png)
+
+![Heuristische Evaluation](/images/pangea/d07-heuristik.png)
+
+---
+
+## 06 · Definieren
+
+![Problem Statement, How Might We, MoSCoW](/images/pangea/d08-definieren.png)
+
+Die markierte Frage wurde zum Leitbild: **das erste Projekt als erstes Level** — wie Welt 1-1 in Super Mario, die Springen beibringt, ohne ein Wort.
+
+---
+
+## 07 · Das Leitgefühl
+
+![Leichtigkeit, die Conga-Regel und zehn Prinzipien](/images/pangea/d09-prinzipien.png)
+
+---
+
+## 08 · Entwickeln
+
+![Task Flow der ersten Session](/images/pangea/d10-flow.png)
+
+![Lo-Fi-Wireframes, Handy zuerst](/images/pangea/d11-wireframes.png)
+
+### Haptik als System
+
+Gewicht und Einrasten lassen sich nicht malen. Deshalb sind Bewegung und Klang **Tokens** im Design System — mit festen Dauern und Bedeutungen.
+
+![Die sechs Wörter der Haptik](/images/pangea/d12-haptik.png)
+
+---
+
+## 09 · Die visuelle Suche
+
+Drei Richtungen in zwei Tagen. Zwei davon habe ich verworfen.
+
+![Von Chrom über Textur zu Pixel](/images/pangea/evolution.gif)
+
+![Drei Richtungen, eine Entscheidung](/images/pangea/d13-richtungen.png)
+
+### Richtung 1 · Chrom
+
+![Transport-Studien in Chrom](/images/pangea/chrom-transport.jpg)
+![Chrom-Baukasten](/images/pangea/chrom-baukasten.jpg)
+
+### Richtung 2 · Texturen
+
+![Papier-Texturen](/images/pangea/textur-papiere.jpg)
+![Metall-Texturen](/images/pangea/textur-metalle.jpg)
+
+### Richtung 3 · Pixel — gewählt
+
+Ich habe untersucht, **wie** der Game Boy zeichnet: 8×8-Kacheln, vier Töne, drei Ebenen. Genau so lässt sich eine DAW aufbauen — Raster als Hintergrund, Leisten als Fenster, Clips als Sprites.
+
+![Game Boy, Pocket, Color — und das Handy](/images/pangea/gameboy.gif)
+![Pallet Town im Kachelraster](/images/pangea/pixel-raster.png)
+![Eine Kachel sind 16 Bytes](/images/pangea/pixel-bytes.png)
+![Drei Ebenen: Hintergrund, Fenster, Sprites](/images/pangea/pixel-ebenen.png)
+
+### Das Pixel-System
+
+Ein Generator erzeugt alle Screens aus denselben Regeln — in zwei Registern: **Papier** am Tag, **Nacht** im Dunkeln.
+
+![Papier und Nacht am Desktop](/images/pangea/papier-nacht.gif)
+![Varianten am Handy](/images/pangea/varianten.gif)
+![Das Pixel-System am Desktop](/images/pangea/pixel-system-desktop.png)
+
+---
+
+## 10 · Der Stand heute
+
+So sieht es live aus. Erstes Öffnen: eine Wahl, kein Konto, kein Text.
+
+![Onboarding: Beispielprojekt oder leer](/images/pangea/live-phone-00-onboarding.png)
+![Erstes Level: das Kit klingt sofort](/images/pangea/live-phone-01-geraet.png)
+![Pads spielen](/images/pangea/pads-handy.gif)
+![Schritte](/images/pangea/live-phone-03-schritte.png)
+![Arrangement](/images/pangea/live-phone-04-arr.png)
+![Tape mit Punch-in-FX](/images/pangea/live-phone-07-tape.png)
+
+### Am Desktop
+
+![Rundgang am Desktop](/images/pangea/tour-desktop.gif)
+![Gerät mit Browser](/images/pangea/live-desk-01-geraet.png)
+![Arrangement](/images/pangea/live-desk-04-arr.png)
+![Tape](/images/pangea/live-desk-07-tape.png)
+![Mix](/images/pangea/live-desk-06-mix.png)
+
+---
+
+## 11 · Arbeiten mit KI
+
+Ich habe versucht, den Prozess mit einer Kette von KI-Agenten zu automatisieren. Das war lehrreich — vor allem darin, was **nicht** automatisierbar ist.
+
+![Agenten-Kette, was trug, was brach](/images/pangea/d14-agenten.png)
+
+---
+
+## 12 · Was ich gelernt habe
+
+- **Gestalten vor Bauen.** Funktionen, die vor ihrem Ablauf entstehen, muss man später wieder auseinandernehmen.
+- **Tests müssen Geschichten prüfen**, nicht Knöpfe. Ein Test, der einer User Story folgt, hätte die gequetschte Oberfläche früher gezeigt.
+- **Verwerfen ist Fortschritt.** Chrom und Textur waren nötig, um zu wissen, warum Pixel richtig ist.
+- **Eine Quelle der Wahrheit.** Jede Entscheidung als eigene Datei — sonst überschreibt sie der nächste Durchlauf.
+
+---
+
+## 13 · Wie es weitergeht
+
+![Nächste Schritte bis zum Launch](/images/pangea/d15-weiter.png)

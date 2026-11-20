@@ -1,0 +1,183 @@
+<MetaGrid>
+  <MetaItem label="Role" value="Solo · UX/UI, research, frontend" />
+  <MetaItem label="Timeline" value="Sep – Nov 2026 · ongoing" />
+  <MetaItem label="Platform" value="Browser · phone first, then desktop" />
+  <MetaItem label="Tools" value="Figma, Next.js, TypeScript, Web Audio, Claude Code" />
+</MetaGrid>
+
+Pangea is a music app in the browser: pads, loops, a tape with punch-in effects — and a shared session where friends build along live. This case study is **a work in progress**. It shows the whole path, detours included, as it stands today. The process boards are in German, the language I worked in.
+
+![Pangea on the phone: from first launch to playing](/images/pangea/tour-handy.gif)
+
+<StatGrid>
+  <StatCard number="10" label="weeks" />
+  <StatCard number="1,555" label="automated tests" />
+  <StatCard number="35" label="documented decisions" />
+  <StatCard number="13" label="planned UX/UI cases" />
+</StatGrid>
+
+<Callout>
+🎛️ **Try it live** — ideally on a phone in landscape.
+<a href="https://pangea.julianwegner.com" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '12px', padding: '10px 18px', background: 'var(--color-violet)', color: '#fff', fontWeight: 'bold', textDecoration: 'none', borderRadius: '4px' }}>
+  Open Pangea ↗
+</a>
+</Callout>
+
+---
+
+## 01 · Where the idea comes from
+
+I make music on grooveboxes. Every device does one thing brilliantly and fails at another. Pangea is meant to close that gap: **a PO-33 that does what the KO II can't — with the multiplayer of Figma.**
+
+![What the role models get wrong](/images/pangea/d01-vorbilder.png)
+
+---
+
+## 02 · Three phases
+
+![Timeline: foundation, features, turnaround](/images/pangea/d02-zeitleiste.png)
+
+---
+
+## 03 · Foundation first
+
+A music app only feels light if it never drifts out of time. So I built the core first, with rules that guarantee it: the audio hardware owns the clock, positions are integer ticks, every change can be undone, and devices sync absolute facts through my own server.
+
+![Engineering principles](/images/pangea/d03-architektur.png)
+
+---
+
+## 04 · Then came the problem
+
+By late October almost every feature worked: sampler, slicer, tape, mixer, sync between phone and laptop. But each new feature had been **squeezed** into the interface. On the phone it was barely usable.
+
+On 27 October I flipped the order: **feature freeze**. From then on, design comes before code — following the Double Diamond, with a complete UX/UI case for each area.
+
+---
+
+## 05 · Discover
+
+![Proto-persona Mo — "I have 200 loops and zero songs."](/images/pangea/d04-persona.png)
+
+![Jobs to be done and empathy map](/images/pangea/d05-jtbd.png)
+
+The current-state journey shows where it hurts: **the valley is step 3 — there is no sound to play with.**
+
+![Current-state journey with emotion map](/images/pangea/d06-emotion.png)
+
+![Heuristic evaluation (Nielsen)](/images/pangea/d07-heuristik.png)
+
+---
+
+## 06 · Define
+
+> Beatmakers like Mo open Pangea and find no sound to play with — the first minutes feel like setup instead of music.
+
+![Problem statement, how might we, MoSCoW](/images/pangea/d08-definieren.png)
+
+The marked question became the north star: **the first project as a first level** — like World 1-1 in Super Mario, which teaches jumping without a single word.
+
+---
+
+## 07 · The guiding feeling: lightness
+
+The conga rule: real congas, really played — they turn funny only through the song's tempo. **Real in behaviour, one exaggeration in form.** Ten principles follow from that, ranked by weight: haptics, character, toy first, little that fits, the first level teaches …
+
+![Lightness, the conga rule and ten principles](/images/pangea/d09-prinzipien.png)
+
+---
+
+## 08 · Develop
+
+![Task flow of the first session](/images/pangea/d10-flow.png)
+
+![Lo-fi wireframes, phone first](/images/pangea/d11-wireframes.png)
+
+### Haptics as a system
+
+Weight and snapping can't be painted. So motion and sound are **tokens** in the design system — six words with fixed durations and meanings: press, snap, spring, pulse, wiggle, land.
+
+![The six words of haptics](/images/pangea/d12-haptik.png)
+
+---
+
+## 09 · The visual search
+
+Three directions in two days. I discarded two of them.
+
+![From chrome to texture to pixel](/images/pangea/evolution.gif)
+
+![Three directions, one decision](/images/pangea/d13-richtungen.png)
+
+### Direction 1 · Chrome
+
+![Transport studies in chrome](/images/pangea/chrom-transport.jpg)
+![Chrome kit](/images/pangea/chrom-baukasten.jpg)
+
+### Direction 2 · Textures
+
+![Paper textures](/images/pangea/textur-papiere.jpg)
+![Metal textures](/images/pangea/textur-metalle.jpg)
+
+### Direction 3 · Pixel — chosen
+
+I studied **how** the Game Boy draws: 8×8 tiles, four tones, three layers. A DAW can be built exactly like that — grid as background, bars as window, clips as sprites.
+
+![Game Boy, Pocket, Color — and the phone](/images/pangea/gameboy.gif)
+![Pallet Town on the tile grid](/images/pangea/pixel-raster.png)
+![One tile is 16 bytes](/images/pangea/pixel-bytes.png)
+![Three layers: background, window, sprites](/images/pangea/pixel-ebenen.png)
+
+### The pixel system
+
+A generator renders every screen from the same rules — in two registers: **Paper** by day, **Night** in the dark.
+
+![Paper and night on desktop](/images/pangea/papier-nacht.gif)
+![Variants on the phone](/images/pangea/varianten.gif)
+![The pixel system on desktop](/images/pangea/pixel-system-desktop.png)
+
+---
+
+## 10 · Where it stands today
+
+This is the live app. First launch: one choice, no account, no text.
+
+![Onboarding: example project or empty](/images/pangea/live-phone-00-onboarding.png)
+![First level: the kit plays instantly](/images/pangea/live-phone-01-geraet.png)
+![Playing pads](/images/pangea/pads-handy.gif)
+![Steps](/images/pangea/live-phone-03-schritte.png)
+![Arrangement](/images/pangea/live-phone-04-arr.png)
+![Tape with punch-in FX](/images/pangea/live-phone-07-tape.png)
+
+### On desktop
+
+![Desktop walkthrough](/images/pangea/tour-desktop.gif)
+![Device with browser](/images/pangea/live-desk-01-geraet.png)
+![Arrangement](/images/pangea/live-desk-04-arr.png)
+![Tape](/images/pangea/live-desk-07-tape.png)
+![Mix](/images/pangea/live-desk-06-mix.png)
+
+---
+
+## 11 · Working with AI
+
+I tried to automate the process with a chain of AI agents: Telegram → UX agent → Figma agent → code agent. It was instructive — above all about what **can't** be automated. A single vault as source of truth, one file per decision and a review entry per branch held up. Restarts overwriting decisions, and tests checking buttons instead of flows, did not.
+
+![Agent chain — what held, what broke](/images/pangea/d14-agenten.png)
+
+---
+
+## 12 · What I learned
+
+- **Design before building.** Features that exist before their flow have to be taken apart later.
+- **Tests must check stories**, not buttons. A test following a user story would have revealed the squeezed interface much earlier.
+- **Discarding is progress.** Chrome and texture were necessary to know why pixel is right.
+- **One source of truth.** Every decision as its own file — otherwise the next run overwrites it.
+
+---
+
+## 13 · What's next
+
+Now: test case 01 with friends — stopwatch in hand, and one question at the end: *"How light did that feel?"* Then two test rounds (January and March 2027) and the launch on 30 June 2027.
+
+![Next steps to launch](/images/pangea/d15-weiter.png)

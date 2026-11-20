@@ -40,6 +40,7 @@ interface Content {
     rights: string
   }
   caseStudies: {
+    pangea: CaseStudyCopy
     Wt186: CaseStudyCopy
     meintee: CaseStudyCopy
     evenly: CaseStudyCopy
@@ -89,6 +90,19 @@ export const content: Record<Locale, Content> = {
     work: {
       banner: "Ausgewählte Arbeiten",
       items: [
+        {
+          slug: "pangea",
+          title: "Pangea",
+          role: "Musik-App im Browser",
+          headline:
+            "Ein PO-33 mit dem Multiplayer von Figma: Pads, Loops und Tape am Handy, live mit Freunden. Der ganze Prozess, auch die Umwege.",
+          meta: "UX/UI Design · Research · Frontend",
+          tag: "Work in Progress",
+          tags: ["UX Design", "Product Design", "UX Research", "Persona", "Wireframing", "Design Systems", "React / Next.js", "Responsive Design"],
+          href: "/pangea",
+          ctaLabel: "Case Study lesen",
+          cover: "/images/pangea/cover-card.jpg",
+        },
         {
           slug: "meintee",
           title: "meinTee",
@@ -237,6 +251,11 @@ export const content: Record<Locale, Content> = {
       rights: "Alle Rechte vorbehalten.",
     },
     caseStudies: {
+      pangea: {
+        back: "Zurück zur Übersicht",
+        role: "Musik-App im Browser · Work in Progress",
+        tags: ["UX/UI Design", "Research", "Frontend"],
+      },
       evenly: {
         back: "Zurück zur Übersicht",
         role: "Ausgaben-Teilen-App",
@@ -308,6 +327,19 @@ export const content: Record<Locale, Content> = {
     work: {
       banner: "Featured Work",
       items: [
+        {
+          slug: "pangea",
+          title: "Pangea",
+          role: "Music app in the browser",
+          headline:
+            "A PO-33 with the multiplayer of Figma: pads, loops and tape on your phone, live with friends. The whole process, detours included.",
+          meta: "UX/UI Design · Research · Frontend",
+          tag: "Work in Progress",
+          tags: ["UX Design", "Product Design", "UX Research", "Persona", "Wireframing", "Design Systems", "React / Next.js", "Responsive Design"],
+          href: "/pangea",
+          ctaLabel: "Read case study",
+          cover: "/images/pangea/cover-card.jpg",
+        },
         {
           slug: "meintee",
           title: "meinTee",
@@ -456,6 +488,11 @@ export const content: Record<Locale, Content> = {
       rights: "All rights reserved.",
     },
     caseStudies: {
+      pangea: {
+        back: "Back to overview",
+        role: "Music app in the browser · Work in Progress",
+        tags: ["UX/UI Design", "Research", "Frontend"],
+      },
       ebehoerde: {
         back: "Back to overview",
         role: "Digital government platform",

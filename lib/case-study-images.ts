@@ -39,3 +39,9 @@ export const evenlyCover: CaseStudyImage = {
   width: 1524,
   height: 813,
 }
+
+export const pangeaCover: CaseStudyImage = {
+  src: "/images/pangea/cover.png",
+  width: 1600,
+  height: 1000,
+}
