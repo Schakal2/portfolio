@@ -40,22 +40,6 @@ Ich habe im Team dafür argumentiert, auf die einseitige Variante der Bewertungs
   caption="Vorher: mehrstufig, im Sie, ohne Ausweg. Nachher: eine Seite, im Du, mit X."
 />
 
-## Mehr aus derselben Liste
-
-Dasselbe Muster bei weiteren Tickets: hinter jedem steckte ein Moment, in dem der Shop unzuverlässig wirkte.
-
-<Gallery>
-  <Shot src="/images/meintee/cart-fix.mp4" poster="/images/meintee/cart-fix.jpg" alt="Haken am Button, danach öffnet der Warenkorb mit dem Produkt" title="Sofortiges Feedback beim Kauf">
-    Statt eines leeren Warenkorbs bestätigt ein Haken den Klick, dann öffnet der Warenkorb mit dem Produkt.
-  </Shot>
-  <Shot src="/images/meintee/fix-gallery.jpg" alt="Produktseite vorher und nachher" title="Produktbilder immer ganz sichtbar">
-    Die Galerie rutscht beim Scrollen nicht mehr unter die fixierte Kopfzeile.
-  </Shot>
-  <Shot src="/images/meintee/fix-captcha.jpg" alt="Captcha-Seite vorher und nachher" title="Kein Bruch im Markenauftritt">
-    Auch die Prüfseite, die Shopify selbst baut, sieht jetzt nach meinTee aus.
-  </Shot>
-</Gallery>
-
 <Chapter n="03" label="Shopify lernen, ohne den Shop zu gefährden" />
 
 ## Ein Ablauf statt Bauchgefühl
@@ -70,13 +54,25 @@ Neu auf einer Plattform und direkt am Live-Shop: Das geht nur mit Regeln. Ich ha
   <Step n="05" title="Eine Datei hochladen">Immer nur eine Datei, nach einer Prüfung auf parallele Änderungen.</Step>
 </Steps>
 
-<Chapter n="04" label="Highlight" />
+<Chapter n="04" label="Bewegung mit Absicht" />
 
 ## Ein Logo, das sich zusammensetzt
 
-Neben den Tickets habe ich etwas Eigenes gebaut, oben auf dieser Seite in Aktion: Das meinTee-Zeichen besteht aus drei SVG-Ebenen, die sich beim ersten Besuch zum Logo zusammenfügen. Alles läuft mit CSS-Keyframes, ohne Bibliothek, und respektiert „Bewegung reduzieren“.
+Neben den Tickets habe ich eigene Animationen gebaut. Die erste läuft oben auf dieser Seite: Das meinTee-Zeichen besteht aus drei SVG-Ebenen, die sich beim ersten Besuch zum Logo zusammenfügen. Alles läuft mit CSS-Keyframes, ohne Bibliothek, und respektiert „Bewegung reduzieren“.
 
-Damit das Team die Animation ohne Code anpassen kann, ist sie im Theme-Editor einstellbar: an oder aus, einmal pro Sitzung, Farben, Größe, Dauer und Verzögerung je Ebene.
+## Blätter, die dem Text Platz machen
+
+Im Newsletter-Bereich fliegen beim Scrollen Blätter ins Bild. Auf Handy und iPad landeten sie bisher mitten auf dem Text. Jetzt messen sie den freien Platz, weichen dem Text aus und werden kleiner. Ist zu wenig Platz, fallen sie weg.
+
+<Figure
+  src="/images/meintee/leaves-animation.mp4"
+  poster="/images/meintee/leaves-animation.jpg"
+  alt="Beim Scrollen fliegen Blätter neben den Newsletter-Text"
+  caption="Die Blätter fliegen beim Scrollen herein und halten Abstand zum Text."
+  wide
+/>
+
+Beide Animationen sind im Theme-Editor per Schieberegler einstellbar, von Dauer und Verzögerung bis zu Größe und Flugweite. So kann das Team sie ohne Code anpassen.
 
 <Marquee text="Core Web Vitals bestanden · Handy und Computer" />
 

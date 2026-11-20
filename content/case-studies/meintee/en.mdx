@@ -40,22 +40,6 @@ I made the case in the team for switching to the review app's single-page form. 
   caption="Before: several steps, formal tone, no way out. After: one page, informal tone, with an X."
 />
 
-## More from the same list
-
-The same pattern behind other tickets: each one hid a moment where the store felt unreliable.
-
-<Gallery>
-  <Shot src="/images/meintee/cart-fix.mp4" poster="/images/meintee/cart-fix.jpg" alt="Check mark on the button, then the cart opens with the product" title="Instant feedback when buying">
-    Instead of an empty cart, a check mark confirms the tap, then the cart opens with the product.
-  </Shot>
-  <Shot src="/images/meintee/fix-gallery.jpg" alt="Product page before and after" title="Product images always fully visible">
-    The gallery no longer slides under the sticky header while scrolling.
-  </Shot>
-  <Shot src="/images/meintee/fix-captcha.jpg" alt="Captcha page before and after" title="No break in the brand">
-    Even the verification page that Shopify builds itself now looks like meinTee.
-  </Shot>
-</Gallery>
-
 <Chapter n="03" label="Learning Shopify without risking the store" />
 
 ## A routine instead of gut feeling
@@ -70,13 +54,25 @@ New to a platform and working on a live store: that only works with rules. I set
   <Step n="05" title="Ship one file">One file at a time, after checking for parallel changes.</Step>
 </Steps>
 
-<Chapter n="04" label="Highlight" />
+<Chapter n="04" label="Motion with a purpose" />
 
 ## A logo that assembles itself
 
-Next to the tickets I built something of my own, shown at the top of this page: the meinTee mark is split into three SVG layers that come together on the first visit. It runs on CSS keyframes only, no library, and respects “reduce motion”.
+Next to the tickets I built my own animations. The first one runs at the top of this page: the meinTee mark is split into three SVG layers that come together on the first visit. It runs on CSS keyframes only, no library, and respects “reduce motion”.
 
-So the team can adjust it without code, it is configurable in the theme editor: on or off, once per session, colours, plus size, duration and delay for each layer.
+## Leaves that make room for the text
+
+In the newsletter section, leaves fly in as you scroll. On phones and iPads they used to land right on top of the text. Now they measure the free space, move around the text and scale down. If there is not enough room, they drop out.
+
+<Figure
+  src="/images/meintee/leaves-animation.mp4"
+  poster="/images/meintee/leaves-animation.jpg"
+  alt="Leaves fly in next to the newsletter text while scrolling"
+  caption="The leaves fly in while scrolling and keep their distance from the text."
+  wide
+/>
+
+Both animations can be tuned in the theme editor with sliders, from duration and delay to size and flight distance. The team can adjust them without code.
 
 <Marquee text="Core Web Vitals passed · mobile and desktop" />
 
